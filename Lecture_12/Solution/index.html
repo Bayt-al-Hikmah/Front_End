@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Todo List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="todo-app">
+        <header>
+            <h1>Todo List</h1>
+            <div class="controls">
+                <input type="text" id="taskInput" placeholder="Task title...">
+                <input type="text" id="descInput" placeholder="Description...">
+                <input type="date" id="dateInput">
+                <button id="addBtn">Add Task</button>
+            </div>
+        </header>
+        
+        <div class="task-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="active">Active</button>
+            <button class="filter-btn" data-filter="completed">Completed</button>
+        </div>
+
+        <div class="task-list" id="taskList">
+            <!-- Tasks will be inserted here dynamically -->
+        </div>
+
+        <div class="data-actions">
+            <button id="exportBtn">Export as JSON</button>
+            <input type="file" id="importFile" accept=".json" style="display: none;">
+            <button id="importBtn">Import JSON</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

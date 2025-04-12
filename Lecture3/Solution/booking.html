@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Adventures - Booking</title>
+</head>
+<body>
+    <header>
+        <h1>Travel Adventures</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Book Your Adventure</h2>
+        
+        <form action="#" method="post">
+         
+            <fieldset>
+                <legend>Personal Information</legend>
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required placeholder="John Doe"><br><br>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br><br>
+            </fieldset>
+
+           
+            <fieldset>
+                <legend>Trip Details</legend>
+                <label for="destination">Destination:</label>
+                <select id="destination" name="destination" required>
+                    <option value="">-- Select Destination --</option>
+                    <option value="paris">Paris, France</option>
+                    <option value="tokyo">Tokyo, Japan</option>
+                    <option value="newyork">New York, USA</option>
+                    <option value="rome">Rome, Italy</option>
+                </select><br><br>
+                
+                <label for="date">Travel Date:</label>
+                <input type="date" id="date" name="date" required><br><br>
+                
+                <label for="travelers">Number of Travelers:</label>
+                <input type="number" id="travelers" name="travelers" min="1" max="20" required><br><br>
+            </fieldset>
+
+         
+            <fieldset>
+                <legend>Preferences</legend>
+                <label>Seat Preference:</label>
+                <input type="checkbox" id="window" name="preference" value="window">
+                <label for="window">Window Seat</label>
+                <input type="checkbox" id="aisle" name="preference" value="aisle">
+                <label for="aisle">Aisle Seat</label><br><br>
+                
+                <label>Meal Preference:</label>
+                <input type="checkbox" id="vegetarian" name="meal" value="vegetarian">
+                <label for="vegetarian">Vegetarian</label>
+                <input type="checkbox" id="vegan" name="meal" value="vegan">
+                <label for="vegan">Vegan</label><br><br>
+                
+                <label>Travel Type:</label>
+                <input type="radio" id="business" name="traveltype" value="business">
+                <label for="business">Business</label>
+                <input type="radio" id="leisure" name="traveltype" value="leisure" checked>
+                <label for="leisure">Leisure</label><br><br>
+            </fieldset>
+
+         
+            <label for="comments">Additional Comments:</label><br>
+            <textarea id="comments" name="comments" rows="4" cols="50"></textarea><br><br>
+
+            <button type="submit">Book Now</button>
+        </form>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Travel Adventures. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </footer>
+</body>
+</html>

@@ -242,7 +242,7 @@ Write a script that prints numbers from 1 to 100, but with a twist:
 - For numbers divisible by both 3 and 5, print "FizzBuzz".
 - For all other numbers, print the number itself.
 ### Task 3
-Write a script that uses a **`while` loop** to find the first prime number greater than 100. The script should:
+Write a script that uses a **`while` loop** to find the first prime number greater than n. The script should:
 - Start from the number n and check each number to see if it is prime.
 - To check if a number is prime, use another **`while` loop** inside the main loop to check divisibility of the number by any number less than it.
 - Once a prime number is found, print it and exit the loop.

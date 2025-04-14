@@ -274,6 +274,8 @@ A Promise has **three states**:
 | `Pending`   | The initial state. The async operation hasn’t completed yet.       |
 | `Fulfilled` | The operation completed successfully. The `.then()` callback runs. |
 | `Rejected`  | The operation failed. The `.catch()` callback runs.                |
+
+
 We create a Promise using the `Promise` constructor, which accepts a function with two parameters:
 - **`resolve`**: Called when the operation succeeds (returns the value)
 - **`reject`**: Called when the operation fails (throws an error)

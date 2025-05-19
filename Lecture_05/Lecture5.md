@@ -531,8 +531,10 @@ We use the **`align-items`** property to define how items are aligned **along
 - **`flex-start`**: Items are aligned at the start of the cross axis.
 - **`flex-end`**: Items are aligned at the end of the cross axis.
 - **`center`**: Items are centered along the cross axis.
-- **`baseline`**: Items are aligned based on their text baselines.  
-<img src="./attachments/align-items.svg" height="300px" width="270px">  
+- **`baseline`**: Items are aligned based on their text baselines.
+
+<img src="./attachments/align-items.svg" height="300px" width="270px">
+
 #### ``align-content``
 We use the **`align-content`** property to control how **multiple lines of items** are aligned along the **cross axis** in a flex container. This property is only applicable when the container has **wrapped content** (i.e., `flex-wrap: wrap` or `flex-wrap: wrap-reverse`) and extra space is available along the cross axis. It accepts the following values:
 - **`stretch`**: Lines stretch to fill the remaining space (default).
@@ -541,8 +543,10 @@ We use the **`align-content`** property to control how **multiple lines of it
 - **`center`**: Lines are centered along the cross axis.
 - **`space-between`**: Lines are evenly distributed, with the first line at the start and the last line at the end.
 - **`space-around`**: Lines are evenly distributed with equal space around them.
-- **`space-evenly`**: Lines are evenly distributed with equal space between and around them.  
+- **`space-evenly`**: Lines are evenly distributed with equal space between and around them.
+
 <img src="./attachments/align-content.svg" width="250px" height="420px" >  
+
 #### `gap`,  `row-gap` and`column-gap`
 We use the **`gap`**, **`row-gap`**, and **`column-gap`** properties to control the spacing between items in a flex container.
 1. **`gap`**: A shorthand property that sets both **`row-gap`** and **`column-gap`** in a single declaration.
@@ -558,13 +562,15 @@ The **`order`** property allows us to control the order in which flex items ap
 #### `flex-grow`
 The **`flex-grow`** property determines how much a flex item should grow relative to other items when there is extra space available in the flex container. It defines the ability of an item to expand and take up additional space. The property accepts a **number** as its value. For example, if one item has a `flex-grow` value of `1` and another has a value of `2`, the second item will take up twice as much of the available space as the first.  
 <img src="./attachments/flex-grow.svg" height="200px" width="300px">  
+
 #### `flex-shrink`
 The **`flex-shrink`** property is the opposite of `flex-grow`. It allows us to specify how much a flex item should shrink relative to other items when there is not enough space in the flex container. This property defines the ability of an item to reduce its size to fit within the container.
 #### `flex-basis`
 The **`flex-basis`** property defines the initial size of a flex item before any remaining space is distributed. It sets the base size of the item along the **main axis** (determined by `flex-direction`).
 #### `align-self`
-Finally, the **`align-self`** property allows us to override the alignment set by the container's **`align-items`** property for a specific flex item. This gives us fine-grained control over the alignment of individual items along the **cross axis** (perpendicular to the main axis).
+Finally, the **`align-self`** property allows us to override the alignment set by the container's **`align-items`** property for a specific flex item. This gives us fine-grained control over the alignment of individual items along the **cross axis** (perpendicular to the main axis).  
 <img src="./attachments/align-self.svg" height ="200px" width ="250px" >  
+
 ## Task
 Create a landing page for a fictional product using advanced CSS techniques.
 #### Requirements:

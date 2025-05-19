@@ -256,6 +256,7 @@ background:linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee, #84fab0, #
 ```
 **Output:**  
 ![grad2](./attachments/grad2.png)  
+
 ### Radial Gradient
 Radial gradients work similarly to linear gradients, but we have additional parameters that allow **us** to control the **shape** and **size** of the gradient. This means we’re not limited to just linear gradients we can create circular or elliptical gradients for more dynamic effects.
 1. Shape:
@@ -285,6 +286,7 @@ div {
 ```
 **Outputs:**  
 ![radial](./attachments/rad1.png)  
+
 ```  
 div { 
 	width :400px; 
@@ -294,6 +296,7 @@ div {
 ```
 **Outputs:**  
 ![radial](./attachments/rad2.png)   
+
 ### Repeating gradients
 Repeating gradients in CSS allow **us** to create patterns by repeating a gradient at regular intervals. This is particularly useful for creating **stripes**, **checkerboards**, or other **patterned backgrounds**. 
 #### ``repeating-linear-gradient``: 
@@ -307,6 +310,7 @@ div {
 ```
 **Output:**  
 ![radial](./attachments/rep1.png)  
+
 **Explanation :**
 We set the **angle** to `45deg`, then define the first color as `#333` (gray), which starts at position `0` and stops at `10px`. After this, we set the second color as `#fff` (white), starting at `10px` and stopping at `20px`. With this setup, our gradient will **repeat this pattern** until the end of the element.
 #### **``repeating-radial-gradient``**: 
@@ -320,6 +324,7 @@ div {
 ```
 **Output:**  
 ![radial](./attachments/rep2.png)  
+
 **Explanation :**  
 We set the **shape** to `circle`, which creates concentric circles. Then, we define the first color as `black`, which starts at position `0%` and stops at `1%`. After this, we set the second color as `white`, starting at `1%` and stopping at `2%`. With this setup, our gradient will **repeat this pattern** every **20%**, creating a target pattern until the end of the element.
 ## Positioning Elements
@@ -372,6 +377,7 @@ We use **`relative`** to position an element relative to its original position
 ```
 **Output**
 ![relative](./attachments/rel.png)  
+
 #### **`absolute`**
 The **`absolute`** value is used to give an element an absolute position. It removes the element from the normal document flow, meaning its original space is no longer reserved. The element is then positioned based on the values of the `top`, `bottom`, `left`, and `right` properties, relative to its nearest positioned ancestor (an ancestor with a `position` value other than `static`). If no such ancestor exists, it will be positioned relative to the initial containing block (usually the viewport).  
 **Example:**  
@@ -416,7 +422,8 @@ The **`absolute`** value is used to give an element an absolute position. It r
 }
 ```
 **Ouput:**  
-![abs](./attachments/abs.png)
+![abs](./attachments/abs.png)  
+
 **Explanation:**  
 Box 1 and Box 3 remain in their original positions within the document flow, unaffected by any changes to Box 2. Box 2, however, is removed from the document flow, meaning its original space is no longer reserved. Instead, it is positioned **20px from the top** and **30px from the left** of the `.container` element. This positioning is possible because `.container` has `position: relative`, making it the reference point for Box 2's placement. If `.container` did not have `position: relative`, Box 2 would be positioned relative to the viewport instead.
 #### `fixed`
@@ -472,7 +479,8 @@ The **`z-index`** is a special property used to control the stacking order of 
 }
 ```
 **Ouput:**  
-![abs](./attachments/z_index.png)
+![abs](./attachments/z_index.png)  
+
 #### Remark:
 **`z-index`** only affects elements with a `position` value other than `static`
 ## Flexbox
@@ -493,7 +501,7 @@ The **`flex-direction`** property controls the direction and flow of items ins
 - **`row-reverse`**: Displays items in a row but in reverse order (right to left).
 - **`column`**: Displays items in a column (top to bottom).
 - **`column-reverse`**: Displays items in a column but in reverse order (bottom to top).
-<img src="./attachments/flex-direction.svg" width="400px" height ="320px">
+<img src="./attachments/flex-direction.svg" width="400px" height ="320px">  
 #### ``flex-wrap``
 The **`flex-wrap`** property determines whether the items inside a flex container will wrap to the next line or if the container will grow to accommodate all items within a single line. It accepts the following values:
 - **`nowrap`**: All items are forced into a single line (default behavior).
@@ -514,7 +522,7 @@ We use the **`justify-content`** property to define how items are aligned insi
 - **`space-between`**: Items are evenly distributed, with the first item at the start and the last item at the end.
 - **`space-around`**: Items are evenly distributed with equal space around them.
 - **`space-evenly`**: Items are evenly distributed with equal space between and around them.
-<img src="./attachments/justify-content.svg" width ="250px" height="400px">
+<img src="./attachments/justify-content.svg" width ="250px" height="400px">  
 #### ``align-items``
 We use the **`align-items`** property to define how items are aligned **along the cross axis** (perpendicular to the main axis) inside a flex container. This property is especially useful for controlling vertical alignment in rows or horizontal alignment in columns. It accepts the following values:
 - **`stretch`**: Items stretch to fill the container (default).
@@ -522,7 +530,7 @@ We use the **`align-items`** property to define how items are aligned **along
 - **`flex-end`**: Items are aligned at the end of the cross axis.
 - **`center`**: Items are centered along the cross axis.
 - **`baseline`**: Items are aligned based on their text baselines.
-<img src="./attachments/align-items.svg" height="300px" width="270px">
+<img src="./attachments/align-items.svg" height="300px" width="270px">  
 #### ``align-content``
 We use the **`align-content`** property to control how **multiple lines of items** are aligned along the **cross axis** in a flex container. This property is only applicable when the container has **wrapped content** (i.e., `flex-wrap: wrap` or `flex-wrap: wrap-reverse`) and extra space is available along the cross axis. It accepts the following values:
 - **`stretch`**: Lines stretch to fill the remaining space (default).
@@ -532,7 +540,7 @@ We use the **`align-content`** property to control how **multiple lines of it
 - **`space-between`**: Lines are evenly distributed, with the first line at the start and the last line at the end.
 - **`space-around`**: Lines are evenly distributed with equal space around them.
 - **`space-evenly`**: Lines are evenly distributed with equal space between and around them.
-<img src="./attachments/align-content.svg" width="250px" height="420px" >
+<img src="./attachments/align-content.svg" width="250px" height="420px" >  
 #### `gap`,  `row-gap` and`column-gap`
 We use the **`gap`**, **`row-gap`**, and **`column-gap`** properties to control the spacing between items in a flex container.
 1. **`gap`**: A shorthand property that sets both **`row-gap`** and **`column-gap`** in a single declaration.
@@ -547,14 +555,14 @@ The **`order`** property allows us to control the order in which flex items ap
 - Items with the **same `order` value** appear in their **source order** (i.e., the order they appear in the HTML).
 #### `flex-grow`
 The **`flex-grow`** property determines how much a flex item should grow relative to other items when there is extra space available in the flex container. It defines the ability of an item to expand and take up additional space. The property accepts a **number** as its value. For example, if one item has a `flex-grow` value of `1` and another has a value of `2`, the second item will take up twice as much of the available space as the first.
-<img src="./attachments/flex-grow.svg" height="200px" width="300px">
+<img src="./attachments/flex-grow.svg" height="200px" width="300px">  
 #### `flex-shrink`
 The **`flex-shrink`** property is the opposite of `flex-grow`. It allows us to specify how much a flex item should shrink relative to other items when there is not enough space in the flex container. This property defines the ability of an item to reduce its size to fit within the container.
 #### `flex-basis`
 The **`flex-basis`** property defines the initial size of a flex item before any remaining space is distributed. It sets the base size of the item along the **main axis** (determined by `flex-direction`).
 #### `align-self`
 Finally, the **`align-self`** property allows us to override the alignment set by the container's **`align-items`** property for a specific flex item. This gives us fine-grained control over the alignment of individual items along the **cross axis** (perpendicular to the main axis).
-<img src="./attachments/align-self.svg" height ="200px" width ="250px" >
+<img src="./attachments/align-self.svg" height ="200px" width ="250px" >  
 ## Task
 Create a landing page for a fictional product using advanced CSS techniques.
 #### Requirements:

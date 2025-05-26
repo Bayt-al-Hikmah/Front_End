@@ -394,7 +394,8 @@ Links are one of the most fundamental features of HTML, allowing users to naviga
 <a href="https://www.example.com">Visit Example.com</a>
 ```
 **Output**:  
-[Visit Example.com](https://www.example.com/)
+[Visit Example.com](https://www.example.com/)  
+
 #### Types of Links
 **Absolute Links**
 Point to a full URL (including the protocol, e.g., `https://`). Used for linking to external websites.
@@ -501,7 +502,8 @@ When we create a table, borders are not visible. To add borders, we use the `bo
         <td>Row 2, Cell 2</td>
         <td>Row 2, Cell 3</td>
     </tr>
-</table>
+</table>  
+
 ### Adding caption:
 We can use the `<caption>` tag to add a **title or description** to the table. The `<caption>` tag must be placed **immediately after the opening `<table>` tag**. This ensures that the caption is properly associated with the table and is displayed at the top of the table by default.
 ```
@@ -524,7 +526,7 @@ We can use the `<caption>` tag to add a **title or description** to the tabl
     </tr>
 </table>
 ```
-**Output:**
+**Output:**  
 <table>
     <caption>Employee Details</caption>
     <tr>
@@ -542,7 +544,8 @@ We can use the `<caption>` tag to add a **title or description** to the tabl
         <td>Engineering</td>
         <td>$80,000</td>
     </tr>
-</table>
+</table>  
+
 ### colspan and rowspan Attributes
 #### `colspan` Attribute:
 The `colspan` attribute is used to merge **multiple columns** into a single cell. It specifies how many columns the cell should span.
@@ -564,7 +567,8 @@ The `colspan` attribute is used to merge **multiple columns** into a single 
     </tr>
 </table>
 ```
-**Output:**
+**Output:**  
+
 <table border="1">
     <tr>
         <th colspan="2">Name</th> <!-- Merges two columns -->
@@ -580,7 +584,8 @@ The `colspan` attribute is used to merge **multiple columns** into a single 
         <td>Smith</td>
         <td>30</td>
     </tr>
-</table>
+</table>  
+
 #### `rowspan` Attribute:
 The `rowspan` attribute is used to merge **multiple rows** into a single cell. It specifies how many rows the cell should span.
 ```
@@ -601,7 +606,8 @@ The `rowspan` attribute is used to merge **multiple rows** into a single cel
     </tr>
 </table>
 ```
-**Output:**
+**Output:**  
+
 <table border="1">
     <tr>
         <th rowspan="2">ID</th>
@@ -617,7 +623,8 @@ The `rowspan` attribute is used to merge **multiple rows** into a single cel
         <td>Jane Smith</td>
         <td>30</td>
     </tr>
-</table>
+</table>  
+
 #### Combining `rowspan` and `colspan`
 We can combine both attributes to create more complex table layouts.
 ```
@@ -645,7 +652,8 @@ We can combine both attributes to create more complex table layouts.
     </tr>
 </table>
 ```
-**Output:**
+**Output:**  
+
 <table border>
     <tr>
         <th rowspan="2">ID</th>
@@ -668,7 +676,8 @@ We can combine both attributes to create more complex table layouts.
         <td>Smith</td>
         <td>30</td>
     </tr>
-</table>
+</table>  
+
 ## Tasks:
 ## Task 1: Personal Portfolio Website
 

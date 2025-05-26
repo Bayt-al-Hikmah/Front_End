@@ -215,11 +215,11 @@ Another category is **runtime errors**, which occur during script execution. The
 | `TypeError`       | Wrong data type usage         | `null.toString()`                    |
 | `RangeError`      | Numeric value out of range    | `new Array(-1)`                      |
 | ``Custom Errors`` | Developer-defined exceptions  | ``throw new Error("Invalid input")`` |
+
 ### Using The Console
 The browser console is a powerful tool for detecting errors. It shows:
 - The line where the error occurred.
 - The type of error (e.g., `ReferenceError`, `TypeError`).  
-- 
 While the console helps debug syntax and logical errors, **runtime errors** may depend on user input or application state, requiring a different approach.
 ### Handling Runtime Errors with `try-catch`
 We can handle runtime errors using the `try-catch` statement.

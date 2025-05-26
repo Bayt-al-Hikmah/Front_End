@@ -375,7 +375,7 @@ We use **`relative`** to position an element relative to its original position
   background-color: blue;
 }
 ```
-**Output**
+**Output**  
 ![relative](./attachments/rel.png)  
 
 #### **`absolute`**
@@ -501,7 +501,7 @@ The **`flex-direction`** property controls the direction and flow of items ins
 - **`row-reverse`**: Displays items in a row but in reverse order (right to left).
 - **`column`**: Displays items in a column (top to bottom).
 - **`column-reverse`**: Displays items in a column but in reverse order (bottom to top).  
-<img src="./attachments/flex-direction.svg" width="400px" height ="320px">
+<img src="./attachments/flex-direction.svg" width="400px" height ="320px">  
 
 #### ``flex-wrap``
 The **`flex-wrap`** property determines whether the items inside a flex container will wrap to the next line or if the container will grow to accommodate all items within a single line. It accepts the following values:
@@ -522,8 +522,9 @@ We use the **`justify-content`** property to define how items are aligned insi
 - **`center`**: Items are centered within the container.
 - **`space-between`**: Items are evenly distributed, with the first item at the start and the last item at the end.
 - **`space-around`**: Items are evenly distributed with equal space around them.
-- **`space-evenly`**: Items are evenly distributed with equal space between and around them.  
-<img src="./attachments/justify-content.svg" width ="250px" height="400px">
+- **`space-evenly`**: Items are evenly distributed with equal space between and around them.
+
+<img src="./attachments/justify-content.svg" width ="250px" height="400px">  
 
 #### ``align-items``
 We use the **`align-items`** property to define how items are aligned **along the cross axis** (perpendicular to the main axis) inside a flex container. This property is especially useful for controlling vertical alignment in rows or horizontal alignment in columns. It accepts the following values:
@@ -533,7 +534,7 @@ We use the **`align-items`** property to define how items are aligned **along
 - **`center`**: Items are centered along the cross axis.
 - **`baseline`**: Items are aligned based on their text baselines.
 
-<img src="./attachments/align-items.svg" height="300px" width="270px">
+<img src="./attachments/align-items.svg" height="300px" width="270px">  
 
 #### ``align-content``
 We use the **`align-content`** property to control how **multiple lines of items** are aligned along the **cross axis** in a flex container. This property is only applicable when the container has **wrapped content** (i.e., `flex-wrap: wrap` or `flex-wrap: wrap-reverse`) and extra space is available along the cross axis. It accepts the following values:

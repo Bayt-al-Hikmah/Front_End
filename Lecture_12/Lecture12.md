@@ -6,7 +6,8 @@
 ### Introduction
 The Document Object Model, or DOM, is a programming interface for HTML, XML, and SVG documents. It provides a structured representation of the document as a tree and defines how that structure can be manipulated by programs in terms of style and content. The DOM represents the document as a set of nodes and objects, each with its own properties and methods. These nodes can also have event handlers that are triggered when events occur. This enables web pages to be dynamically manipulated using scripts and/or programming languages. When an event is triggered, the associated event handlers are executed.
 JavaScript gives us an easy way to access document objects by selecting elements from our HTML page and manipulating them by modifying, removing, or updating them. It also allows us to create new elements and add them to the DOM.  
-![dom](./attachments/dom.webp)
+![dom](./attachments/dom.webp)  
+
 ### Adding JavaScript to the Webpage
 Two Methods to Include JavaScript
 #### Internal Script 
@@ -169,6 +170,7 @@ button.addEventListener('click', function() {
 |`keydown`|Keyboard key press|
 |`scroll`|Page/element scrolling|
 |`mouseover`|Mouse pointer enters element|
+
 ### Creating and Inserting Elements
 Sometimes, we want to add new elements to a web page using JavaScript — for example, adding a new paragraph, button, or image dynamically. JavaScript makes this easy using the `document.createElement` method.
 #### Creating New Elements
@@ -202,6 +204,7 @@ We have several ways to put elements where we want them:
 | `after()`                    | Puts after another                            | `element.after(newDiv)`               |
 | `insertBefore()`<br>    <br> | Inserts a node before a specified child node. | `insertBefore(newDiv, referenceNode)` |
 | `replaceChild()`             | Replaces one child node with another.         | `replaceChild(newDiv, oldDiv)`:       |
+
 ```
 const newDiv = document.createElement('div');
 const newParagraph = document.createElement('p');
@@ -419,6 +422,7 @@ reader.readAsText(blob);
 | **Memory**      | No cleanup needed               | Requires manual cleanup |
 | **Performance** | Very lightweight                | Heavier resource use    |
 | **Reversable**  | Yes (decodeURIComponent)        | Yes (FileReader)        |
+
 ## WebSockets & Real-Time Data
 ### Introduction
 Traditional web communication between the browser and the server uses the **HTTP protocol**, where the browser sends a request and waits for the server to respond. But in many modern applications, such as chat apps, online games, or stock tickers, we need a way to **continuously receive data** from the server without reloading the page.
@@ -460,6 +464,7 @@ The WebSocket object provides several events that we can listen to:
 |`message`|Triggered when a message is received|
 |`error`|Triggered when an error occurs|
 |`close`|Triggered when the connection closes|
+
 ```
 socket.addEventListener('open', () => {
   console.log('Connected to server');

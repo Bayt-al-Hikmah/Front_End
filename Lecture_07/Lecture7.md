@@ -10,7 +10,7 @@ When using the **`transform`** property in CSS, transformations are applied ba
 2. **Y-axis**: Represents the **vertical axis**. Positive values move the element downward, while negative values move it upward.
 3. **Z-axis**: Represents the **depth axis**, which is perpendicular to the screen. Positive values bring the element closer to the user, while negative values push it farther away. This axis is essential for creating **3D transformations**.  
 
-<img src="./attachments/z-axis.png" height ="300">
+<img src="./attachments/z-axis.png" height ="300">  
 
 ### Perspective
 We’ve seen how to create 2D transformations and 3D transformations using CSS. In 2D space, the **X and Y axes** are defined by the **width** and **height** of the container or the page. However, for 3D transformations, we also need to define the **depth** along the **Z-axis**. To set that we use the **`perspective` property**. 
@@ -30,7 +30,7 @@ div {
   transform: rotateZ(180deg);
 }
 ```
-This will rotate the **`div`** **180 degrees** around the **Z-axis** 
+This will rotate the **`div`** **180 degrees** around the **Z-axis**  
 <img src="./attachments/rotate.png" height="270px">  
 
 ### Scale
@@ -56,6 +56,7 @@ For **3D scaling**, **we** use the `scale3d` function, The `scale3d` funct
 ```
 transform: scale3d(1.5, 1.2, 2);
 ```
+
 <img src="./attachments/scale.png" height="300px">  
 
 ### Translate
@@ -78,6 +79,7 @@ For 3D Translation We can use the `translate3d` function to move an element 
 - **Third value**: Movement along the **Z-axis** (depth).
 We can set the translation along the Z-axis alone using **`translateZ`**.  
 <img src="./attachments/translate.png" height="300px">  
+ 
 ### Skrew
 The **`skew` function** allows **us** to tilt or slant an element along the **X-axis**, **Y-axis**, or **both axes** simultaneously.
 - If **we** want to tilt an element along both the **X-axis** and **Y-axis**, **we** can pass **two values** to the `skew` function. The **first value** tilts the element horizontally (X-axis), and the **second value** tilts it vertically (Y-axis).
@@ -92,7 +94,8 @@ transform: skewX(20deg);
 ```
 transform: skewY(-15deg);
 ```
-<img src="./attachments/skrew.png" height="320px">  
+<img src="./attachments/skrew.png" height="320px">    
+
 ## Transitions and Animations
 ### Introduction
 CSS allows us to apply transformations and modify the style of elements based on their states, such as when they are clicked, hovered, or focused. However, these style changes occur instantly by default. For example, if we translate an element when it is clicked or change its background and size when a user hovers over it, the changes happen abruptly. This can result in a poor user experience, as sudden transitions can feel jarring and unnatural. To address this, CSS provides tools like **transitions** and **animations** that enable us to create smooth, gradual changes between styles.

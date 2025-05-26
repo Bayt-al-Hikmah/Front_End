@@ -187,7 +187,7 @@ The **`justify-content`** property in CSS Grid allows us to control how the en
 
 #### `align-content`
 The **`align-content`** property allows us to control how the entire grid is aligned vertically within its container, It accepts the following values:
-- **`start`**: Aligns the grid to the top of the container.
+- **`start`**: Aligns the grid to the top of the container.  
       <img src="./attachments/align-content-start.svg" height="175px" width="175px">
   
 - **`end`**: Aligns the grid to the bottom of the container.  

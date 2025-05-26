@@ -96,8 +96,9 @@ grid-template-areas:
 "main main . sidebar" 
 "footer footer footer footer"; }
 ```
-**Output:**
-<img src="./attachments/grd.svg" height="400px" width="350px">
+**Output:**  
+<img src="./attachments/grd.svg" height="400px" width="350px">  
+
 We can see that we named our items using the **`grid-area`** property and then used **`grid-template-areas`** to position them within our grid.
 #### `grid-template`
 
@@ -125,29 +126,34 @@ The **`gap`** property is a shorthand for **`row-gap`** and **`column-gap`*
 ```
 #### `justify-items`
 The **`justify-items`** property allows us to control how grid items are aligned horizontally within their respective grid cells. It applies to all items inside the grid container, It accepts the following values:
-- **`start`**: Aligns items to the left side of their grid cell.
+- **`start`**: Aligns items to the left side of their grid cell.  
 <img src="./attachments/justify-items-start.svg" height="175px" width="175px">
-- **`end`**: Aligns items to the right side of their grid cell.
-- <img src="./attachments/justify-items-end.svg" height="175px" width="175px">
-- **`center`**: Centers items horizontally within their grid cell.
+
+- **`end`**: Aligns items to the right side of their grid cell.  
+- <img src="./attachments/justify-items-end.svg" height="175px" width="175px">  
+
+- **`center`**: Centers items horizontally within their grid cell.  
 <img src="./attachments/justify-items-center.svg" height="175px" width="175px">
-- **`stretch`**: (Default) Stretches items to fill the entire width of their grid cell.
-<img src="./attachments/justify-items-stretch.svg" height="175px" width="175px">
+
+- **`stretch`**: (Default) Stretches items to fill the entire width of their grid cell.  
+<img src="./attachments/justify-items-stretch.svg" height="175px" width="175px">  
 
 
         
 #### `align-items`
 The **`align-items`** property allows us to control how grid items are aligned vertically within their respective grid cells. It applies to all items inside the grid container, It accepts the following values:
 - **`start`**: Aligns items to the top of their grid cell.  
-<img src="./attachments/align-items-start.svg" height="175px" width="175px">
+<img src="./attachments/align-items-start.svg" height="175px" width="175px">  
+
 - **`end`**: Aligns items to the bottom of their grid cell.  
-<img src="./attachments/align-items-end.svg" height="175px" width="175px">
+<img src="./attachments/align-items-end.svg" height="175px" width="175px">  
 
 - **`center`**: Centers items vertically within their grid cell.  
-<img src="./attachments/align-items-center.svg" height="175px" width="175px">
+<img src="./attachments/align-items-center.svg" height="175px" width="175px">  
 
 - **`stretch`**: (Default) Stretches items to fill the entire height of their grid cell.    
-<img src="./attachments/align-items-stretch.svg" height="175px" width="175px">
+<img src="./attachments/align-items-stretch.svg" height="175px" width="175px">  
+
 #### `place-items`
 The **`place-items`** property is a shorthand that combines **`align-items`** and **`justify-items`** into a single declaration. It allows us to control both the vertical and horizontal alignment of grid items within their respective cells, making it a convenient way to set default alignment for the entire grid.
 ```
@@ -157,37 +163,51 @@ If only one value is provided, it applies to both **`align-items`** and **`ju
 #### `justify-content`
 The **`justify-content`** property in CSS Grid allows us to control how the entire grid is aligned horizontally within its container, It accepts the following values:
 - **`start`**: Aligns the grid to the left side of the container (default).  
-  <img src="./attachments/justify-content-start.svg" height="175px" width="175px">  
+  <img src="./attachments/justify-content-start.svg" height="175px" width="175px">
+  
 - **`end`**: Aligns the grid to the right side of the container.  
-    <img src="./attachments/justify-content-end.svg" height="175px" width="175px">  
+    <img src="./attachments/justify-content-end.svg" height="175px" width="175px">
+  
 - **`center`**: Centers the grid horizontally within the container.  
-    <img src="./attachments/justify-content-center.svg" height="175px" width="175px">  
+    <img src="./attachments/justify-content-center.svg" height="175px" width="175px">
+  
 - **`stretch`**: Stretches the grid tracks to fill the container's width (if track sizes are not fixed).   
-     <img src="./attachments/justify-content-stretch.svg" height="175px" width="175px">  
+     <img src="./attachments/justify-content-stretch.svg" height="175px" width="175px">
+  
 - **`space-around`**: Distributes equal space around each grid track, with half-sized spaces at the edges.   
-     <img src="./attachments/justify-content-space-around.svg" height="175px" width="175px"> 
+     <img src="./attachments/justify-content-space-around.svg" height="175px" width="175px">
+  
 - **`space-between`**: Distributes equal space between grid tracks, with no space at the edges.  
-     <img src="./attachments/justify-content-space-between.svg" height="175px" width="175px"> 
+     <img src="./attachments/justify-content-space-between.svg" height="175px" width="175px">
+  
 - **`space-evenly`**: Distributes equal space around and between grid tracks.  
- <img src="./attachments/justify-content-space-evenly.svg" height="175px" width="175px"> 
+ <img src="./attachments/justify-content-space-evenly.svg" height="175px" width="175px">
+
 
 
 #### `align-content`
 The **`align-content`** property allows us to control how the entire grid is aligned vertically within its container, It accepts the following values:
 - **`start`**: Aligns the grid to the top of the container.
-      <img src="./attachments/align-content-start.svg" height="175px" width="175px">  
-- **`end`**: Aligns the grid to the bottom of the container.
-    <img src="./attachments/align-content-end.svg" height="175px" width="175px">  
-- **`center`**: Centers the grid vertically within the container.
+      <img src="./attachments/align-content-start.svg" height="175px" width="175px">
+  
+- **`end`**: Aligns the grid to the bottom of the container.  
+    <img src="./attachments/align-content-end.svg" height="175px" width="175px">
+  
+- **`center`**: Centers the grid vertically within the container.  
     <img src="./attachments/align-content-center.svg" height="175px" width="175px">
-- **`stretch`**: Stretches the grid tracks to fill the container's height (if track sizes are not fixed).
-    <img src="./attachments/align-content-stretch.svg" height="175px" width="175px">  
-- **`space-around`**: Distributes equal space around each grid track, with half-sized spaces at the edges.
-    <img src="./attachments/align-content-space-around.svg" height="175px" width="175px"> 
-- **`space-between`**: Distributes equal space between grid tracks, with no space at the edges.
-     <img src="./attachments/align-content-space-between.svg" height="175px" width="175px"> 
-- **`space-evenly`**: Distributes equal space around and between grid tracks.
-<img src="./attachments/align-content-space-evenly.svg" height="175px" width="175px"> 
+    
+- **`stretch`**: Stretches the grid tracks to fill the container's height (if track sizes are not fixed).  
+    <img src="./attachments/align-content-stretch.svg" height="175px" width="175px">
+  
+- **`space-around`**: Distributes equal space around each grid track, with half-sized spaces at the edges.  
+    <img src="./attachments/align-content-space-around.svg" height="175px" width="175px">
+  
+- **`space-between`**: Distributes equal space between grid tracks, with no space at the edges.  
+     <img src="./attachments/align-content-space-between.svg" height="175px" width="175px">
+  
+- **`space-evenly`**: Distributes equal space around and between grid tracks. 
+<img src="./attachments/align-content-space-evenly.svg" height="175px" width="175px">
+ 
 #### `place-content`
 The **`place-content`** property is a shorthand that combines **`align-content`** and **`justify-content`** into a single declaration. It allows us to control both the vertical and horizontal alignment of the entire grid within its container, making it a convenient way to set default alignment for the grid as a whole.
 ```

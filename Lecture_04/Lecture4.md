@@ -68,7 +68,7 @@ The last main selector is the **ID selector**. We use this when we want to sele
 }
 ```
 ### CSS Specificity and the Cascade
-We’ve seen that there are multiple ways to add styles to our pages: **inline**, **internal**, and **external** styles. We’ve also explored different ways to select elements, such as using the **element selector**, **class selector**, or **ID selector**. But what happens in scenarios where an element is targeted by multiple selectors, such as by both its class and ID? Or what if we use inline, internal, and external styles that all target the same element?
+We’ve seen that there are multiple ways to add styles to our pages: **inline**, **internal**, and **external** styles. We’ve also explored different ways to select elements, such as using the **element selector**, **class selector**, or **ID selector**. But what happens in scenarios where an element is targeted by multiple selectors, such as by both its class and ID? Or what if we use inline, internal, and external styles that all target the same element?   
 In such cases, CSS follows a set of rules called **specificity** and the **cascade** to determine which styles are applied. Here’s how it works:
 #### Specificity:
 - ID selectors (`#id`) have higher specificity than class selectors (`.class`), and class selectors have higher specificity than element selectors (`p`, `div`, etc.).
@@ -103,7 +103,8 @@ p {
 color:rgb(255,0,0); /* pure red*/
 }
 ```
-The **`rgba()` function** works similarly to `rgb()`, but it includes an additional value to set the **opacity** of the color. The opacity value, also known as the **alpha channel**, ranges from `0` to `1`:
+The **`rgba()` function** works similarly to `rgb()`, but it includes an additional value to set the **opacity** of the color. The opacity value, also known as the **alpha channel**, ranges from `0` to `1`:  
+
 - `0` means the color is fully transparent (invisible).
 - `1` means the color is fully opaque (no transparency).
 ```
@@ -112,11 +113,14 @@ p {
 }
 ```
 #### Hexadecimal Values
-Another way to set colors in CSS is by using **hexadecimal values**. Hexadecimal (or hex) colors work similarly to RGB, but the values for red, green, and blue are combined into a single code that starts with a `#`. The hex code is structured as follows:
+Another way to set colors in CSS is by using **hexadecimal values**. Hexadecimal (or hex) colors work similarly to RGB, but the values for red, green, and blue are combined into a single code that starts with a `#`. The hex code is structured as follows:  
+
 - The first two characters represent the **red** value.
 - The next two characters represent the **green** value.
-- The last two characters represent the **blue** value.  
+- The last two characters represent the **blue** value.
+
 Each pair of characters is a hexadecimal number ranging from `00` to `FF`, where:
+
 - `00` means no intensity of that color.
 - `FF` means full intensity of that color.
 ```
@@ -131,13 +135,17 @@ The last way to set colors in CSS is by using the **`hsl()` function**. HSL st
     - `0` or `360` is red.
     - `120` is green.
     - `240` is blue.
+
+  
 ![Hue](./attachments/hsl1.jpg)  
+
 
 - **Saturation**: Represents the intensity of the color, specified as a percentage.
     - `0%` is grayscale.
     - `100%` is fully saturated (vivid color).  
     
 ![sat](./attachments/sat.jpg)    
+
 - **Lightness**: Represents the brightness of the color, specified as a percentage.
     - `0%` is black.
     - `50%` is the normal color.
@@ -150,7 +158,8 @@ h1 {
 }
 ```
 
-The **`hsla()` function** works similarly to `hsl()`, but it introduces an additional parameter called **alpha**, which represents the **opacity** of the color. The alpha value ranges from `0` to `1`:
+The **`hsla()` function** works similarly to `hsl()`, but it introduces an additional parameter called **alpha**, which represents the **opacity** of the color. The alpha value ranges from `0` to `1`: 
+
 - `0` means the color is fully transparent (invisible).
 - `1` means the color is fully opaque (no transparency).
 ```
@@ -159,7 +168,8 @@ p {
 }
 ```
 #### Tools to set Colors:
-There are many online tools that can help us when setting colors for our projects. These tools make it easy to select, customize, and convert colors into different formats like HEX, RGB, or HSL. Here are some popular ones you can use:
+There are many online tools that can help us when setting colors for our projects. These tools make it easy to select, customize, and convert colors into different formats like HEX, RGB, or HSL. Here are some popular ones you can use: 
+
 1. **Adobe Color:** [color.adobe.com](https://color.adobe.com/)
 	Adobe Color is a powerful tool that allows us to create beautiful color palettes, explore current color trends, and even test color accessibility.
 2. **Coolors:** [coolors.co](https://coolors.co/)
@@ -176,6 +186,7 @@ There are many online tools that can help us when setting colors for our project
 When we style elements, we often need to specify properties like **width**, **height**, or **font size**. To do this, CSS provides us with special **units** to set numeric values. These units allow us to define sizes and distances in a way that suits our design needs.
 #### Absolute Unites:
 **Absolute units** are used when we want a value to remain fixed and stay the same, regardless of the device or screen size.  
+
 1. **Pixels (`px`)** Pixels are the most commonly used absolute unit. They provide precise control over sizing and are widely supported.  
 ```
 div {
@@ -196,7 +207,8 @@ h1 {
 }
 ```
 #### Relative Unites:
-Unlike absolute units, we use **relative units** when we want the size or value to change dynamically based on factors like the screen size or the size of a parent element. Relative units are essential for creating flexible and responsive designs that adapt to different devices and layouts. Here are some common relative units:
+Unlike absolute units, we use **relative units** when we want the size or value to change dynamically based on factors like the screen size or the size of a parent element. Relative units are essential for creating flexible and responsive designs that adapt to different devices and layouts. Here are some common relative units:  
+
 1. **Percentages (`%`):** Percentages are relative to the size of the parent element. For example, if we set an element’s width to `50%`, it will take up half of its parent’s width.  
 ```
 div {
@@ -243,7 +255,8 @@ h1 {
     text-align: center;
 }
 ```
-We can use the **`vertical-align`** property in CSS to align text or inline elements vertically within their container.It accepts various values, such as:
+We can use the **`vertical-align`** property in CSS to align text or inline elements vertically within their container.It accepts various values, such as:  
+
 - **`baseline`**: Aligns the element with the baseline of the parent (default).
 - **`top`**: Aligns the element to the top of the line.
 - **`middle`**: Aligns the element to the middle of the line.
@@ -282,7 +295,8 @@ text-transform: lowercase;
 }
 ```
 #### Text Spacing
-We use **text spacing properties** in CSS to control how spacing works within our text. These properties allow **us** to adjust the spacing between characters, words, and lines, ensuring our text is readable and visually appealing.  
+We use **text spacing properties** in CSS to control how spacing works within our text. These properties allow **us** to adjust the spacing between characters, words, and lines, ensuring our text is readable and visually appealing.    
+
 The `line-height` property controls the spacing between lines of text. It can be set as a unitless number (e.g., `1.5`), a fixed value (e.g., `24px`), or a percentage.
 ```
 p {
@@ -308,7 +322,8 @@ p { 
 }
 ```
 #### Text Shadow
-We can also add a shadow effect to text using the `text-shadow` property in CSS. This property accepts the following values:
+We can also add a shadow effect to text using the `text-shadow` property in CSS. This property accepts the following values:  
+
 1. **Horizontal offset**: Moves the shadow left (negative value) or right (positive value).
 2. **Vertical offset**: Moves the shadow up (negative value) or down (positive value).
 3. **Blur radius**: Controls the blurriness of the shadow (optional).
@@ -353,6 +368,7 @@ body {
 ```
 #### Font Style
 The `font-style` property allows us to control the style of the text, such as making it italic or oblique. It’s commonly used to emphasize text or match specific design requirements. Here are the main values for this property:  
+
 1. **Normal** The `normal` value displays text in its default style (not italic or oblique)
 ```
 p {
@@ -381,10 +397,12 @@ ol {
 }
 ```
 Other options include:
+
 - `decimal` (default numbers)
 - `lower-alpha` (lowercase letters)
 - `upper-alpha` (uppercase letters)
 - `lower-roman` (lowercase Roman numerals)
+
 #### Styling Unordered Lists (`<ul>`)
 We can customize bullet points or replace them with images:
 ```
@@ -411,9 +429,11 @@ div {
   display: inline;
 }
 ```
-The `inline-block` display property is a unique way to style elements, combining features of both **inline** and **block-level** element
+The `inline-block` display property is a unique way to style elements, combining features of both **inline** and **block-level** element  
+
 - **Inline behavior**: Elements sit next to each other horizontally, just like inline elements.
-- **Block behavior**: You can define specific dimensions (width and height) and apply spacing (padding and margins).  
+- **Block behavior**: You can define specific dimensions (width and height) and apply spacing (padding and margins).
+
 If **we** want to hide an element, we can set its `display` property to `none`.
 ### Width and Height:
 We can adjust the dimensions of an element using the `width` and `height` properties in CSS.
@@ -441,36 +461,39 @@ body {
 CSS provides additional properties to give us more control over how a background image is displayed. These properties allow us to fine-tune the appearance and behavior of background images, ensuring they fit seamlessly into the design of a webpage.  
 
 1. **`background-repeat`**: This property specifies how the background image should be repeated to match the size of the element. It accepts the following values:
-	- **`repeat`**: The image repeats both horizontally and vertically (default behavior).    
-	- **`no-repeat`**: The image is displayed only once without repeating.
-	- **`repeat-x`**: The image repeats only horizontally.
-	- **`repeat-y`**: The image repeats only vertically.
-	- **`space`**: The image repeats as much as possible without clipping, and the extra space is evenly distributed around the images.
-	- **`round`**: The image repeats and scales to fit the element without leaving gaps.  
+- **`repeat`**: The image repeats both horizontally and vertically (default behavior).    
+- **`no-repeat`**: The image is displayed only once without repeating.
+- **`repeat-x`**: The image repeats only horizontally.
+- **`repeat-y`**: The image repeats only vertically.
+- **`space`**: The image repeats as much as possible without clipping, and the extra space is evenly distributed around the images.
+- **`round`**: The image repeats and scales to fit the element without leaving gaps.  
 
 
 2. `background-position`: This property  specifies the starting position of a background image within an element. It allows you to control where the image is placed. it accept the folowing values
-	- **Keyword Values**: `top`, `bottom`, `left`, `right`, `center`:
+
+- **Keyword Values**: `top`, `bottom`, `left`, `right`, `center`:
 		``background-position: center top;``
-	- **Percentage Values**: Adjusts the position based on percentages of the element’s size:
+- **Percentage Values**: Adjusts the position based on percentages of the element’s size:
         ``background-position: 50% 50%; ``
-	- **Length Values**: Uses specific units like pixels (`px`), ems (`em`), etc.:
+- **Length Values**: Uses specific units like pixels (`px`), ems (`em`), etc.:
 		``background-position: 20px 10px; /* Positions 20px from the left and 10px from the top */``
-	- **Mixed Values**: Combines keywords, percentages, or lengths:
+- **Mixed Values**: Combines keywords, percentages, or lengths:
 		``background-position: right 10% bottom 20px; /* Aligns to the right, 10% from the top, and 20px from the bottom */``  
 
 
 3. `background-size` This property allows **us** to control how a background image is sized within an element. **We** can use it to scale, stretch, or adjust the image to fit or fill the element’s dimensions perfectly.
-	- **`auto`**: The image retains its original size
-	- **`cover`**: Scales the image to cover the entire element while maintaining its aspect ratio. Some parts of the image may be cropped.
-	- **`contain`**: Scales the image to fit entirely within the element while maintaining its aspect ratio. The entire image will be visible, but there may be empty space.
-	- **Specific Dimensions**: We can specify exact dimensions using units like pixels (`px`), percentages (`%`), etc.
-	- **Mixed Values**: We can combine values to set width and height independently  
+
+- **`auto`**: The image retains its original size
+- **`cover`**: Scales the image to cover the entire element while maintaining its aspect ratio. Some parts of the image may be cropped.
+- **`contain`**: Scales the image to fit entirely within the element while maintaining its aspect ratio. The entire image will be visible, but there may be empty space.
+- **Specific Dimensions**: We can specify exact dimensions using units like pixels (`px`), percentages (`%`), etc.
+- **Mixed Values**: We can combine values to set width and height independently  
 
 4. **`background-attachment`**: This property   allows **us** to control how a background image behaves when the page is scrolled. It determines whether the background image scrolls with the content or remains fixed in place.
-	-**`scroll`**: The background image scrolls along with the element
-	-**`fixed`**: The background image stays fixed relative to the viewport, even when the page is scrolled.
-	-**`local`**: The background image scrolls with the element’s content, but remains fixed within the element itself.
+
+- **`scroll`**: The background image scrolls along with the element
+- **`fixed`**: The background image stays fixed relative to the viewport, even when the page is scrolled.
+- **`local`**: The background image scrolls with the element’s content, but remains fixed within the element itself.
 
 ```
 body {

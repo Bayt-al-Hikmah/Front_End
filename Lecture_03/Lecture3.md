@@ -469,11 +469,11 @@ creating triangle
 
 
 **output:**
-
+```svg
 <svg width="200" height="200">
     <path d="M100 10 L190 190 L10 190 Z" fill="lightblue" stroke="black" stroke-width="2" />
     </svg>
-
+````
 ### Maps:
 The `<map>` feature is a special tool that can be added to images to make them more interactive and dynamic. It allows you to define specific areas within an image, and when users click on those areas, they can be directed to specific links or perform certain actions. This feature is particularly useful for creating image-based navigation, diagrams, or interactive infographics.
 #### Creating map:

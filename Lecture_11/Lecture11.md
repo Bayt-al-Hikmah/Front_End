@@ -219,7 +219,8 @@ Another category is **runtime errors**, which occur during script execution. The
 ### Using The Console
 The browser console is a powerful tool for detecting errors. It shows:
 - The line where the error occurred.
-- The type of error (e.g., `ReferenceError`, `TypeError`).  
+- The type of error (e.g., `ReferenceError`, `TypeError`).
+
 While the console helps debug syntax and logical errors, **runtime errors** may depend on user input or application state, requiring a different approach.
 ### Handling Runtime Errors with `try-catch`
 We can handle runtime errors using the `try-catch` statement.
@@ -242,7 +243,7 @@ try {
 }
 ```
 ### Raising Custom Errors in JavaScript
-In JavaScript, we can create and throw custom errors to enforce specific conditions. For example, we can define rules for valid function inputs and throw an error when invalid values are provided.
+In JavaScript, we can create and throw custom errors to enforce specific conditions. For example, we can define rules for valid function inputs and throw an error when invalid values are provided.  
 **Steps to Create and Throw an Error:**
 1. **Create an Error Object:**
     - Use the `Error` constructor and pass a descriptive message.

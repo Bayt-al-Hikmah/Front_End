@@ -381,7 +381,9 @@ We draw lines using the **`<line>` tag** in SVG. To draw a line, we need to s
 - **y1**: Represents the starting y-coordinate of the line.
 - **y2**: Represents the ending y-coordinate of the line.
 - **stroke**: Represents the color of the line.
-- **stroke-width**: Represents the width of the line.  
+- **stroke-width**: Represents the width of the line.
+
+
 **Example:**
 ```
 <svg width="200" height="200">
@@ -398,6 +400,8 @@ We draw rectangles using the **`<rect>` tag** in SVG. This tag accepts the fo
 - **fill**: The fill color of the rectangle (how the rectangle will be filled).
 - **stroke**: The color of the rectangle's border.
 - **stroke-width**: The width of the rectangle's border.
+
+
 **Example**:
 ```
 <svg width="200" height="200">
@@ -412,6 +416,8 @@ If we want to draw circle we use  the **`<circle>` tag** in SVG. This tag acc
 - **`fill`**: The fill color of the circle (how the circle will be filled).
 - **`stroke`**: The color of the circle's border.
 - **`stroke-width`**: The width of the circle's border.
+
+
 **Example:**
 ```
 <svg width="200" height="200">
@@ -427,6 +433,8 @@ We add text to SVG graphics using the **`<text>` tag**. This tag allows us to 
 - **`fill`**: The fill color of the text.
 - **`stroke`**: The color of the text's outline.
 - **`stroke-width`**: The width of the text's outline.
+
+
 **Example:**
 ```
 <svg width="200" height="100">
@@ -439,13 +447,15 @@ The **`<path>` tag** in SVG uses several attributes to define and style compl
 - **fill**: specifies the color used to fill the shape.
 - **stroke**: specifies the color of the shape's outline.
 - **stroke-width**: specifies the thickness of the shape's outline.
-4. **d**: this special attribute contains a series of commands and coordinates that define how the shape is drawn. The commands include:
+- **d**: this special attribute contains a series of commands and coordinates that define how the shape is drawn. The commands include:
     - **`M` (Move To)**: Moves the pen to a specific point without drawing.
     - **`L` (Line To)**: Draws a straight line to a specific point.
     - **`C` (Curve To)**: Draws a cubic Bézier curve.
     - **`S` (Smooth Curve To)**: Draws a smooth cubic Bézier curve.    
-    - **`Z` (Close Path)**: Closes the path by drawing a line back to the starting point.  
-**Example**:  
+    - **`Z` (Close Path)**: Closes the path by drawing a line back to the starting point.
+
+  
+**Example**:    
 creating triangle
 ```
 <svg width="200" height="200">
@@ -456,6 +466,8 @@ creating triangle
 - **`L190 190`**: Draw a line from the current position to `(190, 190)`.
 - **`L10 190`**: Draw a line from the current position to `(10, 190)`.
 - **`Z`**: Close the path by drawing a line back to the starting point.
+
+
 **output:**
 
 <svg width="200" height="200">
@@ -485,8 +497,11 @@ The `<area>` tag accepts four key attributes:
 4. **`coords`**: Specifies the coordinates of the area. The format of the coordinates depends on the chosen shape:
     - For `rect`: `x1,y1,x2,y2` (top-left and bottom-right corners).
     - For `circle`: `x,y,radius` (center coordinates and radius).
-    - For `poly`: `x1,y1,x2,y2,x3,y3,...` (vertices of the polygon).  
+    - For `poly`: `x1,y1,x2,y2,x3,y3,...` (vertices of the polygon).
+
+
 Among the previous shape Polygons (`poly`) are the most powerful because they can be customized to create complex and irregular shapes. However, creating polygons can be difficult and challenging, especially when determining the precise coordinates for each vertex. To simplify this process, we can use online tools like [Image-Map.net](https://www.image-map.net/), which allow you to visually draw and generate the coordinates for your polygons.  
+
 **Example :**
 ```
   <img src="world-map.jpg" alt="World Map" usemap="#worldmap">

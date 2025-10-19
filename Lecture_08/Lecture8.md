@@ -5,7 +5,7 @@
 - Working with Arrays and Objects
 ## Intoduction to JavaScript
 ### Javascript
-**JavaScript** is an object-oriented programming language created in 1995 by Brendan Eich. As the main programming language for the web, it transformed the internet into what it is today. Before JavaScript, web pages were static, only displaying content. Now, they’re dynamic, interactive, and engaging capable of responding to users, performing calculations, saving data, and much more. 
+**JavaScript** is an object-oriented programming language created in 1995 by Brendan Eich. As the main programming language for the web, it transformed the internet into what it is today. Before JavaScript, web pages were static, only displaying content. Now, they’re dynamic, interactive, and engaging capable of responding to users, performing calculations, saving data, and much more.  
 JavaScript code is written in files with the **.js** extension. Thanks to its powerful capabilities and simplicity, JavaScript has grown far beyond just web browsers. With Node.js, we can now run JavaScript in a server-side environment, enabling it to execute outside the browser opening doors to backend development, scripting, and more.
 ### Adding JavaScript to a Webpage
 There are two ways to add JavaScript to a webpage: internal (embedded) or external scripts.
@@ -39,6 +39,7 @@ alert("Hello !");
 We can think of variables as boxes that store data and information. JavaScript provides two keywords to help us create variables: `let` and `var`.
 - **`let`** is used to create **block-scoped variables**. Variables declared with `let` are accessible only within the block (like inside `{}`) in which they are defined, including any nested blocks.
 - **`var`** is used to create **function-scoped variables**. Variables declared with `var` are accessible throughout the entire function in which they are defined. If declared outside a function, they become globally scoped.
+
 To create a variable in JavaScript, we use either `let` or `var`, followed by a descriptive name without spaces. The variable name can include letters, numbers, underscores (`_`), and dollar signs (`$`), but it cannot start with a number. For example, `userName` and `_count` are valid names, while `2ndPlace` is invalid.
 #### Example 
 ```
@@ -48,7 +49,8 @@ let m;
 ```
 We can see that we ended our lines with semicolons. In JavaScript, semicolons are not required we can omit them but the standard and best practice is to use a semicolon at the end of each statement.
 ### Constant
-Constants are special variables that maintain a fixed value throughout program execution. In JavaScript, we declare constants using the `const` keyword. Once assigned, their value cannot be changed, attempting to do so will trigger a TypeError.  
+Constants are special variables that maintain a fixed value throughout program execution. In JavaScript, we declare constants using the `const` keyword. Once assigned, their value cannot be changed, attempting to do so will trigger a TypeError.   
+
 Constants follow the same naming rules as regular variables, but with one important stylistic difference. By convention, we write constant names in `UPPER_CASE` with underscores separating words.
 ```
 const PI = 3.14;

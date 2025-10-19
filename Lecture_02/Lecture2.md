@@ -327,11 +327,13 @@ Used to create a list of items where the order matters (e.g., steps in a recipe)
 2. Mix the ingredients.
 3. Bake for 30 minutes.
 #### Definition Lists (`<dl>`)
-Used to create a list of terms and their definitions (like a dictionary).
- - **Syntax**:
-    - `<dl>`: Wraps the entire list.
-    - `<dt>`: Defines the term.
-    - `<dd>`: Defines the description or definition of the term.
+Used to create a list of terms and their definitions (like a dictionary).  
+
+**Syntax**:
+
+- `<dl>`: Wraps the entire list.
+- `<dt>`: Defines the term.
+- `<dd>`: Defines the description or definition of the term.
 ```
 <dl>
   <dt>HTML</dt>
@@ -397,18 +399,18 @@ Links are one of the most fundamental features of HTML, allowing users to naviga
 [Visit Example.com](https://www.example.com/)  
 
 #### Types of Links
-**Absolute Links**
+**Absolute Links**  
 Point to a full URL (including the protocol, e.g., `https://`). Used for linking to external websites.
 ```
 <a href="https://www.google.com">Go to Google</a>
 ```
-**Relative Links**
+**Relative Links**  
 Point to a file or resource within the same website.
 ```
 <a href="about.html">About Us</a>
 ```
 This will take us to the about .html page in our website.  
-**Internal Links (Anchor Links)**
+**Internal Links (Anchor Links)**  
 Point to a specific section within the same page using the `id` attribute.
 ```
 
@@ -417,19 +419,19 @@ Point to a specific section within the same page using the `id` attribute.
 <p>This is the content of Section 2.</p>
 ```
 It is used to navigate through our webpage.
-**Email Links**
+**Email Links**  
 Open the user's default email client with a pre-filled email address.
 ```
 <a href="mailto:example@example.com">Send Email</a>
 ```
-**Phone Links**
+**Phone Links**   
 Open the user's default phone app with a pre-filled phone number.
 ```
 <a href="tel:+1234567890">Call Us</a>
 ```
 #### **Link Attributes**
-**`target` Attribute**
- Specifies where to open the linked resource.
+**`target` Attribute**   
+Specifies where to open the linked resource.
 - `_blank`: Opens the link in a new tab or window.    
 - `_self`: Opens the link in the same tab (default behavior).
 ```

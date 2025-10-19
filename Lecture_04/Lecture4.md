@@ -136,7 +136,7 @@ The last way to set colors in CSS is by using the **`hsl()` function**. HSL st
     - `120` is green.
     - `240` is blue.
 
-  
+
 ![Hue](./attachments/hsl1.jpg)  
 
 
@@ -461,39 +461,34 @@ body {
 CSS provides additional properties to give us more control over how a background image is displayed. These properties allow us to fine-tune the appearance and behavior of background images, ensuring they fit seamlessly into the design of a webpage.  
 
 1. **`background-repeat`**: This property specifies how the background image should be repeated to match the size of the element. It accepts the following values:
-- **`repeat`**: The image repeats both horizontally and vertically (default behavior).    
-- **`no-repeat`**: The image is displayed only once without repeating.
-- **`repeat-x`**: The image repeats only horizontally.
-- **`repeat-y`**: The image repeats only vertically.
-- **`space`**: The image repeats as much as possible without clipping, and the extra space is evenly distributed around the images.
-- **`round`**: The image repeats and scales to fit the element without leaving gaps.  
+	- **`repeat`**: The image repeats both horizontally and vertically (default behavior).    
+	- **`no-repeat`**: The image is displayed only once without repeating.
+	- **`repeat-x`**: The image repeats only horizontally.
+	- **`repeat-y`**: The image repeats only vertically.
+	- **`space`**: The image repeats as much as possible without clipping, and the extra space is evenly distributed around the images.
+	- **`round`**: The image repeats and scales to fit the element without leaving gaps.  
 
 
 2. `background-position`: This property  specifies the starting position of a background image within an element. It allows you to control where the image is placed. it accept the folowing values
-
-- **Keyword Values**: `top`, `bottom`, `left`, `right`, `center`:
+	- **Keyword Values**: `top`, `bottom`, `left`, `right`, `center`:
 		``background-position: center top;``
-- **Percentage Values**: Adjusts the position based on percentages of the element’s size:
+	- **Percentage Values**: Adjusts the position based on percentages of the element’s size:
         ``background-position: 50% 50%; ``
-- **Length Values**: Uses specific units like pixels (`px`), ems (`em`), etc.:
+	- **Length Values**: Uses specific units like pixels (`px`), ems (`em`), etc.:
 		``background-position: 20px 10px; /* Positions 20px from the left and 10px from the top */``
-- **Mixed Values**: Combines keywords, percentages, or lengths:
+	- **Mixed Values**: Combines keywords, percentages, or lengths:
 		``background-position: right 10% bottom 20px; /* Aligns to the right, 10% from the top, and 20px from the bottom */``  
-
-
-3. `background-size` This property allows **us** to control how a background image is sized within an element. **We** can use it to scale, stretch, or adjust the image to fit or fill the element’s dimensions perfectly.
-
-- **`auto`**: The image retains its original size
-- **`cover`**: Scales the image to cover the entire element while maintaining its aspect ratio. Some parts of the image may be cropped.
-- **`contain`**: Scales the image to fit entirely within the element while maintaining its aspect ratio. The entire image will be visible, but there may be empty space.
-- **Specific Dimensions**: We can specify exact dimensions using units like pixels (`px`), percentages (`%`), etc.
-- **Mixed Values**: We can combine values to set width and height independently  
+3. `background-size` This property allows **us** to control how a background image is sized within an element. **We** can use it to scale, stretch, or adjust the image to fit or fill the element’s dimensions perfectly.
+	- **`auto`**: The image retains its original size
+	- **`cover`**: Scales the image to cover the entire element while maintaining its aspect ratio. Some parts of the image may be cropped.
+	- **`contain`**: Scales the image to fit entirely within the element while maintaining its aspect ratio. The entire image will be visible, but there may be empty space.
+	- **Specific Dimensions**: We can specify exact dimensions using units like pixels (`px`), percentages (`%`), etc.
+	- **Mixed Values**: We can combine values to set width and height independently  
 
 4. **`background-attachment`**: This property   allows **us** to control how a background image behaves when the page is scrolled. It determines whether the background image scrolls with the content or remains fixed in place.
-
-- **`scroll`**: The background image scrolls along with the element
-- **`fixed`**: The background image stays fixed relative to the viewport, even when the page is scrolled.
-- **`local`**: The background image scrolls with the element’s content, but remains fixed within the element itself.
+	- **`scroll`**: The background image scrolls along with the element
+	- **`fixed`**: The background image stays fixed relative to the viewport, even when the page is scrolled.
+	- **`local`**: The background image scrolls with the element’s content, but remains fixed within the element itself.
 
 ```
 body {

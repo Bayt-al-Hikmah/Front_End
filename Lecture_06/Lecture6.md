@@ -448,16 +448,24 @@ Here Style
 #### Mobile First
 When creating responsive layouts, we should always start by designing and building for mobile devices first. This approach, known as **mobile-first design**, ensures that the core content and functionality are optimized for smaller screens, which often have limited space and resources. Once the mobile layout is complete, we can then use **media queries** to enhance the design for larger screens, such as tablets and desktops.
 #### Using Grids
-CSS Grid allows us to **position and arrange elements** in a flexible and precise way, making it essential for creating **responsive designs**. With Grid, we can easily define rows and columns, control spacing, and align content, all while ensuring our layout adapts seamlessly to different screen sizes. Additionally, Grid provides the powerful **grid template areas** feature, which allows us to visually map out and name sections of our layout, making it even easier to create complex designs.  
+CSS Grid allows us to **position and arrange elements** in a flexible and precise way, making it essential for creating **responsive designs**. With Grid, we can easily define rows and columns, control spacing, and align content, all while ensuring our layout adapts seamlessly to different screen sizes. Additionally, Grid provides the powerful **grid template areas** feature, which allows us to visually map out and name sections of our layout, making it even easier to create complex designs.    
 When using CSS Grid, changing the layout for different devices often requires only **small adjustments** with media queries. This is because Grid’s flexible units (like `fr` and `auto`) and features (like `auto-fit` and `minmax()`) handle much of the responsiveness automatically. For example, with **grid template areas**, we can define different layouts for various screen sizes simply by rearranging named areas, reducing the need for extensive code changes.
 #### Using Responsive Units
 When creating a responsive design, it is better to use **responsive units** (such as `%`, `em`, `rem`, `vw`, and `vh`) instead of fixed units (like `px`). Unlike fixed units, responsive units scale and adapt to different screen sizes, making them ideal for creating flexible and adaptable layouts. These units can also scale relative to the **viewport** or parent elements, ensuring that your design looks great on all devices.
 #### Using `max-height`, `min-height`, `max-width`, and `min-width` in Responsive Design
-These CSS properties allow us to set boundaries for how large or small an element can be, ensuring that it behaves predictably across different screen sizes.
- 1. **`max-width`**: The `max-width` property sets the **maximum width** an element can have. If the element’s content is smaller, it will shrink to fit. This is particularly useful for preventing elements from becoming too large on wider screens.
-2. **`min-width`**: The `min-width` property sets the **minimum width** an element can have. If the element’s content is larger, it will expand to fit. This is useful for ensuring elements don’t become too small on narrower screens.
-3. **`max-height`** The `max-height` property sets the **maximum height** an element can have. If the element’s content is smaller, it will shrink to fit. This is useful for controlling the height of elements like modals or images.
-4. **`min-height`**: The `min-height` property sets the **minimum height** an element can have. If the element’s content is larger, it will expand to fit. This is useful for ensuring elements maintain a minimum height, even if their content is small.
+These CSS properties allow us to set boundaries for how large or small an element can be, ensuring that it behaves predictably across different screen sizes.  
+
+
+**`max-width`**: The `max-width` property sets the **maximum width** an element can have. If the element’s content is smaller, it will shrink to fit. This is particularly useful for preventing elements from becoming too large on wider screens.  
+
+
+**`min-width`**: The `min-width` property sets the **minimum width** an element can have. If the element’s content is larger, it will expand to fit. This is useful for ensuring elements don’t become too small on narrower screens.   
+
+
+**`max-height`** The `max-height` property sets the **maximum height** an element can have. If the element’s content is smaller, it will shrink to fit. This is useful for controlling the height of elements like modals or images.   
+
+
+**`min-height`**: The `min-height` property sets the **minimum height** an element can have. If the element’s content is larger, it will expand to fit. This is useful for ensuring elements maintain a minimum height, even if their content is small.
 ## Task
 Create a responsive restaurant website using **CSS Grid** for layout and **Flexbox** for alignment. The website should adapt to different screen sizes (mobile, tablet, desktop) and include key sections for a restaurant business.
 #### Website Sections

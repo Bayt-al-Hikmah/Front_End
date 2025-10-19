@@ -13,10 +13,12 @@ When using the **`transform`** property in CSS, transformations are applied ba
 <img src="./attachments/z-axis.png" height ="300">  
 
 ### Perspective
-We’ve seen how to create 2D transformations and 3D transformations using CSS. In 2D space, the **X and Y axes** are defined by the **width** and **height** of the container or the page. However, for 3D transformations, we also need to define the **depth** along the **Z-axis**. To set that we use the **`perspective` property**. 
+We’ve seen how to create 2D transformations and 3D transformations using CSS. In 2D space, the **X and Y axes** are defined by the **width** and **height** of the container or the page. However, for 3D transformations, we also need to define the **depth** along the **Z-axis**. To set that we use the **`perspective` property**.   
+
 The **`perspective` property** creates a **3D space** by defining the distance between the viewer and the z=0 plane, the larger the value we set for the `perspective` property, the subtler the 3D effect becomes, as if the viewer is farther away from the object. Conversely, a smaller value (e.g., `300px`) makes the 3D effect more pronounced, as if the viewer is closer to the object.
 ### Transform Style
-The **`transform-style` property** in CSS is used to determine how child elements are rendered in **3D space**. It specifies whether the children of an element are positioned in the **3D space** or flattened into the **2D plane** of the parent element.
+The **`transform-style` property** in CSS is used to determine how child elements are rendered in **3D space**. It specifies whether the children of an element are positioned in the **3D space** or flattened into the **2D plane** of the parent element.  
+
 - **`flat`**  The hild elements are flattened into the **2D plane** of the parentm that mean ny 3D transformations applied to the children will not retain their depth.  
 - **`preserve-3d`**:The  Child elements are rendered in 3D space, This allows nested elements to maintain their depth and interact with 3D transformations.
 ### Rotate
@@ -30,7 +32,8 @@ div {
   transform: rotateZ(180deg);
 }
 ```
-This will rotate the **`div`** **180 degrees** around the **Z-axis**  
+This will rotate the **`div`** **180 degrees** around the **Z-axis**   
+
 <img src="./attachments/rotate.png" height="270px">  
 
 ### Scale
@@ -77,11 +80,13 @@ For 3D Translation We can use the `translate3d` function to move an element 
 - **First value**: Movement along the **X-axis**.
 - **Second value**: Movement along the **Y-axis**.
 - **Third value**: Movement along the **Z-axis** (depth).
-We can set the translation along the Z-axis alone using **`translateZ`**.  
+We can set the translation along the Z-axis alone using **`translateZ`**.
+
 <img src="./attachments/translate.png" height="300px">  
  
 ### Skrew
-The **`skew` function** allows **us** to tilt or slant an element along the **X-axis**, **Y-axis**, or **both axes** simultaneously.
+The **`skew` function** allows **us** to tilt or slant an element along the **X-axis**, **Y-axis**, or **both axes** simultaneously.  
+
 - If **we** want to tilt an element along both the **X-axis** and **Y-axis**, **we** can pass **two values** to the `skew` function. The **first value** tilts the element horizontally (X-axis), and the **second value** tilts it vertically (Y-axis).
 ```
 transform: skew(20deg, -15deg);
@@ -94,11 +99,14 @@ transform: skewX(20deg);
 ```
 transform: skewY(-15deg);
 ```
+
 <img src="./attachments/skrew.png" height="320px">    
 
 ## Transitions and Animations
 ### Introduction
-CSS allows us to apply transformations and modify the style of elements based on their states, such as when they are clicked, hovered, or focused. However, these style changes occur instantly by default. For example, if we translate an element when it is clicked or change its background and size when a user hovers over it, the changes happen abruptly. This can result in a poor user experience, as sudden transitions can feel jarring and unnatural. To address this, CSS provides tools like **transitions** and **animations** that enable us to create smooth, gradual changes between styles.
+CSS allows us to apply transformations and modify the style of elements based on their states, such as when they are clicked, hovered, or focused. However, these style changes occur instantly by default.   
+For example, if we translate an element when it is clicked or change its background and size when a user hovers over it, the changes happen abruptly.   
+This can result in a poor user experience, as sudden transitions can feel jarring and unnatural. To address this, CSS provides tools like **transitions** and **animations** that enable us to create smooth, gradual changes between styles.
 ### Transition
 **Transitions in CSS** help us create smooth transformations of an element's style. To make a transition, we first select the element we want to apply the transition to, and then we add the following properties:
 1. `transition-property`: Specifies the CSS properties to which the transition effect should be applied (e.g., `background-color`, `opacity`, `transform`).
@@ -138,11 +146,11 @@ CSS allows us to apply transformations and modify the style of elements based on
     }
 ```
 **Explanation**  
-In this example, we created a smooth transition effect for a box element using CSS transitions.  
-First, we specified the properties we wanted to animate by using the `transition-property` property. In this case, we chose `background-color`, `transform`, and `opacity`, ensuring that these properties would change when the user hovers over the box.   
-Next, we defined how long each transition should last using the `transition-duration` property. For the `background-color`, we set a duration of `1s`, while for the `transform` property, we used a shorter duration of `0.5s`, and for the `opacity`, we made the transition last `2s`.  
+In this example, we created a smooth transition effect for a box element using CSS transitions.   
+First, we specified the properties we wanted to animate by using the `transition-property` property. In this case, we chose `background-color`, `transform`, and `opacity`, ensuring that these properties would change when the user hovers over the box.    
+Next, we defined how long each transition should last using the `transition-duration` property. For the `background-color`, we set a duration of `1s`, while for the `transform` property, we used a shorter duration of `0.5s`, and for the `opacity`, we made the transition last `2s`.   
 To control the speed curve of the transitions, we applied different timing functions with the `transition-timing-function` property. For the `background-color`, we used `ease-in-out`, which makes the transition start and end slowly. For the `transform` property, we chose `linear`, which keeps the animation at a constant speed, and for the `opacity`, we applied `ease`, which starts slowly, accelerates, and then slows down.   
-Finally, we added delays to some of the transitions using the `transition-delay` property to create a staggered effect. For the `background-color`, we set a delay of `0.2s`, meaning the color change starts slightly after the hover begins. The `transform` property has no delay (`0s`), so it starts immediately, while for the `opacity`, we added a delay of `0.5s`, making it start halfway through the other transitions. 
+Finally, we added delays to some of the transitions using the `transition-delay` property to create a staggered effect. For the `background-color`, we set a delay of `0.2s`, meaning the color change starts slightly after the hover begins. The `transform` property has no delay (`0s`), so it starts immediately, while for the `opacity`, we added a delay of `0.5s`, making it start halfway through the other transitions.  
 #### Using `transition`
 We can combine all the previous properties into a single shorthand property called `transition`. This shorthand allows us to define the `transition-property`, `transition-duration`, `transition-timing-function`, and `transition-delay` in one line. The values are provided in the following order:
 ```

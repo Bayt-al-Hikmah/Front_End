@@ -146,9 +146,9 @@ function getUserStats(user) {
 }
 ```
 #### Returning Function
-In JavaScript, we can return functions from other functions just like any other value. This enables powerful patterns like **function factories**, **closures**, and **higher-order functions**.  
-**Function factories**  
-**Function factory** is just a **function that returns another function** a "factory" for making functions!
+In JavaScript, we can return functions from other functions just like any other value. This enables powerful patterns like **function factories**, **closures**, and **higher-order functions**.    
+
+**Function factory:** is just a **function that returns another function** a "factory" for making functions!
 ```
 function multiplier(factor) {
   return function(x) {
@@ -162,8 +162,7 @@ const triple = multiplier(3);
 console.log(double(5)); // 10
 console.log(triple(5)); // 15
 ```
-**Closure**  
-Closures allow a function to "remember" and access variables from its **lexical scope** even when the function is executed **outside** of that scop
+**Closure:**  Closures allow a function to "remember" and access variables from its **lexical scope** even when the function is executed **outside** of that scop
 ```
 function counter() {
   let count = 0;
@@ -177,8 +176,7 @@ const increment = counter();
 console.log(increment()); // 1
 console.log(increment()); // 2
 ```
-**Higher-order functions**
-A **higher-order function** is a function that **does at least one of the following**:
+**Higher-order functions:** A higher-order function is a function that **does at least one of the following**:
 1. **Takes another function as an argument**
 2. **Returns a function**
 ```
@@ -195,7 +193,7 @@ processUserInput(greet);
 ```
 ### Recursive Functions
 Recursive function are special function that have ability to call theirself untill a condition (that we call base state) is valid.  
-let's suppose we want to create a function that calculates the factorial of numbers  
+let's suppose we want to create a function that calculates the factorial of numbers.  
 we know that:
 - 0! is equal to 1
 - 1! is equal to 1 = 1\*0!
@@ -203,8 +201,9 @@ we know that:
 - 3! is equal to 3\*2\*1 = 3\*2!
 - 4! is equal to 4\*3\*2\*1 = 4\*3!
 - 5! is equal to 5\*4\*3\*2\*1 = 5\*4!
-with that in mind, we can set the base condition as  
-if n === 0 we return 1,else we return n multiplied by the factorial of n-1 and so on
+
+with that in mind, we can set the base condition as:  
+if n === 0 we return 1,else we return n multiplied by the factorial of n-1 and so on.
 ```
 function factorial(n){
 	if (n === 0){
@@ -285,9 +284,9 @@ function makeCoffee(type) {
     console.log(`Brewing ${type} coffee...`);
     setTimeout(() => {
       if (type === "espresso") {
-        resolve("☕ Here's your espresso!");
+        resolve("Here's your espresso!");
       } else {
-        reject("❌ We don't serve that type");
+        reject("We don't serve that type");
       }
     }, 2000); 
   });

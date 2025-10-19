@@ -112,7 +112,7 @@ const img = document.querySelector('img');
 img.setAttribute('alt', 'Description of image');
 img.src = 'new-image.jpg';
 ```
-3. Access form field values
+4. Access form field values
 ```
 const input = document.querySelector('input[type="text"]');
 
@@ -122,7 +122,7 @@ const value = input.value;
 // For checkboxes/radio buttons
 const isChecked = checkbox.checked;
 ```
-4. Managing Class Names
+5. Managing Class Names
 ```
 const div = document.getElementById('container');
 
@@ -171,6 +171,7 @@ button.addEventListener('click', function() {
 |`scroll`|Page/element scrolling|
 |`mouseover`|Mouse pointer enters element|
 
+
 ### Creating and Inserting Elements
 Sometimes, we want to add new elements to a web page using JavaScript — for example, adding a new paragraph, button, or image dynamically. JavaScript makes this easy using the `document.createElement` method.
 #### Creating New Elements
@@ -204,6 +205,7 @@ We have several ways to put elements where we want them:
 | `after()`                    | Puts after another                            | `element.after(newDiv)`               |
 | `insertBefore()`<br>    <br> | Inserts a node before a specified child node. | `insertBefore(newDiv, referenceNode)` |
 | `replaceChild()`             | Replaces one child node with another.         | `replaceChild(newDiv, oldDiv)`:       |
+
 
 ```
 const newDiv = document.createElement('div');
@@ -423,6 +425,7 @@ reader.readAsText(blob);
 | **Performance** | Very lightweight                | Heavier resource use    |
 | **Reversable**  | Yes (decodeURIComponent)        | Yes (FileReader)        |
 
+
 ## WebSockets & Real-Time Data
 ### Introduction
 Traditional web communication between the browser and the server uses the **HTTP protocol**, where the browser sends a request and waits for the server to respond. But in many modern applications, such as chat apps, online games, or stock tickers, we need a way to **continuously receive data** from the server without reloading the page.
@@ -465,6 +468,7 @@ The WebSocket object provides several events that we can listen to:
 |`error`|Triggered when an error occurs|
 |`close`|Triggered when the connection closes|
 
+
 ```
 socket.addEventListener('open', () => {
   console.log('Connected to server');
@@ -489,6 +493,8 @@ socket.addEventListener('close', () => {
 |`new WebSocket(url)`|Creates a new WebSocket instance|
 |`send(data)`|Sends data to the server (strings, Blob, ArrayBuffer)|
 |`close()`|Terminates the connection|
+
+
 #### Example
 ```
 const chatSocket = new WebSocket('wss://chat.example.com');

@@ -105,7 +105,7 @@ if (condition) {
 ```
 ####  Condition with Alternative
 
-- Run one block if true, another if false:
+Run one block if true, another if false:
 ```
 if (condition) {  
   // Code to run if true  
@@ -114,7 +114,7 @@ if (condition) {
 }  
 ```
 #### Multiple Conditions
-- Chain conditions with `else if` for alternative paths:
+Chain conditions with `else if` for alternative paths:
 ```
 if (condition1) {  
   // Code for condition1  
@@ -171,8 +171,8 @@ while (isNotFull) {
   // Eventually, set isNotFull = false when the cup is full  
 }
 ```
-- **Condition**: `isNotFull` keeps the loop running.
-- **Action**: The loop keeps "adding water" until the condition fails.
+**Condition**: `isNotFull` keeps the loop running.  
+**Action**: The loop keeps "adding water" until the condition fails.
 ### Do While Loop
 The **`do...while` loop** works similarly to a `while` loop, repeating code based on a condition. However, there’s a key difference:
 - A `do...while` loop always runs its code block at least once, even if the condition is initially false.

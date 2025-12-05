@@ -4,25 +4,29 @@
 - Types of Requests and Responses
 ## Introduction To The Web
 ### Introduction
-The **World Wide Web** (commonly known as the **Web**) is a vast network of interconnected documents and resources, accessible via the internet. It allows users to browse websites, share information, communicate, shop, learn, and much more—all through a simple interface powered by web browsers like Chrome, Firefox, or Safari.  
-The Web was invented in **1989** by **Sir Tim Berners-Lee**, a British scientist working at **CERN** (the European Organization for Nuclear Research). His goal was to create a system to help scientists share research data more efficiently.
+The World Wide Web commonly known as the Web is a vast network of interconnected documents and resources, accessible via the internet. It allows users to browse websites, share information, communicate, shop, learn, and much more all through a simple interface powered by web browsers like Chrome, Firefox, or Safari.  
+The Web was invented in 1989 by Sir Tim Berners-Lee, a British scientist working at CERN the European Organization for Nuclear Research. His goal was to create a system to help scientists share research data more efficiently.
 - **1991**: The first website (info.cern.ch) went live, explaining the World Wide Web project.
 - **1993**: CERN made the Web technology **open and free** for everyone, leading to rapid growth.
 - **1990s**: The first web browsers (like **Mosaic** and later **Netscape**) made the Web user-friendly.
 - **Late 1990s - Early 2000s**: The **Dot-com boom** saw the rise of major websites like Google (1998), Amazon, and eBay.
 - **2000s - Present**: The Web evolved into **Web 2.0** (interactive, social media-driven) and now moves toward **Web3** (decentralized, blockchain-based).
 ### Web Protocols
-When devices connect over the internet, they follow standardized **web protocols**—sets of rules that define how data is formatted, transmitted, and received. These protocols ensure seamless and secure communication between clients (like your laptop or phone) and servers (where websites and apps are hosted).
-#### Internet Protocol
-An IP (Internet Protocol) address represents a unique identifier assigned to every device connected to a network, serving as its "digital fingerprint" in the online world. Much like a physical home address ensures mail reaches the right destination, an IP address enables devices to locate and communicate with each other across the vast internet infrastructure.  
-IPv4 (Internet Protocol version 4) and IPv6 (version 6) are the two main protocols used to identify devices on networks. IPv4, the older standard, uses 32-bit addresses (like `192.168.1.1`), offering about 4.3 billion possible combinations—a number now insufficient for our connected world. IPv6, its modern successor, employs 128-bit addresses (like `2001:0db8:85a3::8a2e:0370:7334`), providing an almost limitless pool of addresses (340 undecillion) to accommodate the growing Internet of Things.
+When devices connect over the internet, they follow standardized sets of rules that define how data is formatted, transmitted, and received. These protocols ensure seamless and secure communication between clients and servers .
+#### Internet Protocol (IP)
+An IP  address represents a unique identifier assigned to every device connected to a network, serving as its "digital fingerprint" in the online world. Much like a physical home address ensures mail reaches the right destination, an IP address enables devices to locate and communicate with each other across the vast internet infrastructure.  
+IPv4 (Internet Protocol version 4) and IPv6 (version 6) are the two main protocols used to identify devices on networks. 
+
+- IPv4, the older standard, uses 32-bit addresses (like `192.168.1.1`), offering about 4.3 billion possible combinations—a number now insufficient for our connected world. 
+
+- IPv6, its modern successor, employs 128-bit addresses (like `2001:0db8:85a3::8a2e:0370:7334`), providing an almost limitless pool of addresses (340 undecillion) to accommodate the growing Internet of Things.
 #### HTTP/HTTPS Protocol
-HTTP (Hypertext Transfer Protocol) and its secure version HTTPS serve as the foundational protocols that facilitate our online communications. These protocols enable our browsers to request and receive web content by defining how our devices exchange information across the Internet. When we visit websites, our browsers send HTTP requests to servers, which process these requests and return responses containing the data needed to display web pages. The secure HTTPS version enhances our protection by adding SSL/TLS encryption, safeguarding sensitive information like login credentials and payment details from potential interception. We can identify this security through the padlock icon in our browsers, with HTTPS operating on port 443 instead of HTTP's port 80. Today, HTTPS has become the web standard we all rely on, providing improved security, better search visibility (as search engines prioritize secure sites), and protection against data manipulation during transmission—particularly crucial for sensitive activities like online banking. This evolution from HTTP to HTTPS represents our collective progress toward a more secure and private Internet experience for everyone.  
+The Hypertext Transfer Protocol HTTP and its secure version HTTPS serve as the foundational protocols that facilitate our online communications. These protocols enable our browsers to request and receive web content by defining how our devices exchange information across the Internet. When we visit websites, our browsers send HTTP requests to servers, which process these requests and return responses containing the data needed to display web pages. The secure HTTPS version enhances our protection by adding SSL/TLS encryption, safeguarding sensitive information like login credentials and payment details from potential interception. We can identify this security through the padlock icon in our browsers, with HTTPS operating on port 443 instead of HTTP's port 80. Today, HTTPS has become the web standard we all rely on, providing improved security, better search visibility (as search engines prioritize secure sites), and protection against data manipulation during transmission—particularly crucial for sensitive activities like online banking. This evolution from HTTP to HTTPS represents our collective progress toward a more secure and private Internet experience for everyone.  
 
 ![http](./attachments/http_process_explained.jpg)  
 
 #### FTP/SFTP Protocol
-FTP (File Transfer Protocol) and its secure counterpart SFTP (SSH File Transfer Protocol) serve as essential protocols for our file transfer operations. These systems enable us to move files between local devices and remote servers while offering different levels of security protection. When we need to upload website content or download documents, our systems typically use FTP, which establishes connections through port 21 - though we should note this traditional method transmits our data without encryption.  
+File Transfer Protocol FTP and its secure counterpart SFTP (SSH File Transfer Protocol) serve as essential protocols for our file transfer operations. These systems enable us to move files between local devices and remote servers while offering different levels of security protection. When we need to upload website content or download documents, our systems typically use FTP, which establishes connections through port 21 - though we should note this traditional method transmits our data without encryption.  
 For our more sensitive file transfer requirements, we employ SFTP, which operates through the secure SSH (Secure Shell) protocol on port 22. This implementation encrypts all our transmission data, including usernames, passwords, and file contents, providing crucial protection for our confidential information. Many professionals in web development and system administration prefer SFTP as it combines familiar FTP functionality with enterprise-grade security measures.  
 ![](./attachments/ftp.png)  
 
@@ -127,7 +131,7 @@ APIs act as intermediaries, allowing servers to communicate with other services 
 ![cvss](./attachments/client-server-architecture.png)
 ## Requests and Responses
 ### Introduction
-We've learned that the web consists of interconnected devices communicating through standardized protocols, and that we use browsers to find applications and interact with them. Now, let's explore the different **types of requests** browsers send to servers to retrieve data, along with the **responses** they receive in return.  
+We've learned that the web consists of interconnected devices communicating through standardized protocols, and that we use browsers to find applications and interact with them. Now, let's explore the different **types of requests** browsers send to servers to retrieve data, along with the responses they receive in return.  
 This request-response cycle powers every web interaction, from loading simple pages to processing complex transactions.
 ### Type of Requests
 #### GET Request

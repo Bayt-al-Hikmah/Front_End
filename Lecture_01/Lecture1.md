@@ -7,10 +7,10 @@
 The World Wide Web commonly known as the Web is a vast network of interconnected documents and resources, accessible via the internet. It allows users to browse websites, share information, communicate, shop, learn, and much more all through a simple interface powered by web browsers like Chrome, Firefox, or Safari.  
 The Web was invented in 1989 by Sir Tim Berners-Lee, a British scientist working at CERN the European Organization for Nuclear Research. His goal was to create a system to help scientists share research data more efficiently.
 - **1991**: The first website (info.cern.ch) went live, explaining the World Wide Web project.
-- **1993**: CERN made the Web technology **open and free** for everyone, leading to rapid growth.
-- **1990s**: The first web browsers (like **Mosaic** and later **Netscape**) made the Web user-friendly.
-- **Late 1990s - Early 2000s**: The **Dot-com boom** saw the rise of major websites like Google (1998), Amazon, and eBay.
-- **2000s - Present**: The Web evolved into **Web 2.0** (interactive, social media-driven) and now moves toward **Web3** (decentralized, blockchain-based).
+- **1993**: CERN made the Web technology open and free for everyone, leading to rapid growth.
+- **1990s**: The first web browsers (like Mosaic and later Netscape) made the Web user-friendly.
+- **Late 1990s - Early 2000s**: The Dot-com boom saw the rise of major websites like Google (1998), Amazon, and eBay.
+- **2000s - Present**: The Web evolved into Web 2.0 (interactive, social media-driven) and now moves toward Web3 (decentralized, blockchain-based).
 ### Web Protocols
 When devices connect over the internet, they follow standardized sets of rules that define how data is formatted, transmitted, and received. These protocols ensure seamless and secure communication between clients and servers .
 #### Internet Protocol (IP)
@@ -99,7 +99,7 @@ Web browsers are specialized software applications that serve as our primary too
 
 Popular examples include Google Chrome, Mozilla Firefox, Apple Safari, and Microsoft Edge, each offering unique features while performing these core functions. Modern browsers also prioritize security with features like phishing protection, automatic updates, and sandboxing to isolate potentially harmful content.
 ### Search Engine
-The web is a wild, ever-expanding space, and we can’t possibly memorize every website or piece of information. When we need to find something whether it’s an app, the latest news, or answers to our questions we rely on **search engines** to guide us.
+The web is a wild, ever-expanding space, and we can’t possibly memorize every website or piece of information. When we need to find something whether it’s an app, the latest news, or answers to our questions we rely on search engines to guide us.
 Search engines like Google, Bing, and DuckDuckGo act as our digital librarians, scanning billions of web pages to deliver the most relevant results. Here’s how they help us:
 1. **Crawling** – Automated bots (called "spiders") explore the web, discovering and indexing pages.
 2. **Indexing** – They organize and store this data in massive databases for quick retrieval.
@@ -108,7 +108,7 @@ Search engines like Google, Bing, and DuckDuckGo act as our digital librarians, 
 
 ## Client-Side vs Server-Side
 ### Client-Side
-**Client-side** refers to all operations that occur on a user's device (such as a smartphone, tablet, or computer) when interacting with a website or web application. This includes how content is processed, displayed, and interacted with directly in the **web browser** or app interface, minimizing the need for constant back-and-forth communication with remote servers.  
+Client-side refers to all operations that occur on a user's device (such as a smartphone, tablet, or computer) when interacting with a website or web application. This includes how content is processed, displayed, and interacted with directly in the **web browser** or app interface, minimizing the need for constant back-and-forth communication with remote servers.  
 The development of the client side is known as **front-end development**, and it primarily relies on three core technologies:
 #### HTML (HyperText Markup Language)
 HTML defines the structure and content of a webpage by organizing and structuring various elements such as headings, paragraphs, images, and buttons, essentially serving as the backbone that determines how information is arranged and presented to users
@@ -116,9 +116,9 @@ HTML defines the structure and content of a webpage by organizing and structurin
 CSS controls the visual presentation of HTML elements by managing their layout, colors, fonts, and responsive behavior, essentially determining how content appears to users. It works by applying style rules to HTML elements, enabling developers to create visually appealing and well-structured designs that adapt to different screen sizes and devices
 #### JavaScript
 JavaScript brings web pages to life by adding interactivity, logic, and dynamic behavior that transforms static content into engaging experiences. This versatile programming language enables developers to implement features like smooth animations that enhance visual appeal, real-time form validation that improves user input accuracy, and dynamic content updates that refresh information without requiring page reloads.
-### Slient-Side
-**Server-side** refers to all operations that occur on remote servers when processing requests from client devices (like smartphones, tablets, or computers). This includes handling data storage, business logic, authentication, and other backend processes before sending responses back to the client. Unlike client-side operations that run in browsers, server-side execution happens entirely on web servers, ensuring secure and efficient data management.  
-The development of the server side is known as **back-end development**, and it primarily relies on the following core components:
+### Server-Side
+Server-side refers to all operations that occur on remote servers when processing requests from client devices (like smartphones, tablets, or computers). This includes handling data storage, business logic, authentication, and other backend processes before sending responses back to the client. Unlike client-side operations that run in browsers, server-side execution happens entirely on web servers, ensuring secure and efficient data management.  
+The development of the server side is known as back-end development, and it primarily relies on the following core components:
 #### Server (Hardware/Software)
 Servers provide the computing power and infrastructure needed to process client requests, manage databases, and host applications. They handle high workloads through optimized hardware (multi-core processors, SSDs) and software (web servers like Apache, Nginx).
 #### Backend Programming Languages
@@ -131,33 +131,31 @@ APIs act as intermediaries, allowing servers to communicate with other services 
 ![cvss](./attachments/client-server-architecture.png)
 ## Requests and Responses
 ### Introduction
-We've learned that the web consists of interconnected devices communicating through standardized protocols, and that we use browsers to find applications and interact with them. Now, let's explore the different **types of requests** browsers send to servers to retrieve data, along with the responses they receive in return.  
-This request-response cycle powers every web interaction, from loading simple pages to processing complex transactions.
+The web operates on a simple but essential communication model: every interaction between a browser and a server happens through a request–response exchange. When we browse the internet, our browser sends different kinds of requests to servers to fetch, create, update, or delete data. In return, servers send back responses that indicate whether the request was successful, failed, or requires additional action.
 ### Type of Requests
 #### GET Request
-A **GET request** is one of the fundamental HTTP methods we use to **retrieve data** from servers. When we enter a URL in our browser or click a link, we're typically sending a GET request to fetch webpage content, images, or API data.
+A GET request is one of the fundamental HTTP methods we use to retrieve data from servers. When we enter a URL in our browser or click a link, we're typically sending a GET request to fetch webpage content, images, or API data.
 #### POST Request
-A **POST request** is the HTTP method we use when we need to **send data** to a server, typically to create or update resources. Unlike GET requests, POST sends data securely in the request body rather than the URL, making it ideal for forms, file uploads, and sensitive operations.
+A POST request is the HTTP method we use when we need to send data to a server, typically to create or update resources. Unlike GET requests, POST sends data securely in the request body rather than the URL, making it ideal for forms, file uploads, and sensitive operations.
 #### PUT Request
-A **PUT request** is the HTTP method we use when we need to **fully update or replace existing resources** on a server. Unlike POST (which creates new resources), PUT lets us modify entire records by sending complete updated versions of the data.
+A PUT request is the HTTP method we use when we need to fully update or replace existing resources on a server. Unlike POST (which creates new resources), PUT lets us modify entire records by sending complete updated versions of the data.
 #### DELETE Request
-A **DELETE request** is the HTTP method we use when we need to **remove existing resources** from a server. This powerful operation lets us permanently delete data records, files, or other server-hosted content when they're no longer needed.
+A DELETE request is the HTTP method we use when we need to remove existing resources from a server. This powerful operation lets us permanently delete data records, files, or other server-hosted content when they're no longer needed.
 ### Types of Responses
 #### 200 OK (Success Response)
-A **200 OK** response indicates that our request was successfully processed by the server. This is the standard response for successful GET requests and other operations where the server has fulfilled our request as expected.
+A 200 OK response indicates that our request was successfully processed by the server. This is the standard response for successful GET requests and other operations where the server has fulfilled our request as expected.
 #### 201 Created (Resource Successfully Added)
-A **201 Created** response confirms that our POST or PUT request successfully created a new resource on the server. The response typically includes the location of the newly created resource in the headers.
+A 201 Created response confirms that our POST or PUT request successfully created a new resource on the server. The response typically includes the location of the newly created resource in the headers.
 #### 204 No Content (Successful but Empty Response)
-A **204 No Content** response means our request was successful, but the server has no additional data to send back. This is common after DELETE requests or updates that don’t require confirmation.
+A 204 No Content response means our request was successful, but the server has no additional data to send back. This is common after DELETE requests or updates that don’t require confirmation.
 #### 400 Bad Request (Client-Side Error)
-
-A **400 Bad Request** response tells us that the server couldn’t process our request due to invalid syntax or missing parameters. This usually means we need to correct our input data.
+A 400 Bad Request response tells us that the server couldn’t process our request due to invalid syntax or missing parameters. This usually means we need to correct our input data.
 #### 401 Unauthorized (Authentication Required)
-A **401 Unauthorized** response means our request lacks valid authentication credentials. The server expects us to log in or provide an API key before proceeding.
+A 401 Unauthorized response means our request lacks valid authentication credentials. The server expects us to log in or provide an API key before proceeding.
 #### 403 Forbidden (Access Denied)
 
-A **403 Forbidden** response indicates that while we might be authenticated, we don’t have permission to access or modify the requested resource.
+A 403 Forbidden response indicates that while we might be authenticated, we don’t have permission to access or modify the requested resource.
 #### 404 Not Found (Resource Missing)
-A **404 Not Found** response means the server couldn’t locate the resource we requested. This could happen if we use an incorrect URL or the data has been deleted.
+A 404 Not Found response means the server couldn’t locate the resource we requested. This could happen if we use an incorrect URL or the data has been deleted.
 #### 500 Internal Server Error (Server Failure)
-A **500 Internal Server Error** means something went wrong on the server’s end while processing our request. This is a generic error when the server encounters an unexpected condition.
+A 500 Internal Server Error means something went wrong on the server’s end while processing our request. This is a generic error when the server encounters an unexpected condition.

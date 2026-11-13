@@ -1,15 +1,19 @@
-## Objectives
-- Object-Oriented Programming
-- Error handling
-## Object-Oriented Programming
-### Introduction
-Object-Oriented Programming (OOP) is a programming paradigm that revolves around the concept of "objects." These objects can contain data in the form of fields (often called properties) and code in the form of procedures (often called methods). The goal of OOP is to make programs more modular, reusable, and easier to maintain. JavaScript, while initially a prototype-based language, has evolved to support class-based OOP, allowing developers to implement complex systems more intuitively.
+# Lecture 11 — Objects, Classes, and Error Handling
+
+> **Core idea:** Objects keep related state and behavior together; error handling makes failure paths explicit and recoverable.
+
+## Learning goals
+- Create objects with properties and methods, using prototypes and classes where appropriate.
+- Explain encapsulation, inheritance, polymorphism, and getters/setters in JavaScript.
+- Diagnose runtime errors and handle expected failures with `try...catch` and custom errors.
+## Object-oriented programming
+Object-oriented programming organizes code around objects that combine state (properties) and behavior (methods). JavaScript uses prototypes for inheritance; `class` syntax provides a familiar way to define constructors and methods.
 
 **Core Principles of OOP:**
-- **Encapsulation**: Combines data and the functions that operate on that data within a single unit or class. This keeps data safe from outside interference and misuse.
-- **Abstraction**: Allows programmers to hide all but the relevant data about an object to reduce complexity and increase efficiency.
-- **Inheritance**: Facilitates the creation of new classes based on existing ones. It promotes code reusability by allowing shared behaviors to be defined once and inherited by child classes.
-- **Polymorphism**: Enables different classes to be treated through the same interface, often by overriding methods or implementing the same methods in different ways.
+- **Encapsulation**: Groups state with the operations that manage it and limits direct access where useful.
+- **Abstraction**: Exposes the operations a caller needs while hiding implementation details.
+- **Inheritance**: Lets an object or class reuse and specialize behavior through a prototype chain.
+- **Polymorphism**: Lets different objects respond to the same operation in their own way.
 ### Objects
 Objects in JavaScript are collections of key-value pairs where the keys are strings (or Symbols) and the values can be any data type, including functions. Objects are the foundation of OOP in JavaScript.
 
@@ -25,36 +29,27 @@ const person = {
 };
 ```
 
-In the example above, `person` is an object with properties `name` and `age`, and a method `greet()`. JavaScript makes it easy to define and manipulate objects using simple syntax. Properties can be accessed with dot notation (`person.name`) or bracket notation (`person['name']`). New properties can be added dynamically, and existing ones can be updated or deleted.
-
-Objects can also be nested, and they often serve as the building blocks for more complex data structures.
-### Methods and Attributes
-In JavaScript, objects are collections of related data and functionality. They consist of **attributes** (also called properties) and **methods**.
-**Attributes**define the object's characteristics and store its data. For example, a `car` object might have attributes like `make`, `model`, and `year`. These properties hold specific values that describe the object's state.
-
-**Methods** are functions attached to objects that define their behavior. Using the same `car` example, methods like `startEngine()` or `drive()` would represent actions the car can perform. Methods often use the object's attributes to perform their tasks.
+`person` has `name` and `age` properties and a `greet()` method. Access properties with dot notation (`person.name`) or bracket notation (`person["name"]`). Objects can be nested, and properties can be added, updated, or deleted.
+### Properties and methods
+Properties hold an object’s state; methods are functions that define or perform its behavior. A `car` might store `make`, `model`, and `year`, with methods such as `startEngine()`.
 ### Constructor Functions
-Constructor functions are special functions we use to create and initialize objects. They serve as blueprints for generating multiple objects with similar properties and methods.  
-When we want to create a new object using a constructor function:
-1. We always use the `new` keyword when calling the function
-2. Inside the function, `this` refers to the new object we're creating
-3. We use `this` to assign properties and methods to our object
+Constructor functions initialize objects when called with `new`. In that call, `this` refers to the new object; assign its instance properties there.
 
 ```
 function Person(name, age) {
   this.name = name;
   this.age = age;
-  this.greet=function () {
+}
+
+Person.prototype.greet = function() {
   console.log(`Hello, I'm ${this.name}`);
 };
-
-}
 
 const john = new Person("John", 25);
 john.greet();
 ```
 ### Prototypes 
-When we create a constructor function, JavaScript automatically provides it with a `.prototype` property. This prototype object serves as a template for all instances created using the `new` keyword - each new object's internal `[[Prototype]]` gets linked to this shared prototype. This connection enables us to efficiently add new methods or properties to all instances at once by simply adding them to the constructor's prototype. For example, if we add a method to `Person.prototype`, all existing and future Person instances immediately gain access to it through the prototype chain
+Each constructor function has a `.prototype` object. Instances created with `new` link to it through their prototype chain, so methods added there are shared by existing and future instances.
 ```
 function Car(brand, model, year) {
   this.brand = brand;
@@ -73,8 +68,7 @@ console.log(car1.getInfo()); // Toyota Corolla (2020)
 console.log(car2.getInfo());
 ```
 ### Classes
-Classes, introduced in ES6 (2015), give us a cleaner way to create objects and handle inheritance in JavaScript.   
-A class serves as a blueprint for creating objects, letting us define both properties (the data each object will store) and methods (the actions objects can perform) in one organized structure. This approach replaces the older, more cumbersome combination of constructor functions and prototype assignments, giving us code that's easier to write, read, and maintain.
+`class` syntax groups a constructor and methods. Class methods are placed on the class’s prototype; classes still use JavaScript’s prototype-based model.
 ```
 class Animal {
   constructor(name) {
@@ -94,6 +88,10 @@ Inheritance allows a class to inherit properties and methods from another class.
 
 ```
 class Dog extends Animal {
+  constructor(name) {
+    super(name);
+  }
+
   speak() {
     console.log(`${this.name} barks`);
   }
@@ -103,7 +101,7 @@ const myDog = new Dog("Rex");
 myDog.speak(); // Rex barks
 ```
 
-The `Dog` class inherits from the `Animal` class. The `super()` call in the constructor allows the child class to access the parent class's constructor and initialize its properties. Inheritance is useful for representing hierarchical relationships between classes.
+`Dog` inherits `Animal` behavior and overrides `speak()`. A derived constructor calls `super(name)` before using `this` to initialize parent state. Use inheritance when the relationship is meaningful; composition is often simpler for shared capabilities.
 ### Encapsulation
 
 Encapsulation is the practice of hiding the internal state and requiring all interaction to be performed through an object’s methods. In JavaScript, you can use closures or private fields (with `#`) to encapsulate data.
@@ -126,7 +124,7 @@ account.deposit(100);
 console.log(account.getBalance()); // 100
 ```
 
-Using `#` before a property name makes it private, meaning it cannot be accessed outside the class. This ensures that sensitive data is only modified in controlled ways.
+The `#` prefix creates a private class field that code outside the class cannot access. It supports encapsulation; it is not a way to store secrets securely.
 ### Static Methods and Properties
 
 Static methods belong to the class itself rather than to any instance. They are useful for utility functions or class-wide behaviors.
@@ -141,9 +139,9 @@ class MathHelper {
 console.log(MathHelper.add(5, 3)); // 8
 ```
 
-You cannot call a static method on an instance; it must be called on the class. Static properties work similarly and are shared across all instances.
+Call a static method or access a static property on the class itself, not on an instance. Static members belong to the class.
 ### Polymorphism
-Polymorphism means having many forms. In JavaScript, this is often achieved by method overriding, where a subclass defines its own version of a method from the superclass.
+Polymorphism lets different objects support the same operation. One way to implement it is method overriding in a subclass:
 
 ```
 class Shape {
@@ -164,11 +162,11 @@ s1.draw(); // Drawing a shape
 s2.draw(); // Drawing a circle
 ```
 
-Even though both objects implement the `draw` method, the version that's executed depends on the actual object's class. This allows different types to be used interchangeably if they follow the same interface.
+The method called depends on the object. Different shapes can be used through the same `draw()` interface.
 ### Getters and Setters
-When working with object properties in JavaScript, we often encounter scenarios where we need more control over how values are assigned and retrieved. For instance, we might want to validate a value before storing it, transform data upon retrieval, or restrict access to certain sensitive properties. However, with direct property assignment like `obj.property = value`, we lose the ability to enforce such logic. This is where _getters_ and _setters_ become useful.
+Getters and setters run when a property is read or assigned. They can format or validate values while preserving property-like syntax.
 #### Setters:
-**Setters** are special methods that run when a value is assigned to a property. They allow us to validate or transform the incoming data before actually saving it. In JavaScript, setters are defined using the `set` keyword. Here’s a simple example:
+Define a setter with `set` to validate or transform an assigned value:
 ```
 const user = {
   firstName: '',
@@ -185,7 +183,7 @@ user.name = 'Al';    // Output: Name is too short.
 user.name = 'Alice'; // Valid assignment
 ```
 #### Getters
-**Getters**, on the other hand, are methods that execute when a property is read. They enable us to return a modified or formatted version of the stored value. Getters are defined using the `get` keyword. Consider this example:
+Define a getter with `get` to return a derived or formatted value when the property is read:
 ```
 const user = {
   firstName: 'Alice',
@@ -197,15 +195,13 @@ const user = {
 console.log(user.name); // Output: ALICE
 ```
 ## Error handling
-### Introduction
-When writing scripts and code, errors are inevitable. These errors can be **syntax errors**, such as misspelling a function or variable name, or **logical errors**, like mistakes in `if` conditions or loops that lead to unexpected behavior. Such errors can cause our program to fail, requiring fixes before the script can run properly.   
-Another category is **runtime errors**, which occur during script execution. These can be caused by invalid user input or unpredictable conditions. While we can’t always prevent runtime errors, JavaScript provides tools to handle them gracefully.
+Errors can be found before execution, occur while code runs, or appear as incorrect behavior without throwing an exception. Validate inputs and handle failures where the program can respond meaningfully.
 ### Types of Errors
-- **Syntax Errors:** These occur when we make mistakes in writing our script, such as misspelling a function or variable name, or forgetting parentheses or curly braces.
-- **Runtime Errors:** These errors occur while our program is running and cause it to stop. They are often caused by user input, such as entering invalid values.
-- **Logic Errors:** These errors happen when the code does not work as intended due to incorrect formatting or logic in conditions. They don't crash the program but cause it to behave in unexpected ways.
-- **Arithmetic Errors:** These are similar to logic errors but specifically involve mathematical operations, such as dividing by zero, or improper use of operator precedence (e.g., `+`, `-`, `/`, `*`).
-- **Resource Errors:** These errors occur when we exceed the resources available on our machine, such as running out of memory or creating an infinite loop.
+- **Syntax errors**: Invalid grammar, such as an unmatched brace, prevents the code from parsing.
+- **Runtime errors**: Thrown while code executes, for example when a property is read from `null`.
+- **Logic errors**: The code runs but produces the wrong result.
+- **Arithmetic mistakes**: Incorrect formulas or operator precedence can produce wrong values. Numeric division by zero in JavaScript produces `Infinity` or `NaN`, not an exception.
+- **Resource failures**: Excessive memory use or runaway work can exhaust available resources.
 ### JavaScript Errors
 
 | Error Type        | Description                   | Example                              |
@@ -214,24 +210,12 @@ Another category is **runtime errors**, which occur during script execution. The
 | `ReferenceError`  | Accessing undefined variables | `console.log(notDefined)`            |
 | `TypeError`       | Wrong data type usage         | `null.toString()`                    |
 | `RangeError`      | Numeric value out of range    | `new Array(-1)`                      |
-| ``Custom Errors`` | Developer-defined exceptions  | ``throw new Error("Invalid input")`` |
+| `Error` instances | Built-in or application-defined thrown errors | `throw new Error("Invalid input")` |
 
 ### Using The Console
-The browser console is a powerful tool for detecting errors. It shows:
-- The line where the error occurred.
-- The type of error (e.g., `ReferenceError`, `TypeError`).
-
-While the console helps debug syntax and logical errors, **runtime errors** may depend on user input or application state, requiring a different approach.
+The browser console reports syntax and runtime errors, usually with a message and source location. Logic errors require checking the program’s inputs, state, and output.
 ### Handling Runtime Errors with `try-catch`
-We can handle runtime errors using the `try-catch` statement.
-1. **`try` Block:**
-    - Define the statements that may cause an error or crash the script inside the `try` block.
-2. **`catch` Block:**
-    - After the `try` block, create a `catch` block to handle any errors that occur.
-    - A generic `catch` (without specifying an error type) will catch all errors.
-    - Alternatively, we can catch specific types of errors by specifying them in the `catch` block.
-3. **`finally` Block (Optional):**
-    - At the end, we can add a `finally` block containing statements that will execute **regardless** of whether an error occurred.
+Use `try...catch` for code that may throw or reject when awaited. JavaScript does not support typed catch clauses; inspect `error` with `instanceof` when different errors need different responses. `finally` runs whether the try block succeeds or fails.
 ```
 const a = 4;
 try {
@@ -242,19 +226,12 @@ try {
   console.log("done!");
 }
 ```
-### Raising Custom Errors in JavaScript
-In JavaScript, we can create and throw custom errors to enforce specific conditions. For example, we can define rules for valid function inputs and throw an error when invalid values are provided.  
-**Steps to Create and Throw an Error:**
-1. **Create an Error Object:**
-    - Use the `Error` constructor and pass a descriptive message.
-    - Example: `const error = new Error("Invalid input: Only even numbers allowed");`
-2. **Throw the Error:**
-    - Use the `throw` keyword to raise the error when a condition is met.
+### Throwing errors
+Create an `Error` with a useful message and throw it when an operation cannot continue. Create the error at the point of failure so its stack trace is useful:
 ```
-let err = new Error("Only even numbers allowed.");
 function divideByTwo(number) {
   if (number % 2 !== 0) {
-    throw err;
+    throw new Error("Only even numbers allowed.");
   }
   return number / 2;
 }

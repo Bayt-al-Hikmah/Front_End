@@ -1,12 +1,16 @@
-## Objectives:
-- Grid Systems
-- Responsive Design
-## Grid Systems
-### Introduction
-**CSS Grid** is a powerful tool for creating web page layouts. It works by turning a container into a grid using the `display: grid;` property. Once the container is defined as a grid, the items inside it can be placed in specific rows and columns, allowing for precise control over the layout. This makes it easy to design complex, responsive, and well-organized web pages.
-### Container Properties
+# Lecture 06 — CSS Grid and Responsive Layouts
+
+> **Core idea:** Grid places content across rows and columns; responsive sizing lets the layout adapt to the available space.
+
+## Learning goals
+- Define grid tracks, gaps, and item placement with CSS Grid.
+- Choose flexible track sizes and repeat patterns for common layouts.
+- Adapt a layout to different viewport sizes without relying on fixed dimensions everywhere.
+## CSS Grid
+Set `display: grid` on a container to create a two-dimensional layout. Its direct children are grid items, which can be placed into rows, columns, or named areas.
+### Container properties
 #### `grid-template-columns`
-The **`grid-template-columns`** property allows us to define the number and size of columns in a grid container, giving us full control over the layout structure. The value can be set in the following ways:
+`grid-template-columns` defines explicit column tracks. Common sizing patterns include:
 1. **Fixed Column Sizes**:
     ```
     grid-template-columns: 100px 200px 175px;
@@ -17,12 +21,12 @@ The **`grid-template-columns`** property allows us to define the number and si
     ```
     grid-template-columns: 1fr 2fr 1fr;
     ```
-    This creates flexible-sized columns where the second column takes up twice the space of the first and third columns.
+    The tracks share available space in a `1:2:1` ratio after their minimum sizing constraints are considered.
 3. **Mixed Sizes**:
 	```
     grid-template-columns: 100px 1fr 2fr;
 	```    
-    This creates three columns: the first column has a fixed width of 100px, while the second and third columns share the remaining space. The third column takes up twice the space of the second column.
+    The first track is 100px; the other two share the remaining space in a `1:2` ratio, subject to track sizing constraints.
 4. **Repeating Columns**:
     ```
     grid-template-columns: repeat(3, 1fr);
@@ -32,14 +36,14 @@ The **`grid-template-columns`** property allows us to define the number and si
 	 ```
     grid-template-columns: minmax(100px, 1fr) 2fr;
     ```
-    Here, the first column has a minimum width of 100px and can grow up to half the size of the second column, which takes up twice the remaining space.
+    The first track has a 100px minimum and may grow into available space. The second track receives a `2fr` share.
 6. **Auto-Sized Columns**:
    ```
     grid-template-columns: auto 1fr auto;
     ```
-    The first and third columns will shrink or grow based on their content, while the second column takes up the remaining space.
+    The outer tracks size from their content; the middle track receives the remaining flexible space.
 #### `grid-template-rows`
-The **`grid-template-rows`** property works similarly to **`grid-template-columns`**, but it applies to rows instead of columns. It allows us to define the number and size of rows in a grid container.
+`grid-template-rows` defines explicit row tracks. Fixed and flexible sizes work like column tracks; `fr` sizing is most useful when the grid container has a definite height.
 1. **Fixed Row Sizes**:
 	```
     grid-template-rows: 100px 200px 175px;
@@ -64,7 +68,7 @@ The **`grid-template-rows`** property works similarly to **`grid-template-col
     ```
     grid-template-rows: minmax(100px, 1fr) 2fr;
     ```
-    Here, the first row has a minimum height of 100px and can grow up to half the size of the second row, which takes up twice the remaining space.
+    The first track has a 100px minimum and can grow into available space; the second track receives a `2fr` share.
     
 6. **Auto-Sized Rows**:
 	```
@@ -72,52 +76,54 @@ The **`grid-template-rows`** property works similarly to **`grid-template-col
     ```
     The first and third rows will shrink or grow based on their content, while the second row takes up the remaining space.
 #### `grid-template-areas`
-The **`grid-template-areas`** property allows us to define and organize the layout of a grid container using named areas.  
+`grid-template-areas` gives parts of the layout names, then places those names on a visual grid. Each quoted row must contain the same number of cells; use `.` for an empty cell.
 **Example:**
 ```
-.item-a { 
-grid-area: header; 
-} 
-.item-b { 
-grid-area: main; 
-} 
-.item-c { 
-grid-area: sidebar; 
-} 
-.item-d { 
-grid-area: footer; 
-} 
-.container { 
-display: grid; 
-grid-template-columns: 50px 50px 50px 50px; 
-grid-template-rows: auto; 
-grid-template-areas: 
-"header header header header" 
-"main main . sidebar" 
-"footer footer footer footer"; }
+.item-a { grid-area: header; }
+.item-b { grid-area: main; }
+.item-c { grid-area: sidebar; }
+.item-d { grid-area: footer; }
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 50px);
+  grid-template-areas:
+    "header header header header"
+    "main main . sidebar"
+    "footer footer footer footer";
+}
 ```
 **Output:**  
 <img src="./attachments/grd.svg" height="400px" width="350px">  
 
-We can see that we named our items using the **`grid-area`** property and then used **`grid-template-areas`** to position them within our grid.
+Assign each item a name with `grid-area`; the container’s `grid-template-areas` places it.
 #### `grid-template`
 
-The **`grid-template`** property is a shorthand in CSS Grid that combines **`grid-template-rows`**, **`grid-template-columns`**, and **`grid-template-areas`** into a single declaration.
+`grid-template` is shorthand for explicit rows, columns, and named areas.
 ```
-grid-template: <grid-template-rows> / <grid-template-columns>;
-/* or */
-grid-template: <grid-template-areas> <grid-template-rows> / <grid-template-columns>;
+.container {
+  display: grid;
+  grid-template: auto 1fr / 200px 1fr;
+}
+
+.page {
+  display: grid;
+  grid-template:
+    "header header" auto
+    "sidebar main" 1fr
+    / 200px 1fr;
+}
 ```
 
 #### `row-gap`, `column-gap` and `gap`
-The **`row-gap`** and **`column-gap`** properties allow us to control the spacing between rows and columns in a CSS Grid layout. 
+`row-gap` and `column-gap` set spacing between grid tracks:
 ```
 .container {
 	column-gap: 15px;
 	row-gap: 20px;
 }
 ```
-The **`gap`** property is a shorthand for **`row-gap`** and **`column-gap`**. It allows us to set both row and column gaps in a single declaration `gap: <row-gap> <column-gap>;`.
+`gap` is shorthand: one value sets both directions; two values set row gap then column gap.
 ```
 .container {
 	gap: 20px 15px;
@@ -125,7 +131,7 @@ The **`gap`** property is a shorthand for **`row-gap`** and **`column-gap`*
 
 ```
 #### `justify-items`
-The **`justify-items`** property allows us to control how grid items are aligned horizontally within their respective grid cells. It applies to all items inside the grid container, It accepts the following values:
+`justify-items` sets the default inline-axis alignment of items in their cells:
 - **`start`**: Aligns items to the left side of their grid cell.  
 <img src="./attachments/justify-items-start.svg" height="175px" width="175px">
 
@@ -141,7 +147,7 @@ The **`justify-items`** property allows us to control how grid items are align
 
         
 #### `align-items`
-The **`align-items`** property allows us to control how grid items are aligned vertically within their respective grid cells. It applies to all items inside the grid container, It accepts the following values:
+`align-items` sets the default block-axis alignment of items in their cells:
 - **`start`**: Aligns items to the top of their grid cell.  
 <img src="./attachments/align-items-start.svg" height="175px" width="175px">  
 
@@ -155,13 +161,13 @@ The **`align-items`** property allows us to control how grid items are aligned
 <img src="./attachments/align-items-stretch.svg" height="175px" width="175px">  
 
 #### `place-items`
-The **`place-items`** property is a shorthand that combines **`align-items`** and **`justify-items`** into a single declaration. It allows us to control both the vertical and horizontal alignment of grid items within their respective cells, making it a convenient way to set default alignment for the entire grid.
+`place-items` combines `align-items` and `justify-items`:
 ```
 place-items: <align-items> <justify-items>;
 ```
 If only one value is provided, it applies to both **`align-items`** and **`justify-items`**.
 #### `justify-content`
-The **`justify-content`** property in CSS Grid allows us to control how the entire grid is aligned horizontally within its container, It accepts the following values:
+`justify-content` positions or distributes the grid tracks along the inline axis when the grid is smaller than its container:
 - **`start`**: Aligns the grid to the left side of the container (default).  
   <img src="./attachments/justify-content-start.svg" height="175px" width="175px">
   
@@ -186,7 +192,7 @@ The **`justify-content`** property in CSS Grid allows us to control how the en
 
 
 #### `align-content`
-The **`align-content`** property allows us to control how the entire grid is aligned vertically within its container, It accepts the following values:
+`align-content` positions or distributes grid tracks along the block axis when the grid is smaller than its container:
 - **`start`**: Aligns the grid to the top of the container.  
       <img src="./attachments/align-content-start.svg" height="175px" width="175px">
   
@@ -209,23 +215,22 @@ The **`align-content`** property allows us to control how the entire grid is a
 <img src="./attachments/align-content-space-evenly.svg" height="175px" width="175px">
  
 #### `place-content`
-The **`place-content`** property is a shorthand that combines **`align-content`** and **`justify-content`** into a single declaration. It allows us to control both the vertical and horizontal alignment of the entire grid within its container, making it a convenient way to set default alignment for the grid as a whole.
+`place-content` combines `align-content` and `justify-content`:
 ```
 place-content: <align-content> <justify-content>;
 ```
 If only one value is provided, it applies to both **`align-content`** and **`justify-content`**.
 #### `grid-auto-columns` and `grid-auto-rows`
-We use the **`grid-auto-columns`** and **`grid-auto-rows`** properties to define the size of columns and rows that are added **implicitly** (automatically) as users interact with our webpages. These properties ensure that any dynamically added content fits seamlessly into the grid layout, maintaining a consistent and visually appealing design.  
-They accept the same values as **`grid-template-rows`** and **`grid-template-columns`**
+`grid-auto-columns` and `grid-auto-rows` size implicit tracks created when placement extends beyond the explicit grid. They accept track sizes like the template properties.
 #### `grid-auto-flow`
-The **`grid-auto-flow`** property controls how grid items are placed in the grid when they are not explicitly positioned. It determines the direction and order in which items are added to the grid,It acceptes the following values:
+`grid-auto-flow` controls the direction used to place items that lack explicit positions:
 - **`row`**: (Default) Items are placed row by row, filling each row before moving to the next.
 - **`column`**: Items are placed column by column, filling each column before moving to the next.
-- **`row dense`**: Items are placed row by row, and the algorithm attempts to fill gaps in the grid by moving smaller items forward.
-- **`column dense`**: Items are placed column by column, and the algorithm attempts to fill gaps in the grid by moving smaller items forward.
+- **`row dense`**: Places by row and backfills earlier gaps when possible. This can make visual order differ from source order.
+- **`column dense`**: Places by column and backfills earlier gaps when possible; visual order may differ from source order.
 ### Cells Properties
 #### ``grid-column-start`` and ``grid-column-end``
-The **`grid-column-start`** and **`grid-column-end`** properties allow us to control where a grid item starts and ends within the grid columns., They accepts the following values
+`grid-column-start` and `grid-column-end` place an item between column lines. Values can be line numbers, line names, spans, or `auto`.
 - **`<line-number>`**: Refers to the grid line number (e.g., `1`, `2`, `3`).
 - **`<line-name>`**: Refers to a named grid line (if defined in `grid-template-columns`).
 - **`span <number>`**: Spans the item across a specified number of columns.
@@ -257,7 +262,7 @@ The **`grid-column-start`** and **`grid-column-end`** properties allow us to
     grid-column-end: auto;
     ```
 
-We can use the shorthand **`grid-column`** to combine **`grid-column-start`** and **`grid-column-end`** into a single declaration.`grid-column: <start-line> / <end-line>;`  
+`grid-column` combines the start and end lines: `grid-column: <start-line> / <end-line>`.
 **Example:**  
 - **Spanning Specific Columns**:
 	 ```
@@ -282,7 +287,7 @@ We can use the shorthand **`grid-column`** to combine **`grid-column-start`**
      The grid automatically places the item in the next available column.
 
 #### ``grid-row-start`` and ``grid-row-end``
-The **`grid-row-start`** and **`grid-row-end`** properties allow us to control where a grid item starts and ends within the grid rows. They accept the following values:
+`grid-row-start` and `grid-row-end` place an item between row lines. They accept line numbers, line names, spans, or `auto`:
 - **`<line-number>`**: Refers to the grid line number (e.g., `1`, `2`, `3`).
 - **`<line-name>`**: Refers to a named grid line (if defined in `grid-template-rows`).
 - **`span <number>`**: Spans the item across a specified number of rows.
@@ -314,7 +319,7 @@ The **`grid-row-start`** and **`grid-row-end`** properties allow us to contr
     ```
      The grid automatically places the item in the next available row.   
 
-We can use the shorthand **`grid-row`** to combine **`grid-row-start`** and **`grid-row-end`** into a single declaration: ``grid-row: <start-line> / <end-line>;``  
+`grid-row` combines the start and end lines: `grid-row: <start-line> / <end-line>`.
 **Examples:**  
 - **Spanning Specific Rows**:
     ```
@@ -337,7 +342,7 @@ We can use the shorthand **`grid-row`** to combine **`grid-row-start`** and�
     ```
      The grid automatically places the item in the next available row.
 #### ``grid-area``
-The **`grid-area`** property is a shorthand that allows us to define both the position and size of a grid item within the grid. It combines **`grid-row-start`**, **`grid-column-start`**, **`grid-row-end`**, and **`grid-column-end`** into a single declaration. Additionally, it can be used to assign a grid item to a named area defined in **`grid-template-areas`**.  
+`grid-area` either names an area from `grid-template-areas` or sets row-start, column-start, row-end, and column-end in that order.
 **Syntax:**
 ```
 grid-area: <row-start> / <column-start> / <row-end> / <column-end>;
@@ -347,39 +352,35 @@ Or
 grid-area: <area-name>;
 ```
 #### `justify-self` and `align-self`
-The **`justify-self`** and **`align-self`** properties allow us to control the alignment of an individual grid item within its grid cell. These properties override the default alignment set by **`justify-items`** and **`align-items`** on the grid container.  
+`justify-self` and `align-self` override the container’s item alignment for one grid item.
 **`justify-self`**:
-This property aligns the item **horizontally** within its grid cell. It accepts the following values:
+`justify-self` aligns an item on the inline axis:
 - **`start`**: Aligns the item to the left side of the cell.
 - **`end`**: Aligns the item to the right side of the cell.
 - **`center`**: Centers the item horizontally within the cell.
 - **`stretch`**: (Default) Stretches the item to fill the width of the cell.   
 
 **`align-self`**:
-This property aligns the item **vertically** within its grid cell,It accepts the following values:
+`align-self` aligns an item on the block axis:
 - **`start`**: Aligns the item to the top of the cell.
 - **`end`**: Aligns the item to the bottom of the cell.
 - **`center`**: Centers the item vertically within the cell.
 - **`stretch`**: (Default) Stretches the item to fill the height of the cell.   
  
-We can use The **`place-self`** property as shorthand that combines **`align-self`** and **`justify-self`** into a single declaration. It allows us to control both the vertical and horizontal alignment of an individual grid item within its grid cell.
+`place-self` combines `align-self` and `justify-self`:
 **Syntax:**
 ```
 place-self: <align-self> <justify-self>;
 ```
  If only one value is provided, it applies to both **`align-self`** and **`justify-self`**.
-## Responsive Design
-### Introduction
-When creating webpages, our goal is always to target the largest audience possible. However, this can present a challenge due to the variety of devices people use to access our content. Some visitors may use a desktop computer, while others may browse on their phones, tablets, or even smart TVs. Creating the same layout for all devices is not ideal because screen sizes vary significantly. For example, the amount of information that fits on a large desktop screen may not work well on a smaller mobile screen.  
-To address this issue, CSS provides a powerful tool called **media queries**. Media queries allow us to create different layouts and styles tailored to specific devices or screen sizes. This ensures that our content is displayed optimally across all platforms.  
-A common approach is to start by designing the layout for mobile devices first. This is because the majority of web traffic now comes from mobile devices, making it more likely that visitors will access your site on their phones. Once the mobile layout is established, we can use media queries to adapt the design for larger screens, such as tablets, desktops, and TVs. By doing this, we ensure a seamless and user-friendly experience for all visitors, regardless of the device they use.
-### Media Queries:
-We use **media queries** to create responsive designs that adapt to different screen sizes. To implement this, the first step is to set the **viewport** by adding the viewport meta tag in the `<head>` section of your HTML page. This ensures that the page is properly scaled and rendered on various devices.
+## Responsive design
+Responsive design adapts content to available space and user needs. Media queries apply styles when conditions such as viewport width or print output match. A mobile-first base is useful, but choose the starting layout based on the content and project.
+### Media queries
+Include the viewport meta tag so mobile browsers use the device width as the layout viewport:
 ```
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
-After setting the viewport, the next step is to style and create the layout for our page, starting with a **base design** tailored to a specific target device size (e.g., mobile-first or desktop-first). Once the base style is complete, we can use **media queries** to adapt the design for other screen sizes.  
-Inside a media query, we can specify the screen size we’re targeting using properties like `min-width`, `max-width`, `min-height`, and `max-height`. Here’s how it works:
+Create a base layout, then add media queries when content needs a different arrangement. Conditions can use `min-width`, `max-width`, `min-height`, and `max-height`:
 - **`min-width`**: Applies styles when the screen width is **greater than or equal to** the specified value.
 - **`max-width`**: Applies styles when the screen width is **less than or equal to** the specified value.
 - **`min-height`**: Applies styles when the screen height is **greater than or equal to** the specified value.
@@ -436,7 +437,7 @@ Inside a media query, we can specify the screen size we’re targeting using pro
 **Output:**  
 <img src="./attachments/rsp.svg" height="450px">
 
-With **media queries**, we can also define specific styles for printing a webpage. This is particularly useful for ensuring that the printed version of the page is clean, readable, and free of unnecessary elements like navigation menus, ads, or background images.  
+Use `@media print` to adjust a page for printed output, for example by hiding navigation and preserving readable text:
 ```
 @media print {
 /*
@@ -445,27 +446,26 @@ Here Style
 }
 ```
 ### Best Practices:
-#### Mobile First
-When creating responsive layouts, we should always start by designing and building for mobile devices first. This approach, known as **mobile-first design**, ensures that the core content and functionality are optimized for smaller screens, which often have limited space and resources. Once the mobile layout is complete, we can then use **media queries** to enhance the design for larger screens, such as tablets and desktops.
+#### Start with the content
+A mobile-first base often works well: make core content usable in a narrow layout, then enhance it as space allows. It is a design choice, not a requirement for every project.
 #### Using Grids
-CSS Grid allows us to **position and arrange elements** in a flexible and precise way, making it essential for creating **responsive designs**. With Grid, we can easily define rows and columns, control spacing, and align content, all while ensuring our layout adapts seamlessly to different screen sizes. Additionally, Grid provides the powerful **grid template areas** feature, which allows us to visually map out and name sections of our layout, making it even easier to create complex designs.    
-When using CSS Grid, changing the layout for different devices often requires only **small adjustments** with media queries. This is because Grid’s flexible units (like `fr` and `auto`) and features (like `auto-fit` and `minmax()`) handle much of the responsiveness automatically. For example, with **grid template areas**, we can define different layouts for various screen sizes simply by rearranging named areas, reducing the need for extensive code changes.
-#### Using Responsive Units
-When creating a responsive design, it is better to use **responsive units** (such as `%`, `em`, `rem`, `vw`, and `vh`) instead of fixed units (like `px`). Unlike fixed units, responsive units scale and adapt to different screen sizes, making them ideal for creating flexible and adaptable layouts. These units can also scale relative to the **viewport** or parent elements, ensuring that your design looks great on all devices.
+Grid can define responsive columns, gaps, and named areas. Flexible tracks, `minmax()`, and `repeat()` handle many layouts without a media query; use one when the content needs a different arrangement.
+#### Choose units by purpose
+Use flexible tracks and percentages for proportions, `rem` or `em` for type-related sizing, viewport units for viewport-linked effects, and `px` for small fixed details such as borders. No unit is automatically responsive; choose the reference that matches the design.
 #### Using `max-height`, `min-height`, `max-width`, and `min-width` in Responsive Design
-These CSS properties allow us to set boundaries for how large or small an element can be, ensuring that it behaves predictably across different screen sizes.  
+Minimum and maximum dimensions set size boundaries while content and available space determine the final size.
 
 
-**`max-width`**: The `max-width` property sets the **maximum width** an element can have. If the element’s content is smaller, it will shrink to fit. This is particularly useful for preventing elements from becoming too large on wider screens.  
+**`max-width`**: Caps width, useful for readable text columns and images.
 
 
-**`min-width`**: The `min-width` property sets the **minimum width** an element can have. If the element’s content is larger, it will expand to fit. This is useful for ensuring elements don’t become too small on narrower screens.   
+**`min-width`**: Sets a lower size limit. A large minimum can cause overflow on narrow screens.
 
 
-**`max-height`** The `max-height` property sets the **maximum height** an element can have. If the element’s content is smaller, it will shrink to fit. This is useful for controlling the height of elements like modals or images.   
+**`max-height`**: Caps height; consider overflow behavior when content exceeds the cap.
 
 
-**`min-height`**: The `min-height` property sets the **minimum height** an element can have. If the element’s content is larger, it will expand to fit. This is useful for ensuring elements maintain a minimum height, even if their content is small.
+**`min-height`**: Sets a lower height limit while allowing content to grow beyond it.
 ## Task
 Create a responsive restaurant website using **CSS Grid** for layout and **Flexbox** for alignment. The website should adapt to different screen sizes (mobile, tablet, desktop) and include key sections for a restaurant business.
 #### Website Sections

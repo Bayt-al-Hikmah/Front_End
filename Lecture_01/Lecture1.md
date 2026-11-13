@@ -1,161 +1,157 @@
-## Objectives
-- Introduction To The Web
-- Client-Side vs Server-Side
-- Types of Requests and Responses
+# Lecture 01 — The Web and Client–Server Communication
+
+> **Core idea:** A browser requests resources through web protocols; servers process those requests and return responses the browser can render.
+
+## Learning goals
+- Explain how the Web differs from the Internet and identify the main roles in a web request.
+- Distinguish client-side work from server-side work.
+- Choose a suitable HTTP method and interpret common response status codes.
 ## Introduction To The Web
 ### Introduction
-The World Wide Web commonly known as the Web is a vast network of interconnected documents and resources, accessible via the internet. It allows users to browse websites, share information, communicate, shop, learn, and much more all through a simple interface powered by web browsers like Chrome, Firefox, or Safari.  
-The Web was invented in 1989 by Sir Tim Berners-Lee, a British scientist working at CERN the European Organization for Nuclear Research. His goal was to create a system to help scientists share research data more efficiently.
+The **World Wide Web (Web)** is a collection of linked documents and resources accessed over the **Internet**. A web browser such as Chrome, Firefox, Safari, or Edge requests these resources and presents them as pages and applications.
+
+Tim Berners-Lee proposed the Web at CERN in 1989 to help researchers share information. Key milestones:
 - **1991**: The first website (info.cern.ch) went live, explaining the World Wide Web project.
 - **1993**: CERN made the Web technology open and free for everyone, leading to rapid growth.
 - **1990s**: The first web browsers (like Mosaic and later Netscape) made the Web user-friendly.
 - **Late 1990s - Early 2000s**: The Dot-com boom saw the rise of major websites like Google (1998), Amazon, and eBay.
-- **2000s - Present**: The Web evolved into Web 2.0 (interactive, social media-driven) and now moves toward Web3 (decentralized, blockchain-based).
+- **2000s–present**: Web applications became increasingly interactive and social. “Web 3.0” and “Web3” describe different, sometimes contested ideas; they are not a single settled next stage of the Web.
 ### Web Protocols
-When devices connect over the internet, they follow standardized sets of rules that define how data is formatted, transmitted, and received. These protocols ensure seamless and secure communication between clients and servers .
+Network protocols define how devices address one another and exchange data. Different protocols handle different layers and purposes; a protocol does not automatically make communication secure.
 #### Internet Protocol (IP)
-An IP  address represents a unique identifier assigned to every device connected to a network, serving as its "digital fingerprint" in the online world. Much like a physical home address ensures mail reaches the right destination, an IP address enables devices to locate and communicate with each other across the vast internet infrastructure.  
-IPv4 (Internet Protocol version 4) and IPv6 (version 6) are the two main protocols used to identify devices on networks. 
+An **IP address** identifies a network interface so packets can be routed to it. Addresses can be shared, reassigned, or hidden behind network translation, so an IP is not a permanent personal identifier. The two main versions are IPv4 and IPv6.
 
-- IPv4, the older standard, uses 32-bit addresses (like `192.168.1.1`), offering about 4.3 billion possible combinations—a number now insufficient for our connected world. 
+- **IPv4** uses 32-bit addresses such as `192.168.1.1`, allowing about 4.3 billion unique values. Address sharing and private ranges help extend its use, but the public address space is limited.
 
-- IPv6, its modern successor, employs 128-bit addresses (like `2001:0db8:85a3::8a2e:0370:7334`), providing an almost limitless pool of addresses (340 undecillion) to accommodate the growing Internet of Things.
+- **IPv6** uses 128-bit addresses such as `2001:db8:85a3::8a2e:370:7334`, providing about 3.4 × 10³⁸ possible addresses.
 #### HTTP/HTTPS Protocol
-The Hypertext Transfer Protocol HTTP and its secure version HTTPS serve as the foundational protocols that facilitate our online communications. These protocols enable our browsers to request and receive web content by defining how our devices exchange information across the Internet. When we visit websites, our browsers send HTTP requests to servers, which process these requests and return responses containing the data needed to display web pages. The secure HTTPS version enhances our protection by adding SSL/TLS encryption, safeguarding sensitive information like login credentials and payment details from potential interception. We can identify this security through the padlock icon in our browsers, with HTTPS operating on port 443 instead of HTTP's port 80. Today, HTTPS has become the web standard we all rely on, providing improved security, better search visibility (as search engines prioritize secure sites), and protection against data manipulation during transmission—particularly crucial for sensitive activities like online banking. This evolution from HTTP to HTTPS represents our collective progress toward a more secure and private Internet experience for everyone.  
+**HTTP** defines how clients and servers exchange requests and responses. **HTTPS** is HTTP carried over TLS, which encrypts the connection and helps authenticate the server. HTTP commonly uses port 80; HTTPS commonly uses port 443. The browser’s connection indicator reports transport security, not whether a site itself is trustworthy.
 
 ![http](./attachments/http_process_explained.jpg)  
 
 #### FTP/SFTP Protocol
-File Transfer Protocol FTP and its secure counterpart SFTP (SSH File Transfer Protocol) serve as essential protocols for our file transfer operations. These systems enable us to move files between local devices and remote servers while offering different levels of security protection. When we need to upload website content or download documents, our systems typically use FTP, which establishes connections through port 21 - though we should note this traditional method transmits our data without encryption.  
-For our more sensitive file transfer requirements, we employ SFTP, which operates through the secure SSH (Secure Shell) protocol on port 22. This implementation encrypts all our transmission data, including usernames, passwords, and file contents, providing crucial protection for our confidential information. Many professionals in web development and system administration prefer SFTP as it combines familiar FTP functionality with enterprise-grade security measures.  
+**FTP** transfers files between a client and server. Traditional FTP commonly uses port 21 and does not encrypt credentials or file contents. **SFTP** is a separate file-transfer protocol that runs over SSH, commonly on port 22, and encrypts the connection. Choose an encrypted transfer method when credentials or files must be protected.
 ![](./attachments/ftp.png)  
 
 #### SCP Protocol
-SCP (Secure Copy Protocol) is another essential protocol that helps us transfer files securely between systems. Building on SSH encryption, it gives us a fast and secure way to move files using simple command-line operations. Unlike regular FTP, SCP protects both our login credentials and file contents during transfer, making it one of our most trusted tools for sensitive data transfers.  
-What makes SCP particularly useful for our work is its perfect balance of security and simplicity. We can easily transfer individual files or entire directories while maintaining strong encryption through SSH. Many of us prefer SCP when we need quick, secure transfers between servers or from remote machines to our local systems.
+**SCP** copies files between systems over SSH, protecting credentials and file contents in transit. It is commonly used from the command line for direct transfers between a local machine and a remote host. SFTP is often more convenient when browsing or managing remote files; use the tool supported by the environment and its security policy.
 #### Real-Time Communication Protocol
-When we need real-time communication with servers or other clients, we typically rely on two powerful protocols: WebSocket and WebRTC. Each serves distinct purposes in our applications while enabling seamless, instantaneous data exchange.
-**WebSocket** gives us persistent, full-duplex communication channels between clients and servers. This protocol is particularly useful when we need:
+For real-time web features, **WebSocket** and **WebRTC** address different communication needs.
+**WebSocket** maintains a persistent, full-duplex connection between a client and server. It fits:
 - Continuous chat applications
 - Live notifications and updates
 - Real-time collaborative tools
 - Instant data synchronization   
 
-What makes WebSocket special is its ability to maintain an open connection after the initial handshake, allowing servers to push data to clients without repeated HTTP requests. We implement it using a simple API (`new WebSocket()`) and typically use it over port 80 or 443 (for secure WS connections).  
-**WebRTC** (Web Real-Time Communication) provides us with peer-to-peer media streaming capabilities. We commonly use it for:
+After an HTTP-based handshake, either side can send messages without opening a new request for each update. Browser code can create a connection with `new WebSocket(url)`; `ws:` and `wss:` commonly use ports 80 and 443.
+**WebRTC** (Web Real-Time Communication) supports low-latency peer connections, especially for audio, video, and data channels. It fits:
 - Video conferencing applications
 - Voice-over-IP services
 - Direct file sharing between browsers
 - Low-latency screen sharing  
 
-The strength of WebRTC lies in its ability to establish direct connections between browsers while handling NAT traversal and network complexities automatically. We often combine it with signaling servers (which frequently use WebSocket) to coordinate the connection setup.  
+WebRTC handles much of the connection negotiation and network traversal, but applications still need a **signaling channel** to exchange setup information. That channel may use WebSocket. Media or data can flow directly between peers when the network allows it, or through a relay.
 ![rtc](./attachments/websockets-vs-webrtc-768x403.webp)
 #### Email Communication Protocols (SMTP, IMAP, POP3)
-When we need to send and receive emails, we rely on three core protocols that work together to manage our electronic correspondence. Each protocol serves a specific purpose in the email delivery process.
-**SMTP** (Simple Mail Transfer Protocol) is our primary protocol for sending emails. We use it when we need:
+Email uses different protocols for sending and retrieving messages:
+**SMTP** (Simple Mail Transfer Protocol) sends outgoing mail, including:
 - Composing and sending new messages
 - Forwarding emails to other servers
 - Handling outgoing mail between mail servers  
-    SMTP typically operates on port 25 (or 587 for secure submission), and it's responsible for the entire journey of our messages from sender to recipient.  
+    Mail servers commonly use port 25 to transfer mail between servers; clients commonly submit mail on port 587 with transport security.
 
-**IMAP** (Internet Message Access Protocol) gives us advanced email management capabilities. We benefit from IMAP when we need:
+**IMAP** (Internet Message Access Protocol) keeps mail on the server and synchronizes folders and message state across clients. It fits:
 - Synchronized access across multiple devices
 - Server-side folder organization
 - Selective message downloading
 - Online email management  
-    Using port 143 (or 993 for SSL/TLS), IMAP keeps our emails stored on the server while allowing us to access them from anywhere.  
+    IMAP commonly uses port 143, or port 993 for implicit TLS.
 
-**POP3** (Post Office Protocol version 3) offers us a simpler approach for email retrieval. We typically choose POP3 for:
+**POP3** (Post Office Protocol version 3) retrieves messages, often for local storage. It fits:
 - Downloading emails to a single device
 - Local storage of messages
 - Offline access to mail  
-    Operating on port 110 (or 995 for secure connections), POP3 downloads messages to our local machine and usually removes them from the server.  
+    POP3 commonly uses port 110, or port 995 for implicit TLS. Whether retrieved messages remain on the server depends on client settings.
 
 
 ![](./attachments/Differences-between-IMAP-POP3-and-SMTP.png)
-#### Domain Resolution Protocol (DNS)
-DNS (Domain Name System) is one of the most critical protocols powering our web experience. Every time we use our browsers to visit websites like Facebook or Google, we're relying on DNS to make these connections possible. This essential system works behind the scenes to translate the human-friendly website names we know into machine-readable IP addresses that computers use to locate servers.  
-Without DNS, we'd have to remember and type complex IP addresses for every website we want to visit - making our web experience much more difficult. This "phonebook of the internet" remains one of the most vital yet invisible protocols we depend on every day.
+#### Domain Name System (DNS)
+The **Domain Name System (DNS)** maps domain names, such as `example.com`, to records that clients use to find services, often including IP addresses. DNS is a distributed naming system rather than a single protocol; DNS queries can use different transport methods. Without DNS, users would need another way to locate hosts, such as entering IP addresses directly.
 ### Web Servers
-Web servers are powerful, specialized computers designed to remain permanently online and accessible through the internet.
-At their core, web servers perform two vital functions that make the modern web possible. First, they securely store and organize all the components that comprise websites - from the basic HTML documents that structure pages to the CSS files that control their appearance, from JavaScript that enables interactivity to multimedia elements like images and videos. Second, they efficiently process and respond to the countless requests generated by users around the world.  
-The process begins when we type a web address or click a link. Our browser automatically formulates a properly structured HTTP or HTTPS request and sends it across the internet to the appropriate server. Upon receiving this request, the server springs into action - identifying the needed resources, retrieving them from storage, and packaging them into a response. This response travels back through the network to our device, where our browser interprets the data and renders it as the visual webpage we interact with.  
+“Web server” can mean the software that accepts HTTP requests, the machine running it, or both. A server may return stored files, generate a response with application code, or combine the two. When a user opens a URL, the browser resolves the host, connects to the service, sends an HTTP request, and receives a response. It then interprets the returned HTML, CSS, JavaScript, and media to render the page; a page may require additional requests for these resources.
 
 ![](./attachments/webserver.png)
 ### Web Browsers:
-Web browsers are specialized software applications that serve as our primary tool for accessing and navigating the World Wide Web. These powerful programs perform several essential functions:
-1. **Information Retrieval**: Browsers fetch and display web content from servers across the internet, allowing users to search for and access information from millions of websites.
-2. **Structured Presentation**: They render web pages in a visually organized manner by interpreting HTML code, CSS styling, and JavaScript functionality, transforming raw data into user-friendly interfaces.
-3. **Navigation Tools**: Modern browsers provide intuitive features like:
+**Web browsers** request web resources and interpret them for users. Their main roles include:
+1. **Retrieval**: Fetch resources from servers.
+2. **Rendering**: Interpret HTML structure, CSS presentation, and JavaScript behavior to display pages and applications.
+3. **Navigation**: Common tools include:
     - Tabbed browsing for multitasking
     - Bookmarks for saving favorite sites
     - History tracking for revisiting pages
     - Download management for saving files
-4. **Universal Access**: Browsers can display various content types including:
+4. **Content support**: Browsers can display:
     - Text documents and articles
     - Images, videos, and multimedia
     - Interactive web applications
     - PDFs and other document formats  
 
-Popular examples include Google Chrome, Mozilla Firefox, Apple Safari, and Microsoft Edge, each offering unique features while performing these core functions. Modern browsers also prioritize security with features like phishing protection, automatic updates, and sandboxing to isolate potentially harmful content.
+Popular browsers include Chrome, Firefox, Safari, and Edge. They also provide security features such as site isolation, phishing protection, and automatic updates; exact features vary by browser.
 ### Search Engine
-The web is a wild, ever-expanding space, and we can’t possibly memorize every website or piece of information. When we need to find something whether it’s an app, the latest news, or answers to our questions we rely on search engines to guide us.
-Search engines like Google, Bing, and DuckDuckGo act as our digital librarians, scanning billions of web pages to deliver the most relevant results. Here’s how they help us:
+**Search engines** help users find pages across the Web. A typical search pipeline has four stages:
 1. **Crawling** – Automated bots (called "spiders") explore the web, discovering and indexing pages.
 2. **Indexing** – They organize and store this data in massive databases for quick retrieval.
 3. **Ranking** – When we search, complex algorithms analyze factors like relevance, quality, and popularity to rank results.
-4. **Delivering Answers** – In seconds, we get a list of links, images, videos, or even instant answers (like weather or sports scores).
+4. **Serving results** – Rank and present links, media, or direct answers for a query.
 
 ## Client-Side vs Server-Side
 ### Client-Side
-Client-side refers to all operations that occur on a user's device (such as a smartphone, tablet, or computer) when interacting with a website or web application. This includes how content is processed, displayed, and interacted with directly in the **web browser** or app interface, minimizing the need for constant back-and-forth communication with remote servers.  
-The development of the client side is known as **front-end development**, and it primarily relies on three core technologies:
+**Client-side** work runs in the user’s browser. It covers the interface, page rendering, and interactions. **Front-end development** commonly uses:
 #### HTML (HyperText Markup Language)
-HTML defines the structure and content of a webpage by organizing and structuring various elements such as headings, paragraphs, images, and buttons, essentially serving as the backbone that determines how information is arranged and presented to users
+HTML defines page structure and meaning with elements such as headings, paragraphs, images, and buttons.
 #### CSS (Cascading Style Sheets)
-CSS controls the visual presentation of HTML elements by managing their layout, colors, fonts, and responsive behavior, essentially determining how content appears to users. It works by applying style rules to HTML elements, enabling developers to create visually appealing and well-structured designs that adapt to different screen sizes and devices
+CSS controls presentation: layout, color, typography, and responsive behavior.
 #### JavaScript
-JavaScript brings web pages to life by adding interactivity, logic, and dynamic behavior that transforms static content into engaging experiences. This versatile programming language enables developers to implement features like smooth animations that enhance visual appeal, real-time form validation that improves user input accuracy, and dynamic content updates that refresh information without requiring page reloads.
+JavaScript adds logic and interaction, such as form feedback, animation, and content updates. It can update a page without a full reload, but the application may still need server requests for data.
 ### Server-Side
-Server-side refers to all operations that occur on remote servers when processing requests from client devices (like smartphones, tablets, or computers). This includes handling data storage, business logic, authentication, and other backend processes before sending responses back to the client. Unlike client-side operations that run in browsers, server-side execution happens entirely on web servers, ensuring secure and efficient data management.  
-The development of the server side is known as back-end development, and it primarily relies on the following core components:
+**Server-side** work runs on servers. It commonly handles application rules, authentication, data access, and response generation. **Back-end development** involves:
 #### Server (Hardware/Software)
-Servers provide the computing power and infrastructure needed to process client requests, manage databases, and host applications. They handle high workloads through optimized hardware (multi-core processors, SSDs) and software (web servers like Apache, Nginx).
+Servers provide the infrastructure and software that receive requests and run applications. Web server software includes Apache and Nginx; application servers may run alongside them.
 #### Backend Programming Languages
-Languages like Python, PHP, Java, and Node.js execute server-side logic. They process data, interact with databases, and generate dynamic content before sending it to the client
+Languages and runtimes such as Python, PHP, Java, and Node.js execute server-side logic, process data, and generate responses.
 #### Databases
-Systems like MySQL, PostgreSQL, and MongoDB store, retrieve, and manage application data securely. They handle structured (SQL) or unstructured (NoSQL) data, ensuring efficient querying and transactions.
+Databases such as MySQL, PostgreSQL, and MongoDB store and retrieve application data. Relational and document databases differ in data models and query patterns; security depends on configuration and application design.
 #### APIs (Application Programming Interfaces)
-APIs act as intermediaries, allowing servers to communicate with other services (e.g., payment gateways, weather data). RESTful or GraphQL APIs standardize data exchange formats (JSON/XML).
+APIs define how software components exchange data. A service may expose HTTP endpoints using conventions such as REST or a query language such as GraphQL; JSON is a common data format.
 
 ![cvss](./attachments/client-server-architecture.png)
 ## Requests and Responses
 ### Introduction
-The web operates on a simple but essential communication model: every interaction between a browser and a server happens through a request–response exchange. When we browse the internet, our browser sends different kinds of requests to servers to fetch, create, update, or delete data. In return, servers send back responses that indicate whether the request was successful, failed, or requires additional action.
+HTTP communication follows a request–response model: a client sends a method, target, headers, and sometimes a body; the server returns a status code, headers, and sometimes a body. The method expresses the operation the client intends to perform.
 ### Type of Requests
 #### GET Request
-A GET request is one of the fundamental HTTP methods we use to retrieve data from servers. When we enter a URL in our browser or click a link, we're typically sending a GET request to fetch webpage content, images, or API data.
+A **GET** request retrieves a representation of a resource. Browsers use it to fetch pages, images, and API data. GET is defined as safe and idempotent; it should not request a state-changing action.
 #### POST Request
-A POST request is the HTTP method we use when we need to send data to a server, typically to create or update resources. Unlike GET requests, POST sends data securely in the request body rather than the URL, making it ideal for forms, file uploads, and sensitive operations.
+A **POST** request submits data for processing, often to create a resource or trigger an operation. Data is commonly sent in the request body, but a body is not encrypted unless the connection uses HTTPS. POST is not guaranteed to be idempotent.
 #### PUT Request
-A PUT request is the HTTP method we use when we need to fully update or replace existing resources on a server. Unlike POST (which creates new resources), PUT lets us modify entire records by sending complete updated versions of the data.
+A **PUT** request creates or replaces the target resource with the supplied representation, depending on the server’s API. It is idempotent: repeating the same request should have the same intended effect.
 #### DELETE Request
-A DELETE request is the HTTP method we use when we need to remove existing resources from a server. This powerful operation lets us permanently delete data records, files, or other server-hosted content when they're no longer needed.
+A **DELETE** request asks the server to remove the target resource. It is idempotent by definition, though repeated responses may differ (for example, the first may succeed and the next may report that the resource is already gone).
 ### Types of Responses
 #### 200 OK (Success Response)
-A 200 OK response indicates that our request was successfully processed by the server. This is the standard response for successful GET requests and other operations where the server has fulfilled our request as expected.
+A **200 OK** response indicates success and commonly includes a response body, such as the requested representation.
 #### 201 Created (Resource Successfully Added)
-A 201 Created response confirms that our POST or PUT request successfully created a new resource on the server. The response typically includes the location of the newly created resource in the headers.
+A **201 Created** confirms that the request created a resource. A `Location` header may identify the new resource.
 #### 204 No Content (Successful but Empty Response)
-A 204 No Content response means our request was successful, but the server has no additional data to send back. This is common after DELETE requests or updates that don’t require confirmation.
+A **204 No Content** indicates success with no response body. It is common after a deletion or an update that needs no returned representation.
 #### 400 Bad Request (Client-Side Error)
-A 400 Bad Request response tells us that the server couldn’t process our request due to invalid syntax or missing parameters. This usually means we need to correct our input data.
+A **400 Bad Request** means the server cannot or will not process the request because it considers the request invalid, for example because of malformed syntax or invalid input.
 #### 401 Unauthorized (Authentication Required)
-A 401 Unauthorized response means our request lacks valid authentication credentials. The server expects us to log in or provide an API key before proceeding.
+A **401 Unauthorized** means valid authentication credentials are missing or not accepted. The name is historical; it concerns authentication.
 #### 403 Forbidden (Access Denied)
 
-A 403 Forbidden response indicates that while we might be authenticated, we don’t have permission to access or modify the requested resource.
+A **403 Forbidden** means the server understood the request but refuses access. The client may be authenticated but lack permission; authentication is not always the reason.
 #### 404 Not Found (Resource Missing)
-A 404 Not Found response means the server couldn’t locate the resource we requested. This could happen if we use an incorrect URL or the data has been deleted.
+A **404 Not Found** means the server did not find a current representation for the target, often because the URL is wrong or the resource was removed.
 #### 500 Internal Server Error (Server Failure)
-A 500 Internal Server Error means something went wrong on the server’s end while processing our request. This is a generic error when the server encounters an unexpected condition.
+A **500 Internal Server Error** is a generic server-side failure. Check server logs and application behavior to diagnose it.

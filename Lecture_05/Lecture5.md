@@ -1,43 +1,45 @@
-## Objectives:
-- Advanced Selectors
-- Gradient Colors
-- Positioning Elements
-- Working with Flexbox
-## Advanced Selectors
-### Introduction:
-CSS is more powerful when it comes to selecting and targeting elements for styling. It provides advanced selectors that allow us to target specific elements with precision. For example, we can select elements by their class, by special attributes they possess, or even by their position in the document. With CSS, we can target the first or last element in a container, the nth element using pseudo-classes like `:first-child`, `:last-child`, and `:nth-child()`, or even select multiple elements at once within a single style block. This flexibility makes CSS an essential tool for creating dynamic and responsive designs.
-### Selecting Multiples Element:
-We can select multiple elements for a block of styles by separating their selectors with a comma. For example, if we want to set the font size of all `<span>` and `<a>` elements to 18px, we can do the following:
+# Lecture 05 — CSS Selectors, Positioning, and Flexbox
+
+> **Core idea:** Selectors choose which elements receive styles; positioning and Flexbox then control where those elements appear and how they share space.
+
+## Learning goals
+- Combine selectors and pseudo-classes to target elements precisely.
+- Choose a positioning mode and understand its effect on normal document flow.
+- Build one-dimensional layouts with Flexbox and its container and item properties.
+## Advanced selectors
+Selectors can match elements by type, class, attribute, relationship, state, or position.
+### Grouping selectors
+Separate selectors with commas to apply the same declarations to each match:
 ```
 span, a{
 	font-size:18px;
 }
 ```
 ### Filter Elements by Class
-We learned how to select elements that have a specified class. However, we can create even more powerful selectors to refine our targeting and select only specific elements, rather than selecting all elements that share the same class. For example, to select only paragraphs that have the class `"intro"`.  
+Combine a type selector and class to match only paragraphs with the `intro` class:
 ```
 p.intro {
     text-indent: 20px;
 }
 ```
 ### Attribute Selectors
-We can also select and target elements based on specific attributes they possess, not just by using class attributes. For example, to select all text input elements
+Attribute selectors match elements by an attribute or its value. This selects text inputs:
 ```
 input[type="text"] {
     border: 1px solid #ccc;
 }
 ```
 ### Universal selector
-We can use the **universal selector (`*`)** to select every element on a web page. For example, to set the text color of all elements to red
+The universal selector (`*`) matches every element. Use it deliberately; broad rules can create unwanted inheritance or overrides.
 ```
 * {
     color: red;
 }
 ```
 ### Relative Selector
-We can select elements that are children or nested inside other elements in CSS. To achieve this, CSS provides the following methods:
+Combinators describe relationships between elements:
 #### Child Selector (`>`)
-This will select the direct child that exist inside element
+The child combinator `>` matches direct children. Here it selects only the two paragraphs directly inside the `<div>`:
 **Example :**  
 HTML  
 ```
@@ -50,13 +52,13 @@ HTML
 ```
 CSS
 ```
-p > div{
-colore :red;
+div > p {
+  color: red;
 }
 ```
-Only **paragraph2** will get styled, and its text color will be changed to red.
+Only **paragraph 2** matches; paragraph 1 is nested inside a `<section>`.
 #### Descendant Selector (  )
-This selects all the children of an element, whether they are direct children or nested deeper within other elements.
+The descendant combinator (a space) matches elements at any depth inside an ancestor:
 **Example :**  
 HTML  
 ```
@@ -69,21 +71,21 @@ HTML
 ```
 CSS
 ```
-p  div{
-colore :red;
+div p {
+  color: red;
 }
 ```
-Here, **both paragraphs** will be styled, and their text color will change to red.
+Here, **both paragraphs** match because each is inside the `<div>`.
 #### Adjacent Sibling Selector (`+`)
-This selects the first element that comes immediately after a specified element.
+The adjacent sibling combinator `+` matches the first next sibling after the specified element:
 ```
 h2 + p {
     margin-top: 0;
 }
 ```
-This will set the `margin-top` to `0` for the first paragraph that comes after an `<h2>` tag.
+This removes the top margin from the first paragraph immediately after an `<h2>`.
 #### General Sibling Selector (`~`)
-This selects all elements that are siblings of a specified element and are on the same level in the document hierarchy.  
+The general sibling combinator `~` matches every later sibling of the same parent that fits the selector.
 **Example :**  
 HTML  
 ```
@@ -100,9 +102,9 @@ h2 ~ p {
   color: blue;
 }
 ```
-This will style **all `<p>` elements** that are siblings of the `<h2>` element, changing their text color to blue.
-### Negation Selector
-We use this selector to select all elements that match our query **except** for a specified one.  
+This styles all later `<p>` siblings of the `<h2>` in the same parent.
+### Negation selector
+`:not()` excludes elements that match the selector inside its parentheses:
 **Example:**  
 HTML:
 ```
@@ -118,16 +120,13 @@ p:not(.intro) {
   color: red;
 }
 ```
-This will style **all `<p>` elements** except the one with the class `intro`, changing their text color to red.
-### Pseudo-Classes
-We use **Pseudo-Classes** to select elements based on their state or position on a webpage. For example:
-- We can change the color of a link if it has been clicked (`:visited`) or is being hovered over (`:hover`).
-- We can change the background or display of an element when a user interacts with it, such as hovering over it (`:hover`) or focusing on it (`:focus`).
-- We can also target elements based on their position in a group, such as the first (`:first-child`), last (`:last-child`), or nth element (`:nth-child()`).
+This styles paragraphs that do not have the `intro` class.
+### Pseudo-classes
+Pseudo-classes match an element’s state or position without adding a class to the HTML. Examples include `:hover`, `:focus`, `:checked`, and `:nth-child()`.
 #### States
-CSS provides us with the following **Pseudo-Classes** to control elements based on their states:
+Common state pseudo-classes include:
 - **`:hover`**: Styles an element when the user hovers over it.
-- **`:focus`**: Styles an element when it is in focus (e.g., when a user clicks or types in an input field).
+- **`:focus`**: Styles the element that currently receives keyboard input. Keep a visible focus indicator; `:focus-visible` can target cases where the browser determines it is useful.
 - **`:checked`**: Styles a checkbox or radio button when it is checked by the user.
 - **`:visited`**: Changes the style of a link that has been visited.
 - **`:active`**: Styles an element while it is being clicked or activated.
@@ -147,17 +146,17 @@ a:visited {
 
 ```
 #### Positions
-We can target and style elements based on their position in the document using the following **pseudo-classes**:
+Structural pseudo-classes match children or siblings by position:
 - **`:first-child`**: Selects the first child element within a parent.
 - **`:last-child`**: Selects the last child element within a parent.
-- **`:nth-child()`**: Selects elements based on their position in a group , the value can be number equation or work (even, odd)
-- **`:nth-last-child()`**: Work same as `:nth-child()` but counting start from the last child.
+- **`:nth-child()`**: Matches by sibling position using a number, formula, `even`, or `odd`.
+- **`:nth-last-child()`**: Uses the same matching rules but counts from the end.
 - **`:first-of-type`:** Selects the first element of its type within a parent.
 - **`:last-of-type`**: Selects the last element of its type within a parent.
 - **`:nth-of-type()`** Selects elements of a specific type based on their position.
 - **`:only-child`** : Selects an element if it is the only child of its parent.
 - **`:only-of-type`**: Selects an element if it is the only one of its type within its parent.
-- **`:empty`**: Selects an element  with no children.
+- **`:empty`**: Matches an element with no child elements or text nodes.
 ```
 li:first-child {
     font-weight: bold;
@@ -180,11 +179,10 @@ p:nth-of-type(3) {
 }
 ```
 ### Pseudo-Elements
-We use **Pseudo-Elements** to target and style specific parts of an element, such as the first letter, the first line, or to insert content before or after the element itself.
+Pseudo-elements style part of an element or create generated content:
 - **`::first-letter`**: Styles the first letter of an element.
 - **`::first-line`**: Styles the first line of an element.
-- **`::before`**: Inserts content before the element.
-- **`::after`**: Inserts content after the element.
+- **`::before`** and **`::after`**: Create generated content before or after an element’s content. Use them for decoration, not essential information.
 ```
 p::first-line {
         font-weight: bold;
@@ -199,8 +197,8 @@ p::after {
 }
 ```
 ### The :root Selector
-The `:root` selector is used to select the root element of the document, which typically represents the `<html>` tag. It is especially useful for creating **CSS variables** (custom properties) that store specific values, such as colors, and sharing them across all elements. By defining variables in the `:root` selector, you only need to change the value once, and it will automatically update all elements that use the variable.  
-#### Example:
+`:root` matches the document root (usually `<html>`). It is a common place to define reusable custom properties:
+#### Example
 ```
 :root {
   --primary-color: #3498db; /* Define a variable */
@@ -213,30 +211,22 @@ h1 {
 
 button {
   background-color: var(--secondary-color);
+}
 ```
-## Gradient 
-### Introduction:
-CSS provides us with **multiple ways to define and select colors**, such as using the `rgb()` function, `hsl()` function, or hexadecimal values. However, this is not the limit of what CSS can do for styling elements. CSS also allows us to create **color gradients**, which can add more visually interesting and dynamic effects to our designs.  
-CSS gradients allow us to create smooth transitions between two or more colors. There are two main types of gradients:
+## Gradients
+Gradients interpolate between color stops and can be used wherever CSS accepts an image, such as a background.
 ### Linear Gradient
-A linear gradient creates a smooth color transition along a straight line. You can specify the direction of the gradient and the colors to be used.
+A linear gradient blends color stops along a line. Set a direction and at least two colors:
 ```
-background: linear-gradient(direction, color-stop1, color-stop2, ...);
+background: linear-gradient(to right, red, yellow);
 ```
-The direction of a gradient can be set **implicitly** or **explicitly**. For example:
-- We can use keywords like `to right` to specify that the gradient flows from **left to right**.
+Use a keyword or angle for direction. In CSS, `0deg` points upward, `90deg` to the right, and `180deg` downward.
 ```
-background: linear-gradient(to right, red, yellow); /* Left to right */
-background: linear-gradient(to bottom, red, yellow); /* Top to bottom */
-background: linear-gradient(to top right, red, yellow); /* Diagonal */
+background: linear-gradient(to bottom, red, yellow);
+background: linear-gradient(45deg, red, yellow);
 ```
-- Alternatively, we can use **degrees** (e.g., `45deg`) to specify the direction with more precision and control.
-```
-background: linear-gradient(45deg, red, yellow); /* 45-degree angle */
-background: linear-gradient(180deg, red, yellow); /* Bottom to top */
-```
-We can use **more than one color** in a gradient. The first color specified will be the **starting color**, and the gradient will transition to the second color, then the third color, and so on.  
-**Examples**:
+Add as many color stops as the design needs; the browser interpolates between them.
+**Example**:
 ```
 div {
 	width :200px;
@@ -258,7 +248,7 @@ background:linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee, #84fab0, #
 ![grad2](./attachments/grad2.png)  
 
 ### Radial Gradient
-Radial gradients work similarly to linear gradients, but we have additional parameters that allow **us** to control the **shape** and **size** of the gradient. This means we’re not limited to just linear gradients we can create circular or elliptical gradients for more dynamic effects.
+Radial gradients spread outward from a center. They can be circular or elliptical, with configurable size and position.
 1. Shape:
 	- `circle` Creates a gradient in the shape of a perfect circle.
 	- `ellipse` Creates a gradient in the shape of an ellipse (oval). This is the **default shape** if no shape is specified.
@@ -268,8 +258,8 @@ Radial gradients work similarly to linear gradients, but we have additional pa
 	- **`closest-corner`**: The gradient ends at the corner closest to the center.
 	- **`farthest-corner`**: The gradient ends at the corner farthest from the center (default).
 3. Position:
-		- We can use directional keywords to position the gradient's center: **`top`**, **`bottom`**, **`left`**,  **`right`**, **`center`**
-		- We can use percentages to position the gradient's center relative to the element's dimensions
+		- Directional keywords position the center: **`top`**, **`bottom`**, **`left`**, **`right`**, **`center`**.
+		- Percentages position the center relative to the element’s dimensions:
 			- **`0% 0%`**: Top-left corner.
 			- **`50% 50%`**: Center (default).
 			- **`100% 100%`**: Bottom-right corner.
@@ -298,9 +288,9 @@ div {
 ![radial](./attachments/rad2.png)   
 
 ### Repeating gradients
-Repeating gradients in CSS allow **us** to create patterns by repeating a gradient at regular intervals. This is particularly useful for creating **stripes**, **checkerboards**, or other **patterned backgrounds**. 
+Repeating gradients repeat color stops to create patterns such as stripes or concentric rings.
 #### ``repeating-linear-gradient``: 
-This creates a linear gradient that repeats along a straight line.
+Repeats a linear gradient along a straight line.
 ```
 div { 
 	width :400px; 
@@ -312,9 +302,9 @@ div {
 ![radial](./attachments/rep1.png)  
 
 **Explanation :**
-We set the **angle** to `45deg`, then define the first color as `#333` (gray), which starts at position `0` and stops at `10px`. After this, we set the second color as `#fff` (white), starting at `10px` and stopping at `20px`. With this setup, our gradient will **repeat this pattern** until the end of the element.
+The `45deg` gradient alternates dark and light bands. Hard color stops at `10px` and `20px` create sharp stripe edges; the pattern then repeats.
 #### **``repeating-radial-gradient``**: 
-This creates a gradient that repeats outward from a central point.
+Repeats a radial gradient outward from its center.
 ```
 div { 
 	width :400px; 
@@ -326,17 +316,16 @@ div {
 ![radial](./attachments/rep2.png)  
 
 **Explanation :**  
-We set the **shape** to `circle`, which creates concentric circles. Then, we define the first color as `black`, which starts at position `0%` and stops at `1%`. After this, we set the second color as `white`, starting at `1%` and stopping at `2%`. With this setup, our gradient will **repeat this pattern** every **20%**, creating a target pattern until the end of the element.
+The circular gradient creates concentric rings. The hard stops at `1%` and `2%` alternate black and white bands; the gradient repeats between its final and initial stops.
 ## Positioning Elements
 ### Introduction
-When creating our page layout, we need more than just styling text, setting colors, and adjusting backgrounds. We also need precise control over the positioning of elements. CSS provides a high level of flexibility when it comes to positioning elements and building effective page layouts.  
-To position an element, we first use the `position` property to define how the element should be positioned within the document. After setting the `position` property, we can use the `top`, `bottom`, `left`, and `right` properties to specify the exact location or offset of the element relative to its containing block or viewport.
+The `position` property controls how an element participates in normal flow. For positioned elements, `top`, `right`, `bottom`, and `left` set offsets from a containing block or viewport.
 ### `position` property
-The **`position` property** in CSS is used to define how an element is positioned within a document. It determines the positioning behavior of an element and serves as the foundation for controlling its placement,This property accepts the following values:
+The `position` property accepts these common values:
 #### **`static`**:
-**`static`** is the default value of the `position` property. It means the element will be positioned according to its natural placement in the HTML document flow, following the order in which it appears in the code. If we set the position to `static`, the properties `top`, `bottom`, `left`, and `right` will **not have any effect** on the element.
+**`static`** is the default. The element remains in normal flow, and inset properties such as `top` and `left` do not move it.
 #### **`relative`**
-We use **`relative`** to position an element relative to its original position in the document flow. This means that if we set a value for the `top` property, the element will be pushed downward by that specified value, using `relative` positioning **does not affect the document flow** the original space reserved for the element remains unchanged, as if the element were still in its initial position.  
+**`relative`** keeps the element’s original space in normal flow, then offsets its rendered position. For example, positive `top` moves it downward:
 **Example:**  
 **HTML**
 ```
@@ -379,7 +368,7 @@ We use **`relative`** to position an element relative to its original position
 ![relative](./attachments/rel.png)  
 
 #### **`absolute`**
-The **`absolute`** value is used to give an element an absolute position. It removes the element from the normal document flow, meaning its original space is no longer reserved. The element is then positioned based on the values of the `top`, `bottom`, `left`, and `right` properties, relative to its nearest positioned ancestor (an ancestor with a `position` value other than `static`). If no such ancestor exists, it will be positioned relative to the initial containing block (usually the viewport).  
+**`absolute`** removes the element from normal flow and positions it against its containing block, commonly established by a positioned ancestor. If no ancestor establishes one, the initial containing block is used.
 **Example:**  
 **HTML**  
 ```
@@ -425,11 +414,11 @@ The **`absolute`** value is used to give an element an absolute position. It r
 ![abs](./attachments/abs.png)  
 
 **Explanation:**  
-Box 1 and Box 3 remain in their original positions within the document flow, unaffected by any changes to Box 2. Box 2, however, is removed from the document flow, meaning its original space is no longer reserved. Instead, it is positioned **20px from the top** and **30px from the left** of the `.container` element. This positioning is possible because `.container` has `position: relative`, making it the reference point for Box 2's placement. If `.container` did not have `position: relative`, Box 2 would be positioned relative to the viewport instead.
+Box 2 is out of flow and positioned from `.container`, which establishes its containing block with `position: relative`. In this example the offsets are `50px` from the top and `50px` from the left. The other boxes keep their normal-flow positions.
 #### `fixed`
-Finally, we use **`fixed`** to position an element at a specific place on the screen. The element will remain fixed in that position even when the user scrolls up or down. Like `absolute`, the `fixed` value removes the element from the document flow, meaning its original space is no longer reserved. The element is then positioned using the `top`, `right`, `bottom`, and `left` properties **relative to the viewport**
+**`fixed`** removes the element from normal flow and usually positions it relative to the viewport, so it stays in place while scrolling. A transformed ancestor can establish a different containing block.
 ### ``z-index``
-The **`z-index`** is a special property used to control the stacking order of elements when they overlap. The `z-index` property accepts numeric values, and the element with the **higher value** will be displayed on top of elements with lower values.
+`z-index` controls stacking within a stacking context. A larger value is painted above a smaller value in the same context; values in separate stacking contexts cannot always be compared directly.
 #### Example:
 **HTML**  
 ```
@@ -482,41 +471,37 @@ The **`z-index`** is a special property used to control the stacking order of 
 ![abs](./attachments/z_index.png)  
 
 #### Remark:
-**`z-index`** only affects elements with a `position` value other than `static`
+`z-index` applies to positioned elements and also to flex and grid items. Other properties can create stacking contexts.
 ## Flexbox
 
 ### Introduction
-Flexbox is a modern and powerful CSS tool for creating flexible and responsive web page layouts. To use Flexbox, **we** start by defining a container (parent element) and setting its `display` property to `flex`. This turns the container into a **flex container**, and its direct children become **flex items**. Once the container is set up, **we** can easily control the alignment, spacing, and distribution of the child elements using Flexbox properties.
+Flexbox lays out a container’s direct children along a main axis and aligns them on a cross axis. Set `display: flex` on the parent; its direct children become flex items.
 ### Container properties
 #### `display`:
-first thing we need when creating flex box is setting the display to flex
+Create a flex container with `display: flex`:
 ```
 .container{
 	display:flex;
 }
 ```
 #### `flex-direction`
-The **`flex-direction`** property controls the direction and flow of items inside a flex container. It accepts the following values:
-- **`row`**: Displays items in a row (left to right, default behavior).
-- **`row-reverse`**: Displays items in a row but in reverse order (right to left).
-- **`column`**: Displays items in a column (top to bottom).
-- **`column-reverse`**: Displays items in a column but in reverse order (bottom to top).  
+`flex-direction` sets the main axis. `row` follows the writing direction by default; `column` stacks items vertically. The `-reverse` values reverse visual order but not source order, so use them carefully for reading and keyboard navigation.
 <img src="./attachments/flex-direction.svg" width="400px" height ="320px">  
 
 #### ``flex-wrap``
-The **`flex-wrap`** property determines whether the items inside a flex container will wrap to the next line or if the container will grow to accommodate all items within a single line. It accepts the following values:
+`flex-wrap` controls whether items stay on one line or form additional flex lines:
 - **`nowrap`**: All items are forced into a single line (default behavior).
 - **`wrap`**: Items wrap to the next line if they exceed the container's width.
 - **`wrap-reverse`**: Items wrap to the next line in reverse order.
 #### ``flex-flow``
-This is a shorthand for the `flex-direction` and `flex-wrap` properties, which together define the flex container’s main and cross axes.
+`flex-flow` is shorthand for `flex-direction` and `flex-wrap`.
 ```
 .container { 
 	flex-flow: column wrap; 
 }
 ```
 #### ``justify-content``
-We use the **`justify-content`** property to define how items are aligned inside a flex container. The alignment depends on the **flex direction** (row or column) and controls the distribution of space between and around items. It accepts the following values:
+`justify-content` aligns or distributes items along the main axis:
 - **`flex-start`**: Items are aligned at the start of the container (default).
 - **`flex-end`**: Items are aligned at the end of the container.
 - **`center`**: Items are centered within the container.
@@ -527,7 +512,7 @@ We use the **`justify-content`** property to define how items are aligned insi
 <img src="./attachments/justify-content.svg" width ="250px" height="400px">  
 
 #### ``align-items``
-We use the **`align-items`** property to define how items are aligned **along the cross axis** (perpendicular to the main axis) inside a flex container. This property is especially useful for controlling vertical alignment in rows or horizontal alignment in columns. It accepts the following values:
+`align-items` aligns items along the cross axis (vertical in a row, horizontal in a column):
 - **`stretch`**: Items stretch to fill the container (default).
 - **`flex-start`**: Items are aligned at the start of the cross axis.
 - **`flex-end`**: Items are aligned at the end of the cross axis.
@@ -537,7 +522,7 @@ We use the **`align-items`** property to define how items are aligned **along
 <img src="./attachments/align-items.svg" height="300px" width="270px">  
 
 #### ``align-content``
-We use the **`align-content`** property to control how **multiple lines of items** are aligned along the **cross axis** in a flex container. This property is only applicable when the container has **wrapped content** (i.e., `flex-wrap: wrap` or `flex-wrap: wrap-reverse`) and extra space is available along the cross axis. It accepts the following values:
+`align-content` distributes multiple flex lines along the cross axis when wrapping creates extra space. It has no visible effect when there is only one line or no extra space:
 - **`stretch`**: Lines stretch to fill the remaining space (default).
 - **`flex-start`**: Lines are packed at the start of the cross axis.
 - **`flex-end`**: Lines are packed at the end of the cross axis.
@@ -549,27 +534,23 @@ We use the **`align-content`** property to control how **multiple lines of it
 <img src="./attachments/align-content.svg" width="250px" height="420px" >  
 
 #### `gap`,  `row-gap` and`column-gap`
-We use the **`gap`**, **`row-gap`**, and **`column-gap`** properties to control the spacing between items in a flex container.
-1. **`gap`**: A shorthand property that sets both **`row-gap`** and **`column-gap`** in a single declaration.
-    - Syntax: `gap: <row-gap> <column-gap>;`
-2. **`row-gap`**: Sets the spacing between rows.
-3. **`column-gap`**: Sets the spacing between columns.
+Use `gap` to set spacing between flex items. `row-gap` and `column-gap` set the two directions separately; in the shorthand, one value sets both and two values set row then column gap.
 ### Items properties:
 #### ``order``
-The **`order`** property allows us to control the order in which flex items appear within a flex container. By default, all items have an `order` value of `0`, meaning they appear in the order they are written in the HTML. However, we can change this order by assigning different `order` values to individual items
+`order` changes visual order without changing DOM or keyboard order. Items default to `0`; lower values appear first, and equal values keep source order. Prefer keeping source and visual order aligned.
 - Items with a **lower `order` value** appear **first**.
 - Items with a **higher `order` value** appear **later**.
 - Items with the **same `order` value** appear in their **source order** (i.e., the order they appear in the HTML).
 #### `flex-grow`
-The **`flex-grow`** property determines how much a flex item should grow relative to other items when there is extra space available in the flex container. It defines the ability of an item to expand and take up additional space. The property accepts a **number** as its value. For example, if one item has a `flex-grow` value of `1` and another has a value of `2`, the second item will take up twice as much of the available space as the first.  
+`flex-grow` assigns a share of positive free space to an item. The ratios apply to free space after the flex base sizes are considered, not necessarily the items’ final widths.
 <img src="./attachments/flex-grow.svg" height="200px" width="300px">  
 
 #### `flex-shrink`
-The **`flex-shrink`** property is the opposite of `flex-grow`. It allows us to specify how much a flex item should shrink relative to other items when there is not enough space in the flex container. This property defines the ability of an item to reduce its size to fit within the container.
+`flex-shrink` controls how items share negative free space when they do not fit. It defaults to `1`; set `0` to prevent an item from shrinking.
 #### `flex-basis`
-The **`flex-basis`** property defines the initial size of a flex item before any remaining space is distributed. It sets the base size of the item along the **main axis** (determined by `flex-direction`).
+`flex-basis` sets an item’s initial size along the main axis before growing or shrinking.
 #### `align-self`
-Finally, the **`align-self`** property allows us to override the alignment set by the container's **`align-items`** property for a specific flex item. This gives us fine-grained control over the alignment of individual items along the **cross axis** (perpendicular to the main axis).  
+`align-self` overrides the container’s `align-items` value for one item along the cross axis.
 <img src="./attachments/align-self.svg" height ="200px" width ="250px" >  
 
 ## Task

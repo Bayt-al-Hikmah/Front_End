@@ -1,16 +1,19 @@
-## Objectives
-- Introduction to JavaScript
-- Variables and Data Types
-- Working with Numbers and String
-- Working with Arrays and Objects
-## Intoduction to JavaScript
-### Javascript
-**JavaScript** is an object-oriented programming language created in 1995 by Brendan Eich. As the main programming language for the web, it transformed the internet into what it is today. Before JavaScript, web pages were static, only displaying content. Now, they’re dynamic, interactive, and engaging capable of responding to users, performing calculations, saving data, and much more.  
-JavaScript code is written in files with the **.js** extension. Thanks to its powerful capabilities and simplicity, JavaScript has grown far beyond just web browsers. With Node.js, we can now run JavaScript in a server-side environment, enabling it to execute outside the browser opening doors to backend development, scripting, and more.
+# Lecture 08 — JavaScript Values and Data Structures
+
+> **Core idea:** JavaScript programs store values, transform them with expressions and methods, and group related data in arrays and objects.
+
+## Learning goals
+- Run JavaScript in a browser and inspect results in the console.
+- Declare variables and distinguish primitive values from objects.
+- Use common number, string, array, and object operations to transform data.
+
+## Introduction to JavaScript
+### JavaScript
+**JavaScript** is a programming language used in browsers and in other runtimes such as Node.js. In the browser it can respond to events, update the page, and request data. JavaScript source files commonly use the `.js` extension.
 ### Adding JavaScript to a Webpage
-There are two ways to add JavaScript to a webpage: internal (embedded) or external scripts.
+Add JavaScript directly in a `<script>` element or load it from an external file:
 #### Internal Script
-This method involves placing JavaScript code directly within the HTML file using the `<script>` tag.
+Use an inline script for a small example or page-specific code:
 **Example**
 ```
 <script>
@@ -19,16 +22,15 @@ This method involves placing JavaScript code directly within the HTML file using
 </script>
 ```
 #### External Script
-For larger scripts, embedding them in HTML can make the code hard to read and maintain. Instead, we can store JavaScript in external `.js` files and link them to the HTML using the `<script>` tag with the `src` attribute.
+External files are easier to organize and reuse. `defer` lets a classic script wait until the HTML has been parsed:
 **Example**
 ```
-<script src="scripts/main.js"></script>
+<script src="scripts/main.js" defer></script>
 ```
 ### The Browser Console
-The browser console is a powerful built-in tool that comes with every modern web browser. Its primary purpose is to help developers debug web pages when errors occur in your JavaScript code, they appear here with helpful details to guide your troubleshooting.  
-But that's not all the Console can do! It can also execute JavaScript code and instructions, making it the perfect environment to run scripts and test code while you're learning this new programming language.
+The browser console displays logs and runtime errors, and it can evaluate JavaScript expressions. Use it to inspect values and try short examples.
 #### Opening The Console
-The way you open the console changes depending on which browser you're using. If you're on Windows/Linux (Chrome/Edge/Firefox), you can press `Ctrl+Shift+J` to open the console. If you're on Mac (Chrome/Safari), you'll use `Cmd+Option+J`.  
+Keyboard shortcuts vary by browser and operating system. In most browsers, open Developer Tools from the browser menu or use its console shortcut.
 **Task**  
 Open the browser console and write the following script:
 ```
@@ -36,66 +38,63 @@ alert("Hello !");
 ```
 ## Variables and Data Types
 ### Introduction
-We can think of variables as boxes that store data and information. JavaScript provides two keywords to help us create variables: `let` and `var`.
-- **`let`** is used to create **block-scoped variables**. Variables declared with `let` are accessible only within the block (like inside `{}`) in which they are defined, including any nested blocks.
-- **`var`** is used to create **function-scoped variables**. Variables declared with `var` are accessible throughout the entire function in which they are defined. If declared outside a function, they become globally scoped.
+Declare a variable with `let` when its binding will be reassigned. `let` is block-scoped. `var` is function-scoped and has older hoisting behavior; prefer `let` or `const` in modern code.
 
-To create a variable in JavaScript, we use either `let` or `var`, followed by a descriptive name without spaces. The variable name can include letters, numbers, underscores (`_`), and dollar signs (`$`), but it cannot start with a number. For example, `userName` and `_count` are valid names, while `2ndPlace` is invalid.
+Names can contain letters, digits, `_`, and `$`, but cannot begin with a digit. Use descriptive names such as `userName` or `_count`; `2ndPlace` is invalid.
 #### Example 
 ```
 var name = "Ali";
 let age = 23;
 let m;
 ```
-We can see that we ended our lines with semicolons. In JavaScript, semicolons are not required we can omit them but the standard and best practice is to use a semicolon at the end of each statement.
+JavaScript can insert semicolons automatically in many cases. Consistent explicit semicolons avoid ambiguity and are a common style choice.
 ### Constant
-Constants are special variables that maintain a fixed value throughout program execution. In JavaScript, we declare constants using the `const` keyword. Once assigned, their value cannot be changed, attempting to do so will trigger a TypeError.   
-
-Constants follow the same naming rules as regular variables, but with one important stylistic difference. By convention, we write constant names in `UPPER_CASE` with underscores separating words.
+`const` declares a block-scoped binding that cannot be reassigned. Its value must be initialized when declared. `const` does not make an object or array immutable.
 ```
 const PI = 3.14;
 ```
-#### Remark
-Objects and arrays declared with `const` can still be modified.
+Use `UPPER_CASE` by convention for some global constants; ordinary JavaScript variables, including most `const` bindings, usually use `camelCase`.
 ### Data Types
-We use variables to store data, including numeric values, text (strings), lists (arrays), objects, and dates. JavaScript provides different data types to efficiently store and work with various kinds of information.
-JavaScript data types are divided into two main categories Primitive Data Types and Non-Primitive Data Types
+JavaScript values have types. The language groups them into **primitives** and **objects**; arrays and functions are object types.
 ### Primitive Data Types
-In JavaScript, we work with primitive data types as our most basic building blocks. These types have three crucial behaviors we need to understand:
-1. **Direct Memory Storage** - When we create primitive values, they're stored directly in the variable's memory location
-2. **Immutability** - Once we create them, we can't modify primitive values themselves
-3. **Value-based Operations** - When we try to "change" a primitive, we're actually creating a brand new value in memory
+Primitive values are immutable and copied by value when assigned or passed to a function. Do not rely on a particular physical memory representation.
 #### Number
-The first primitive type we encounter in JavaScript is the `number` type. We use this type to represent all numeric values, including both integers and floating-point numbers.
+`number` represents integers and floating-point values. Very large integers may exceed its exact precision; use `bigint` when exact integer arithmetic is needed beyond the safe-integer range.
 ```
 let age = 23;
 let pi = 3.14;
 let negative_number = -5;
 ```
 #### Bigint
-BigInt is a primitive data type we use to represent integer values that are too large to be stored safely as regular Numbers. We create BigInts by appending `n` to the end of an integer or using the `BigInt()` constructor.
+`bigint` represents integers beyond the safe range of `number`. Create one with an `n` suffix or `BigInt()`; do not mix `bigint` and `number` in arithmetic without an explicit conversion.
 ```
 let number1 = 12345678901234567890n
 let number2 = BigInt("9007199254740991")
 ```
+#### Symbol
+`symbol` creates a unique primitive value, often used as a non-colliding object property key:
+```
+const id = Symbol("id");
+const record = { [id]: 123 };
+```
 #### String  
-The `string` type is used to store and manipulate textual data. We can create strings by enclosing our text in either single quotes **('')**, double quotes **("")**, or backticks **(\`\`)** for template literals.
+Strings store text. Use single or double quotes for ordinary strings and backticks for template literals.
 ```
 let greeting = "Hello World";
 let name = 'Alice';
 ```
-Template literals (enclosed in backticks `` ` ``) allow us to embed expressions and variables directly into strings,To inject values we create string using `` ` `` then we insert variables or expressions with `${}` 
+Template literals interpolate expressions with `${...}`:
 ```
 let name = "Alice";
 let greeting = `Hello, ${name}!`; 
 ```
-The greeting variable will have as value `Hello, Alice`
+The value of `greeting` is `Hello, Alice!`.
 #### Boolean
-Booleans are used to store the results of logical operations, with only two possible values: `true` or `false`.
+The Boolean type has two values: `true` and `false`.
 ```
 let is_adult = false;
 ```
-JavaScript automatically converts any value to a boolean when used in a logical context. The result depends on whether the value is "truthy" or "falsy".  
+In Boolean contexts, values are coerced to truthy or falsy:
 
 **Truthy Values**
 ```
@@ -106,25 +105,20 @@ true, "text", 1, [], {}, 3.14, Infinity, -1, "false"
 false, 0, "", null, undefined, NaN, 0n
 ```
 #### Undefined  
-`undefined` represents a variable that has been declared but not yet assigned a value. It is JavaScript's default state for uninitialized variables.
+`undefined` commonly indicates a missing value, including a declared variable that has not been assigned.
 ```
 let number;
 ```
 Here type of number will be `undefined`
 #### Null  
-`null` is a special primitive value that represents the intentional absence of any object value. We use it to explicitly indicate that a variable should have "no value" or "empty value."
+`null` is an explicit “no value” marker. JavaScript’s `typeof null` result is the historical string `"object"`, even though `null` is a primitive.
 ```
 let user = null;
 ```
 ### Non-Primitive Data Types
-Unlike primitive types, non-primitive types (objects) are mutable and store references to memory locations rather than direct values. They share these key behaviors:
-1. **Reference Storage** - Variables store pointers to memory locations
-2. **Mutability** - We can modify their contents without creating new references
-3. **Pass-by-Reference** - Assignments/copies share the same underlying data
+Objects are mutable values compared by identity. Assigning an object or passing it to a function copies the reference value, so both bindings can refer to the same object; JavaScript is still pass-by-value.
 #### Object
-We use objects to store collections of key-value pairs, where:
-- **Keys** are always strings.
-- **Values** can be any data type including other objects, functions, or primitives  
+Objects store properties. Property keys are strings or Symbols; values can be any JavaScript value, including nested objects and functions.
 
 To create an object, we place key-value pairs inside curly braces `{}`. We separate each key from its value with a colon (`:`), and multiple pairs with commas (`,`):
 ```
@@ -150,10 +144,7 @@ user.name;
 user["name"];
 ```
 #### Arrays
-We use arrays to store ordered collections of data where:
-- **Elements** can be any data type (including other arrays/objects)
-- **Indexes** are zero-based integer positions
-- **Length** dynamically adjusts as we add/remove items  
+Arrays are ordered, zero-indexed collections. Their `length` changes as elements are added or removed, and an element can hold any value.
 
 To create an array, we place values inside **square brackets `[]`**. We separate the values with commas (`,`):
 ```
@@ -167,7 +158,7 @@ const mixedArray = [
 ```
 We access values inside an array by using indexes. The first element has index 0. For example, to access the value 42 we use `mixedArray[1]`.
 #### Functions
-The final non-primitive data type is the **function**. We use functions to create reusable blocks of code that execute only when called.
+Functions are callable objects used to package reusable behavior.
 ```
 function greet(name) {
   return `Hello, ${name}!`;
@@ -196,7 +187,7 @@ Comments are special lines of code that the browser won't execute, but they're u
 	comment
 */
 ```
-## Working with Numbers and String
+## Working with Numbers and Strings
 ### Arithmetic Operations
 JavaScript allows us to do more than just store numbers, it provides arithmetic operators to perform calculations and manipulate numeric values.
 #### Addition
@@ -242,7 +233,7 @@ let b = 3;
 let c = a ** b;  // 8
 ```
 ### Number Methods
-The Number data type includes built-in methods that help us manipulate and work with numeric values more effectively. These methods provide functionality for formatting, conversion, and precision control.
+Number methods format values or check numeric properties. Note that `toFixed()` and `toPrecision()` return strings:
 #### Example
 ```
 let num = 123.4567;
@@ -265,28 +256,28 @@ Math.sin(45 * Math.PI/180);  // Calculate sine (0.7071)
 Math.round(3.7);             // Round to nearest integer (4)
 Math.random();               // Generate random number (0-1)
 ```
-### String Operation
-The `+` operator is the primary operator for string operations in JavaScript. When used with strings, it performs concatenation (combining them together):
+### String concatenation
+The `+` operator concatenates when either operand is a string; template literals are another readable option:
 ```
 let greeting = "Hello" + " " + "World";  // "Hello World"
 ```
-### String Indexing
-We can treat strings as arrays of characters, accessing individual characters using zero-based indexing
+### String indexing
+Strings support zero-based indexing, but indexing returns UTF-16 code units rather than complete user-perceived characters in every case.
 ```
 const word = "hello";
 word[0];  // 'h' (first character)
 word[4];  // 'o' (last character)
 ```
-### String Methods
+### String methods
 #### Case Conversion
-We can use case conversion methods to modify the letter casing of strings in JavaScript.
+Case conversion methods return new strings; strings are immutable.
 ```
 'hello'.toUpperCase();  // 'HELLO'
 'HELLO'.toLowerCase();  // 'hello'
 ```
 #### Searching & Checking
-JavaScript provides methods to search and check strings, allowing us to:
-1. **Verify if a substring exists**
+Use these methods to check for text and find positions:
+1. **Check for a substring**
 ```
 'JavaScript'.includes('Script');  // true
 ```
@@ -301,27 +292,26 @@ JavaScript provides methods to search and check strings, allowing us to:
 'image.png'.endsWith('.png');  // true
 ```
 #### Extraction & Slicing
-JavaScript provides several methods to extract portions of strings:
- 1. **slice()**: Extracts a section between two indices:
+`slice()` extracts from a start index up to, but not including, an end index. Negative indices count from the end:
 ```
 'JavaScript'.slice(0, 4);  // 'Java'  
 'JavaScript'.slice(4);     // 'Script' (to end)  
 'JavaScript'.slice(-6);    // 'Script' (from end)
 ```
-2. **substring()**: Similar to slice() but doesn't accept negative indices:
+`substring()` is similar but treats negative values as zero and swaps its arguments when the start is greater than the end:
 ```
 'JavaScript'.substring(0, 4);  // 'Java'
 ```
-3. **substr()**: Uses start index and length:
+`substr()` uses a start index and length but is deprecated; prefer `slice()`:
 ```
 'JavaScript'.substr(4, 3);  // 'Scr'
 ```
-4. **charAt()**: Gets a specific character:
+`charAt()` returns the code unit at an index:
 ```
 'Hello'.charAt(1);  // 'e'
 ```
 #### Modification
-JavaScript provides methods to create modified versions of strings (remembering that strings themselves are immutable).
+These methods return new strings; the original string does not change.
 1. **Trimming Whitespace**
 	- `trim()`: Removes whitespace from both ends
 	- `trimStart()`: Removes only leading whitespace
@@ -350,25 +340,20 @@ JavaScript provides methods to create modified versions of strings (remembering 
 '5'.padStart(3, '0');    // '005'
 '5'.padEnd(3, '!');      // '5!!'
 ```
-#### Splitting & Combining
-1. **Splitting Strings**: `split(separator)` divide a string into an array:
+#### Splitting and joining
+`split(separator)` returns an array of pieces:
 ```
 'a,b,c'.split(',');      // ['a', 'b', 'c']  
 'hello'.split('');       // ['h', 'e', 'l', 'l', 'o']
 ```
-2. **Combining Arrays**: `join(separator)` merge an array into a string:
+`join(separator)` combines array elements into a string:
 ```
 ['a', 'b', 'c'].join('-');  // 'a-b-c'  
 ['2023', '10', '05'].join('/'); // '2023/10/05'
 ```
 ## Working with Arrays and Objects
 ### Arrays
-We can do much more than simply access arrays and their elements using array methods, we can:
-- **Add** or **remove** elements 
-- **Search** for specific items
-- **Transform** array contents
-- **Sort** and **reorganize** data
-- **Combine** or **split** arrays
+Array methods can add, remove, search, transform, sort, combine, and slice elements.
 #### Getting Array Length
 We can determine the number of elements in an array using the `length` property:
 ```
@@ -376,7 +361,7 @@ let fruits = ['apple', 'banana', 'orange'];
 console.log(fruits.length);  // 3
 ```
 #### Searching Elements
-we can search for elements insdie array using one of he following methods
+Use these methods to find array elements:
 - `includes()`: Checks if an element exists in the array
 ```
 [1, 2, 3].includes(2);  // true
@@ -421,7 +406,7 @@ const first = fruits.shift();
 // fruits = ['banana', 'orange']
 // first = 'apple'
 ```
-5. ``splice()``: Performs three key operations on arrays **Adds elements** at any specified position,  **Removes elements** from any position, **Replaces elements** by combining addition and removal
+5. `splice()`: Removes, inserts, or replaces elements in the original array.
 ```
 let colors = ['red', 'green', 'blue'];
 
@@ -438,17 +423,17 @@ colors.splice(1, 1, 'purple');
 // ['red', 'purple', 'blue']
 ```
 
-- **First Argument (Required)** The index position where the operation should be performed    
-- **Second Argument (Required)** The number of existing elements to remove
-- **Third Argument (Optional)** New element(s) to insert at the specified position
-#### Combining, Spreading and Slicing
-1. `concat()` concatenates and merges two or more arrays into a single new array
+- **First argument**: Start index.
+- **Second argument**: Number of existing elements to remove.
+- **Remaining arguments**: Elements to insert at that position.
+#### Combining, spreading, and slicing
+`concat()` returns a new array with the supplied arrays or values:
 ```
 let arr1 = [1, 2];
 let arr2 = [3, 4];
 let combined = arr1.concat(arr2); // [1, 2, 3, 4]
 ```
-2.  (`...`) The spread operator expands an array into its individual elements
+The spread syntax (`...`) expands an iterable into elements:
 ```
 // Combine arrays
 let merged = [...arr1, ...arr2]; // [1, 2, 3, 4]
@@ -456,117 +441,100 @@ let merged = [...arr1, ...arr2]; // [1, 2, 3, 4]
 // Insert additional elements
 let withExtras = [...arr1, 'a', ...arr2, 'b']; // [1, 2, 'a', 3, 4, 'b']
 ```
-3. `slice()` creates a shallow copy of a portion of an array without modifying the original array.
+`slice()` returns a shallow copy of part or all of an array without changing the original:
 ```
 let original = [1, 2, 3];
 let copy1 = original.slice(); // copy1 = [1, 2, 3]
 let copy2 = original.slice(1); // copy2 = [2, 3]
 ```
-- First argument is **start index** (inclusive)
-- Second argument is **end index** (exclusive)
-- Using 1 argument: extracts from start index to end
-- Using no arguments: extracts entire array (full copy)
+- The start index is inclusive; the end index is exclusive.
+- With one argument, it copies from that index to the end. With no arguments, it copies the whole array.
 #### Sorting Array
-- `sort()` It  arranges array elements  **strings alphabetically** and for number it require compare function
+- `sort()` mutates the array. By default it sorts values as strings; provide a comparator for numeric order.
 ```
 let fruits = ['banana', 'apple', 'orange'];
 fruits.sort(); //  ['apple', 'banana', 'orange']
 [40, 1, 5, 200].sort((a, b) => a - b); // small to big
 [40, 1, 5, 200].sort((a, b) => b - a); // big to small
 ```
-- `reverse()`: It flips the current order of elements:
+- `reverse()` mutates the array by reversing its current order:
 ```
 let letters = ['a', 'b', 'c'];
 letters.reverse(); // ['c', 'b', 'a']
 ```
-### Objects:
-Same as array we can do more then just creating and reading objects,we can
-- **Add** or **remove** properties
-- **Search** for specific values
-- **Transform** object structure
-- **Combine** or **split** objects
-- **Freeze/seal** objects for protection
-#### Getting Values And keys
-- ``Object.keys()``: Get all keys inside our object
+### Objects
+Object operations can inspect, update, combine, and restrict properties.
+#### Getting values and keys
+`Object.keys()` returns an array of an object’s own enumerable string keys. `Object.values()` returns the corresponding values; neither includes inherited or Symbol-keyed properties.
 ```
 let person = {"name": 'Alex', "age": 30};
 Object.keys(person); // ["name", "age"]
 ```
-- ``Object.values()``: Get all values inside object 
 ```
 let person = {"name": 'Alex', "age": 30};
 Object.values(person); // ["Alex", 30]
 ```
-#### Object Lenght
-When we retrieve an object's keys using `Object.keys()`, it returns an **array of property names**. We can then use `.length` on this array to determine the object's property count
+#### Object length
+Objects have no built-in `length` property. Count own enumerable string-keyed properties with `Object.keys(obj).length`:
 ```
 let person = {"name": 'Alex', "age": 30};
 Object.keys(person).length; // 2
 ```
-#### Searching Object
-- ``hasOwnProperty()``: Checks if an object **directly contains** a specified property
+#### Checking properties
+Use `Object.hasOwn()` to check for an object’s own property. Use `in` when inherited properties should also count:
 ```
 let person = {"name": 'Alex', "age": 30};
-person.hasOwnProperty('age');  // true
-person.hasOwnProperty('id'); // false
+Object.hasOwn(person, 'age');  // true
+Object.hasOwn(person, 'id'); // false
 ```
 - `in` Checks if a property exists **anywhere** in the object
 ```
 let person = {"name": 'Alex', "age": 30};
-"name" in person: // true
+"name" in person; // true
 ```
-- `Object.values()` + `includes()` Check if value exist in the object
+- `Object.values()` plus `includes()` checks whether an own enumerable value matches:
 ```
 let person = {"name": 'Alex', "age": 30};
 Object.values(person).includes('Alex'); // true
 ```
-#### Adding and Removing Properties
-- We can add or modify object properties using dot or bracket notation
+#### Adding and removing properties
+Use dot notation for known identifier-like keys and bracket notation for dynamic keys:
 ```
 const user = {};
 user.name = 'Alex';    // Adds new property
 user.name = 'Sarah';   // Modifies existing property
 user["age"] = 20;
 ```
-- We can remove properties from objects using the `delete` keyword
+Use `delete` to remove a configurable property:
 ```
 let person = {"name": 'Alex', "age": 30};
 delete person["age"]
 ```
-#### Combining and Spreading Object
-- We can combine multiple objects into a single object using `Object.assign()`
+#### Combining objects
+`Object.assign()` copies enumerable own properties into a target object. The empty object below ensures a new top-level result:
 ```
 let obj1 = { a: 1 };
 let obj2 = { b: 2 };
 let merged = Object.assign({}, obj1, obj2); // { a: 1, b: 2 }
 ```
-- We can use the spread operator (`...`) to work with objects
+Object spread also creates a new top-level object:
 ```
 let obj1 = { a: 1 };
 let obj2 = { b: 2 };
 let merged = {...obj1, ...obj2}; // { a: 1, b: 2 }
 ```
-#### Freeze and Seal
-These methods help lock objects to prevent changes:
-- **`Object.freeze()`**  
-    Prevents all modifications:
-    - Cannot change existing values
-    - Cannot add new properties
-    - Cannot remove properties
+#### Freeze and seal
+`Object.freeze()` prevents adding or removing own properties and changing existing data properties. It is shallow, so nested objects can still change:
 ```
 let person = {"name": 'Alex', "age": 30};
 Object.freeze(person);
-person.name = 'Max'; // Fails silently
+person.name = 'Max'; // Throws in strict mode; otherwise the assignment is ignored
 ```
-- **`Object.seal()`**  
-    Allows only value changes:
-    - Can modify existing values
-    - Cannot add new properties
-    - Cannot remove properties
+`Object.seal()` prevents adding or removing own properties but permits updates to existing writable properties. It is also shallow:
 ```
 let person = {"name": 'Alex', "age": 30};
 Object.seal(person);
-person.id = '49416548'; // Fails silently
+person.id = '49416548'; // Throws in strict mode; otherwise the assignment is ignored
 ```
 ## Task
 ### Task 1

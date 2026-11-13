@@ -1,513 +1,375 @@
-# Lecture 06 — CSS Grid and Responsive Layouts
+## Learning Objectives
 
-> **Core idea:** Grid places content across rows and columns; responsive sizing lets the layout adapt to the available space.
+By the end of this lecture, students should be able to:
 
-## Learning goals
-- Define grid tracks, gaps, and item placement with CSS Grid.
-- Choose flexible track sizes and repeat patterns for common layouts.
-- Adapt a layout to different viewport sizes without relying on fixed dimensions everywhere.
-## CSS Grid
-Set `display: grid` on a container to create a two-dimensional layout. Its direct children are grid items, which can be placed into rows, columns, or named areas.
-### Container properties
-#### `grid-template-columns`
-`grid-template-columns` defines explicit column tracks. Common sizing patterns include:
-1. **Fixed Column Sizes**:
-    ```
-    grid-template-columns: 100px 200px 175px;
-    ```
+- Explain when CSS Grid is a suitable layout tool.
+- Define grid columns, rows, gaps, and named areas.
+- Place and align individual grid items.
+- Distinguish alignment of items within cells from alignment of the whole grid.
+- Create responsive layouts using flexible tracks and media queries.
+- Apply a mobile-first approach to page design.
 
-    This creates three columns: the first column has a fixed width of 100px, the second has a width of 200px, and the third has a width of 175px.
-2. **Flexible Column Sizes (using `fr`)**:
-    ```
-    grid-template-columns: 1fr 2fr 1fr;
-    ```
-    The tracks share available space in a `1:2:1` ratio after their minimum sizing constraints are considered.
-3. **Mixed Sizes**:
-	```
-    grid-template-columns: 100px 1fr 2fr;
-	```    
-    The first track is 100px; the other two share the remaining space in a `1:2` ratio, subject to track sizing constraints.
-4. **Repeating Columns**:
-    ```
-    grid-template-columns: repeat(3, 1fr);
-    ```
-    This creates three equal-width columns.
-5. **Using `minmax(min, max)`**:
-	 ```
-    grid-template-columns: minmax(100px, 1fr) 2fr;
-    ```
-    The first track has a 100px minimum and may grow into available space. The second track receives a `2fr` share.
-6. **Auto-Sized Columns**:
-   ```
-    grid-template-columns: auto 1fr auto;
-    ```
-    The outer tracks size from their content; the middle track receives the remaining flexible space.
-#### `grid-template-rows`
-`grid-template-rows` defines explicit row tracks. Fixed and flexible sizes work like column tracks; `fr` sizing is most useful when the grid container has a definite height.
-1. **Fixed Row Sizes**:
-	```
-    grid-template-rows: 100px 200px 175px;
-    ```
-    This creates three rows: the first row has a fixed height of 100px, the second has a height of 200px, and the third has a height of 175px.
-2. **Flexible Row Sizes (using `fr`)**:
-    ```
-    grid-template-rows: 1fr 2fr 1fr;
-   ``` 
-    This creates flexible-sized rows where the second row takes up twice the space of the first and third rows.
-3. **Mixed Sizes**:
-    ```
-    grid-template-rows: 100px 1fr 2fr;
-    ```
-    This creates three rows: the first row has a fixed height of 100px, while the second and third rows share the remaining space. The third row takes up twice the space of the second row.
-4. **Repeating Rows**:
-    ```
-    grid-template-rows: repeat(3, 1fr);
-    ```
-    This creates three equal-height rows.
-5. **Using `minmax(min, max)`**:
-    ```
-    grid-template-rows: minmax(100px, 1fr) 2fr;
-    ```
-    The first track has a 100px minimum and can grow into available space; the second track receives a `2fr` share.
-    
-6. **Auto-Sized Rows**:
-	```
-    grid-template-rows: auto 1fr auto;
-    ```
-    The first and third rows will shrink or grow based on their content, while the second row takes up the remaining space.
-#### `grid-template-areas`
-`grid-template-areas` gives parts of the layout names, then places those names on a visual grid. Each quoted row must contain the same number of cells; use `.` for an empty cell.
-**Example:**
+## Introduction to CSS Grid
+
+**CSS Grid Layout** is a two-dimensional layout system. It allows a developer to arrange elements in both rows and columns, making it especially useful for page-level structures and complex content layouts.
+
+Flexbox is designed mainly for one-dimensional arrangements, such as a row of navigation links or a column of buttons. Grid is designed for two-dimensional arrangements, such as a dashboard with a header, sidebar, main content area, and footer. The two systems can be used together: Grid can create the overall page layout, while Flexbox aligns the contents of individual components.
+
+To create a grid, apply `display: grid` to the parent element. Its direct children become grid items:
+
+```css
+.grid-container {
+  display: grid;
+}
 ```
-.item-a { grid-area: header; }
-.item-b { grid-area: main; }
-.item-c { grid-area: sidebar; }
-.item-d { grid-area: footer; }
 
+## Defining Grid Columns and Rows
+
+The `grid-template-columns` property defines the columns in the grid. The `grid-template-rows` property defines its rows.
+
+### Fixed Track Sizes
+
+We can create columns with fixed sizes:
+
+```css
 .container {
   display: grid;
-  grid-template-columns: repeat(4, 50px);
+  grid-template-columns: 120px 240px 180px;
+}
+```
+
+This creates three columns with the specified widths. Fixed tracks are useful when a component has a known size, but a layout made entirely of fixed tracks may not adapt well to different screen sizes.
+
+### Flexible Tracks with `fr`
+
+The `fr` unit represents a fraction of the available space in the grid container after fixed sizes and gaps are accounted for:
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+}
+```
+
+The middle track receives twice the share of the first and third tracks. The `fr` unit is useful for distributing available space without calculating exact pixel dimensions.
+
+### Repeated and Mixed Tracks
+
+The `repeat()` function avoids writing the same track definition multiple times:
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+```
+
+Tracks can also combine fixed and flexible sizes:
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: 14rem 1fr;
+}
+```
+
+Here, the first column has a fixed basis while the second takes the remaining available space.
+
+### `minmax()`, `auto-fit`, and `auto-fill`
+
+The `minmax()` function defines a minimum and maximum size for a track. It is useful when a column must not become too narrow but should be allowed to expand:
+
+```css
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(12rem, 1fr));
+}
+```
+
+For a card gallery, the combination of `repeat()`, `auto-fit`, and `minmax()` can create a responsive layout with fewer media queries:
+
+```css
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1.5rem;
+}
+```
+
+The browser creates as many columns as can fit while respecting the minimum track size. `auto-fit` collapses empty repeated tracks so that remaining tracks can expand; `auto-fill` retains the track slots even when some are empty. For many card layouts, `auto-fit` is a practical starting point.
+
+The `auto` keyword can size a track based on its content and available space. Use it when content should influence the track size, but be careful with long unbreakable content that can force a layout wider than expected.
+
+### Defining Rows
+
+Rows are defined in the same way as columns:
+
+```css
+.container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+```
+
+This pattern can describe a page with a content-sized header, a flexible main region, and a content-sized footer. Fractional row sizes depend on the grid container having an appropriate available height.
+
+## Named Grid Areas
+
+The `grid-template-areas` property allows us to describe a layout using names. Each quoted line represents a row, and each name identifies a named area. A period (`.`) represents an empty cell.
+
+```html
+<div class="page-layout">
+  <header class="header">Header</header>
+  <nav class="sidebar">Navigation</nav>
+  <main class="main">Main content</main>
+  <footer class="footer">Footer</footer>
+</div>
+```
+
+```css
+.page-layout {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  grid-template-rows: auto 1fr auto;
   grid-template-areas:
-    "header header header header"
-    "main main . sidebar"
-    "footer footer footer footer";
+    "header header"
+    "sidebar main"
+    "footer footer";
+  gap: 1rem;
 }
-```
-**Output:**  
-<img src="./attachments/grd.svg" height="400px" width="350px">  
 
-Assign each item a name with `grid-area`; the container’s `grid-template-areas` places it.
-#### `grid-template`
-
-`grid-template` is shorthand for explicit rows, columns, and named areas.
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main    { grid-area: main; }
+.footer  { grid-area: footer; }
 ```
-.container {
+
+Named areas make the overall structure easier to read. The `grid-template` shorthand can combine row, column, and area definitions, but writing the longhand properties separately is often clearer while learning.
+
+## Grid Gaps and Alignment
+
+The `gap` property controls the space between rows and columns. `row-gap` and `column-gap` can be used separately:
+
+```css
+.grid {
   display: grid;
-  grid-template: auto 1fr / 200px 1fr;
+  row-gap: 1.5rem;
+  column-gap: 1rem;
 }
+```
 
-.page {
+The following properties align **grid items inside their own grid areas**:
+
+- `justify-items` aligns items along the inline axis.
+- `align-items` aligns items along the block axis.
+- `place-items` is a shorthand for `align-items` and `justify-items`.
+
+Common values include `start`, `end`, `center`, and `stretch`:
+
+```css
+.grid {
   display: grid;
-  grid-template:
-    "header header" auto
-    "sidebar main" 1fr
-    / 200px 1fr;
+  place-items: center;
 }
 ```
 
-#### `row-gap`, `column-gap` and `gap`
-`row-gap` and `column-gap` set spacing between grid tracks:
-```
-.container {
-	column-gap: 15px;
-	row-gap: 20px;
+The following properties align or distribute **the grid tracks as a group inside the grid container**, when there is extra space:
+
+- `justify-content` works along the inline axis.
+- `align-content` works along the block axis.
+- `place-content` combines the two.
+
+These properties do not usually have a visible effect when the grid tracks already occupy all available space. They are different from `justify-items` and `align-items`, which align each item within its cell.
+
+## Automatically Created Tracks
+
+Sometimes grid items are placed outside the explicitly defined rows or columns. The browser creates additional **implicit tracks**. The `grid-auto-rows` and `grid-auto-columns` properties control their sizing:
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(10rem, auto);
 }
 ```
-`gap` is shorthand: one value sets both directions; two values set row gap then column gap.
-```
-.container {
-	gap: 20px 15px;
+
+The `grid-auto-flow` property controls the direction in which automatically placed items fill the grid. Common values are `row`, `column`, `row dense`, and `column dense`.
+
+## Placing Individual Grid Items
+
+Grid items can span or occupy particular tracks. Grid lines are numbered, starting at line `1` along each axis.
+
+```css
+.featured {
+  grid-column-start: 1;
+  grid-column-end: 3;
 }
-
 ```
-#### `justify-items`
-`justify-items` sets the default inline-axis alignment of items in their cells:
-- **`start`**: Aligns items to the left side of their grid cell.  
-<img src="./attachments/justify-items-start.svg" height="175px" width="175px">
 
-- **`end`**: Aligns items to the right side of their grid cell.  
-- <img src="./attachments/justify-items-end.svg" height="175px" width="175px">  
+This makes the item span from column line 1 to column line 3, occupying two columns. The shorthand `grid-column` expresses the same placement more concisely:
 
-- **`center`**: Centers items horizontally within their grid cell.  
-<img src="./attachments/justify-items-center.svg" height="175px" width="175px">
-
-- **`stretch`**: (Default) Stretches items to fill the entire width of their grid cell.  
-<img src="./attachments/justify-items-stretch.svg" height="175px" width="175px">  
-
-
-        
-#### `align-items`
-`align-items` sets the default block-axis alignment of items in their cells:
-- **`start`**: Aligns items to the top of their grid cell.  
-<img src="./attachments/align-items-start.svg" height="175px" width="175px">  
-
-- **`end`**: Aligns items to the bottom of their grid cell.  
-<img src="./attachments/align-items-end.svg" height="175px" width="175px">  
-
-- **`center`**: Centers items vertically within their grid cell.  
-<img src="./attachments/align-items-center.svg" height="175px" width="175px">  
-
-- **`stretch`**: (Default) Stretches items to fill the entire height of their grid cell.    
-<img src="./attachments/align-items-stretch.svg" height="175px" width="175px">  
-
-#### `place-items`
-`place-items` combines `align-items` and `justify-items`:
+```css
+.featured {
+  grid-column: 1 / 3;
+}
 ```
-place-items: <align-items> <justify-items>;
-```
-If only one value is provided, it applies to both **`align-items`** and **`justify-items`**.
-#### `justify-content`
-`justify-content` positions or distributes the grid tracks along the inline axis when the grid is smaller than its container:
-- **`start`**: Aligns the grid to the left side of the container (default).  
-  <img src="./attachments/justify-content-start.svg" height="175px" width="175px">
-  
-- **`end`**: Aligns the grid to the right side of the container.  
-    <img src="./attachments/justify-content-end.svg" height="175px" width="175px">
-  
-- **`center`**: Centers the grid horizontally within the container.  
-    <img src="./attachments/justify-content-center.svg" height="175px" width="175px">
-  
-- **`stretch`**: Stretches the grid tracks to fill the container's width (if track sizes are not fixed).   
-     <img src="./attachments/justify-content-stretch.svg" height="175px" width="175px">
-  
-- **`space-around`**: Distributes equal space around each grid track, with half-sized spaces at the edges.   
-     <img src="./attachments/justify-content-space-around.svg" height="175px" width="175px">
-  
-- **`space-between`**: Distributes equal space between grid tracks, with no space at the edges.  
-     <img src="./attachments/justify-content-space-between.svg" height="175px" width="175px">
-  
-- **`space-evenly`**: Distributes equal space around and between grid tracks.  
- <img src="./attachments/justify-content-space-evenly.svg" height="175px" width="175px">
 
+The equivalent properties for rows are `grid-row-start`, `grid-row-end`, and the `grid-row` shorthand. An item can also span a number of tracks:
 
+```css
+.featured {
+  grid-column: span 2;
+}
+```
 
-#### `align-content`
-`align-content` positions or distributes grid tracks along the block axis when the grid is smaller than its container:
-- **`start`**: Aligns the grid to the top of the container.  
-      <img src="./attachments/align-content-start.svg" height="175px" width="175px">
-  
-- **`end`**: Aligns the grid to the bottom of the container.  
-    <img src="./attachments/align-content-end.svg" height="175px" width="175px">
-  
-- **`center`**: Centers the grid vertically within the container.  
-    <img src="./attachments/align-content-center.svg" height="175px" width="175px">
-    
-- **`stretch`**: Stretches the grid tracks to fill the container's height (if track sizes are not fixed).  
-    <img src="./attachments/align-content-stretch.svg" height="175px" width="175px">
-  
-- **`space-around`**: Distributes equal space around each grid track, with half-sized spaces at the edges.  
-    <img src="./attachments/align-content-space-around.svg" height="175px" width="175px">
-  
-- **`space-between`**: Distributes equal space between grid tracks, with no space at the edges.  
-     <img src="./attachments/align-content-space-between.svg" height="175px" width="175px">
-  
-- **`space-evenly`**: Distributes equal space around and between grid tracks. 
-<img src="./attachments/align-content-space-evenly.svg" height="175px" width="175px">
- 
-#### `place-content`
-`place-content` combines `align-content` and `justify-content`:
-```
-place-content: <align-content> <justify-content>;
-```
-If only one value is provided, it applies to both **`align-content`** and **`justify-content`**.
-#### `grid-auto-columns` and `grid-auto-rows`
-`grid-auto-columns` and `grid-auto-rows` size implicit tracks created when placement extends beyond the explicit grid. They accept track sizes like the template properties.
-#### `grid-auto-flow`
-`grid-auto-flow` controls the direction used to place items that lack explicit positions:
-- **`row`**: (Default) Items are placed row by row, filling each row before moving to the next.
-- **`column`**: Items are placed column by column, filling each column before moving to the next.
-- **`row dense`**: Places by row and backfills earlier gaps when possible. This can make visual order differ from source order.
-- **`column dense`**: Places by column and backfills earlier gaps when possible; visual order may differ from source order.
-### Cells Properties
-#### ``grid-column-start`` and ``grid-column-end``
-`grid-column-start` and `grid-column-end` place an item between column lines. Values can be line numbers, line names, spans, or `auto`.
-- **`<line-number>`**: Refers to the grid line number (e.g., `1`, `2`, `3`).
-- **`<line-name>`**: Refers to a named grid line (if defined in `grid-template-columns`).
-- **`span <number>`**: Spans the item across a specified number of columns.
-- **`span <name>`**: Spans the item until a named grid line is reached.
-- **`auto`**: Lets the grid automatically place the item.  
+The `grid-area` property can place an item into a named area or specify row and column lines. For example:
 
-**Examples :**  
-1. **Spanning Specific Columns**:
-	```
-    grid-column-start: 1;
-    grid-column-end: 3;
-    ```
-	The item starts at column line 1 and ends at column line 3, spanning 2 columns.
-2. **Using `span`**:
-    ```
-    grid-column-start: 2;
-    grid-column-end: span 2;
-    ```
-	The item starts at column line 2 and spans 2 columns.
-3. **Named Grid Lines**:
-	 ```
-    grid-column-start: sidebar-start;
-    grid-column-end: main-end;
-    ```
-    The item starts at the `sidebar-start` line and ends at the `main-end` line (if these lines are defined in `grid-template-columns`).
-4. **Automatic Placement**:
-    ```
-    grid-column-start: auto;
-    grid-column-end: auto;
-    ```
+```css
+.featured {
+  grid-area: 1 / 1 / 3 / 3;
+}
+```
 
-`grid-column` combines the start and end lines: `grid-column: <start-line> / <end-line>`.
-**Example:**  
-- **Spanning Specific Columns**:
-	 ```
-    grid-column: 1 / 3;
-	```
-	The item starts at column line 1 and ends at column line 3, spanning 2 columns.    
-- **Using `span`**:
-    
-    ```
-    grid-column: 2 / span 2;
-    ```
-     The item starts at column line 2 and spans 2 columns.  
-- **Named Grid Lines**:
-	```
-    grid-column: sidebar-start / main-end;
-    ```
-     The item starts at the `sidebar-start` line and ends at the `main-end` line (if these lines are defined in `grid-template-columns`).
-- **Automatic Placement**:
-	```
-    grid-column: auto;
-    ```
-     The grid automatically places the item in the next available column.
+The `justify-self` and `align-self` properties align one item inside its grid area, overriding the defaults set by `justify-items` and `align-items`. `place-self` is their shorthand.
 
-#### ``grid-row-start`` and ``grid-row-end``
-`grid-row-start` and `grid-row-end` place an item between row lines. They accept line numbers, line names, spans, or `auto`:
-- **`<line-number>`**: Refers to the grid line number (e.g., `1`, `2`, `3`).
-- **`<line-name>`**: Refers to a named grid line (if defined in `grid-template-rows`).
-- **`span <number>`**: Spans the item across a specified number of rows.
-- **`span <name>`**: Spans the item until a named grid line is reached.
-- **`auto`**: Lets the grid automatically place the item.  
-**Examples:**  
-1. **Spanning Specific Rows**:
-	```
-    grid-row-start: 1;
-    grid-row-end: 3;
-    ```
-     The item starts at row line 1 and ends at row line 3, spanning 2 rows.
-2. **Using `span`**:
-    ```
-    grid-row-start: 2;
-    grid-row-end: span 2;
-    ```
-     The item starts at row line 2 and spans 2 rows.  
-3. **Named Grid Lines**:
-    ```
-    grid-row-start: header-start;
-    grid-row-end: footer-end;
-    ```
-     The item starts at the `header-start` line and ends at the `footer-end` line (if these lines are defined in `grid-template-rows`).     
-4. **Automatic Placement**:
-    ```
-    grid-row-start: auto;
-    grid-row-end: auto;
-    ```
-     The grid automatically places the item in the next available row.   
+## Responsive Web Design
 
-`grid-row` combines the start and end lines: `grid-row: <start-line> / <end-line>`.
-**Examples:**  
-- **Spanning Specific Rows**:
-    ```
-    grid-row: 1 / 3;
-    ```
-     The item starts at row line 1 and ends at row line 3, spanning 2 rows.  
-- **Using `span`**:
-    ```
-    grid-row: 2 / span 2;
-    ```
-     The item starts at row line 2 and spans 2 rows.    
-- **Named Grid Lines**:  
-    ```
-    grid-row: header-start / footer-end;
-    ```
-     The item starts at the `header-start` line and ends at the `footer-end` line (if these lines are defined in `grid-template-rows`).   
-- **Automatic Placement**:
-    ```
-    grid-row: auto;
-    ```
-     The grid automatically places the item in the next available row.
-#### ``grid-area``
-`grid-area` either names an area from `grid-template-areas` or sets row-start, column-start, row-end, and column-end in that order.
-**Syntax:**
-```
-grid-area: <row-start> / <column-start> / <row-end> / <column-end>;
-```
-Or  
-```
-grid-area: <area-name>;
-```
-#### `justify-self` and `align-self`
-`justify-self` and `align-self` override the container’s item alignment for one grid item.
-**`justify-self`**:
-`justify-self` aligns an item on the inline axis:
-- **`start`**: Aligns the item to the left side of the cell.
-- **`end`**: Aligns the item to the right side of the cell.
-- **`center`**: Centers the item horizontally within the cell.
-- **`stretch`**: (Default) Stretches the item to fill the width of the cell.   
+People use websites on phones, tablets, laptops, desktop monitors, and other devices. A layout that looks comfortable on a wide screen may be difficult to use on a narrow screen. **Responsive web design** is the practice of building interfaces that adapt to the available space while preserving content, usability, and accessibility.
 
-**`align-self`**:
-`align-self` aligns an item on the block axis:
-- **`start`**: Aligns the item to the top of the cell.
-- **`end`**: Aligns the item to the bottom of the cell.
-- **`center`**: Centers the item vertically within the cell.
-- **`stretch`**: (Default) Stretches the item to fill the height of the cell.   
- 
-`place-self` combines `align-self` and `justify-self`:
-**Syntax:**
-```
-place-self: <align-self> <justify-self>;
-```
- If only one value is provided, it applies to both **`align-self`** and **`justify-self`**.
-## Responsive design
-Responsive design adapts content to available space and user needs. Media queries apply styles when conditions such as viewport width or print output match. A mobile-first base is useful, but choose the starting layout based on the content and project.
-### Media queries
-Include the viewport meta tag so mobile browsers use the device width as the layout viewport:
-```
+Responsive design is not simply about making everything smaller. It involves choosing layouts, sizes, and spacing that work well at different widths. A responsive page should avoid horizontal scrolling for ordinary content, preserve readable text, keep controls usable, and allow images and other media to fit their containers.
+
+### The Viewport Meta Tag
+
+Include the viewport metadata in the document's head:
+
+```html
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 ```
-Create a base layout, then add media queries when content needs a different arrangement. Conditions can use `min-width`, `max-width`, `min-height`, and `max-height`:
-- **`min-width`**: Applies styles when the screen width is **greater than or equal to** the specified value.
-- **`max-width`**: Applies styles when the screen width is **less than or equal to** the specified value.
-- **`min-height`**: Applies styles when the screen height is **greater than or equal to** the specified value.
-- **`max-height`**: Applies styles when the screen height is **less than or equal to** the specified value.
-#### Example:
-**HTML:**
-```
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Grid Example</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="grid-container">
-        <div class="item">Item 1</div>
-        <div class="item">Item 2</div>
-        <div class="item">Item 3</div>
-        <div class="item">Item 4</div>
-    </div>
-</body>
-</html>
-```
-**CSS:**
-```
-.grid-container {
-    display: grid;
-    gap: 10px;
-    padding: 10px;
-}
 
-.item {
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    padding: 20px;
-    font-size: 1.2rem;
-    border-radius: 5px;
+This tells mobile browsers to use the device's CSS viewport width rather than a wide virtual layout viewport.
+
+### Media Queries
+
+A **media query** applies CSS only when a condition is true. It is commonly used to adjust a layout at a chosen viewport width:
+
+```css
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
 @media (min-width: 600px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    }
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
+
 @media (min-width: 900px) {
-    .grid-container {
-        grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    }
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 ```
-**Output:**  
-<img src="./attachments/rsp.svg" height="450px">
 
-Use `@media print` to adjust a page for printed output, for example by hiding navigation and preserving readable text:
-```
+In this example, the base layout has one column. At wider viewport widths, it changes to two and then three columns. The breakpoints should be chosen based on where the content needs them, not only because a particular device is called a phone or tablet.
+
+![Responsive layout example](./attachments/rsp.svg)
+
+Media queries can also target other conditions. For example, print styles can hide navigation and other elements that are not useful on paper:
+
+```css
 @media print {
-/*
-Here Style
-*/
+  nav,
+  .no-print {
+    display: none;
+  }
+
+  body {
+    color: black;
+    background: white;
+  }
 }
 ```
-### Best Practices:
-#### Start with the content
-A mobile-first base often works well: make core content usable in a narrow layout, then enhance it as space allows. It is a design choice, not a requirement for every project.
-#### Using Grids
-Grid can define responsive columns, gaps, and named areas. Flexible tracks, `minmax()`, and `repeat()` handle many layouts without a media query; use one when the content needs a different arrangement.
-#### Choose units by purpose
-Use flexible tracks and percentages for proportions, `rem` or `em` for type-related sizing, viewport units for viewport-linked effects, and `px` for small fixed details such as borders. No unit is automatically responsive; choose the reference that matches the design.
-#### Using `max-height`, `min-height`, `max-width`, and `min-width` in Responsive Design
-Minimum and maximum dimensions set size boundaries while content and available space determine the final size.
 
+### Mobile-First Design
 
-**`max-width`**: Caps width, useful for readable text columns and images.
+A **mobile-first** approach starts with a simple layout for narrow screens and adds enhancements as more space becomes available. This encourages developers to prioritize essential content and functionality before adding more complex arrangements.
 
+```css
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
 
-**`min-width`**: Sets a lower size limit. A large minimum can cause overflow on narrow screens.
+@media (min-width: 800px) {
+  .layout {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+```
 
+This approach is often easier to maintain than starting with a wide layout and trying to remove complexity for smaller screens.
 
-**`max-height`**: Caps height; consider overflow behavior when content exceeds the cap.
+### Flexible Sizes and Content Constraints
 
+Use flexible units where appropriate. Percentages, `rem`, `em`, `fr`, and viewport units can help a layout adapt to its context. However, fixed sizes are not always wrong: a thin border or a small icon may need a pixel-based value. The goal is to choose a unit that fits the design requirement.
 
-**`min-height`**: Sets a lower height limit while allowing content to grow beyond it.
-## Task
-Create a responsive restaurant website using **CSS Grid** for layout and **Flexbox** for alignment. The website should adapt to different screen sizes (mobile, tablet, desktop) and include key sections for a restaurant business.
-#### Website Sections
-Your restaurant website must include the following sections:
-1. **Header & Navigation**
-	- Restaurant name/logo
-	- Navigation menu (Home, Menu, About, Contact)
-	- **Mobile-friendly**: Hamburger menu on small screens
-2. **Hero Section**
-	- Large background image with overlay
-	- Call-to-action button (e.g., "View Menu")
-	- Centered text using **Flexbox**
-3. **Featured Dishes**
-	- Grid layout showing 6 dishes
-	- Each dish card includes:
-	    - Image
-	    - Name
-	    - Short description
-	- **Responsive behavior**:
-	    - Mobile: 1 column
-	    - Tablet: 2 columns
-	    - Desktop: 3 columns
- 4. **Menu Section**
-	- Grid layout for food items
-	- Each item includes:
-	    - Image
-	    - Name
-	    - Price
-	    - "Add to Cart" button  
-	- Responsive behavior:
-	    - Mobile: 1 column
-	    - Tablet: 2 columns
-	    - Desktop: 3 columns
- 5. **Contact Section**
-	- Contact form (Name, Email, Message)
-	- Embedded Google Map
-	- **Responsive behavior**:
-	    - Mobile: Form and map stacked
-	    - Desktop: Side-by-side
-6. **Footer**
-	- Opening hours
-	- Social media links
-	- Copyright information
-#### Solution:
-You can find our solution here: https://alitigui.github.io/Front_end_solutions/Lecture6/solution/index.html
+The `min-width`, `max-width`, `min-height`, and `max-height` properties define size boundaries. They help prevent elements from becoming too large or too small. For example:
+
+```css
+.article {
+  width: 90%;
+  max-width: 68rem;
+  margin-inline: auto;
+}
+
+.hero {
+  min-height: 60vh;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+```
+
+For responsive images, `max-width: 100%` prevents an image from overflowing its container, while `height: auto` preserves its aspect ratio.
+
+## Choosing Between Flexbox and Grid
+
+Both Flexbox and Grid are valuable tools, and many components can be built with either. A useful guideline is:
+
+- Use **Flexbox** when content should flow along one main axis, such as a navigation bar, button group, or row of controls.
+- Use **Grid** when the design needs to coordinate rows and columns, such as a page structure, dashboard, or card gallery.
+
+Do not choose a layout system because it is newer or more powerful. Choose the one that makes the structure easiest to express and maintain.
+
+## Key Takeaways
+
+- Grid is a two-dimensional layout system that manages rows and columns.
+- `fr`, `repeat()`, `minmax()`, `auto-fit`, and `auto-fill` support flexible track sizing.
+- Named grid areas make page structures easier to describe.
+- Item alignment and whole-grid alignment are controlled by different properties.
+- Responsive design adapts content to available space, not merely to named devices.
+- Media queries apply styles based on viewport or other conditions.
+- A mobile-first layout starts with the essential narrow-screen experience and expands as space permits.
+
+## Practical Project — Responsive Restaurant Website
+
+Build a responsive restaurant website using Grid for the main page structure and Flexbox for the alignment of smaller components.
+
+### Required Sections
+
+1. **Header and navigation** — Show a restaurant name or logo and links to the main sections. The navigation should remain usable on narrow screens.
+2. **Hero section** — Include a large image or background, a short introduction, and a call-to-action button.
+3. **Featured dishes** — Display six dish cards. Use one column on narrow screens, two columns on medium screens, and three columns on wide screens.
+4. **Menu section** — Display food items with an image, name, price, and action button.
+5. **Contact section** — Include a contact form and an embedded map. Stack them on narrow screens and place them side by side when enough space is available.
+6. **Footer** — Include opening hours, social links, and copyright information.
+
+Use meaningful HTML, responsive images, Grid, Flexbox, and at least two media queries. Test your page at several viewport widths rather than checking only one desktop and one mobile size.
+
+**Reference solution:** [Responsive restaurant website](https://alitigui.github.io/Front_end_solutions/Lecture6/solution/index.html)

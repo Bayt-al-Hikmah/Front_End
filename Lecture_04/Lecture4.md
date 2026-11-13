@@ -1,696 +1,534 @@
-# Lecture 04 — CSS Foundations and the Box Model
+## Learning Objectives
 
-> **Core idea:** CSS rules match HTML elements and assign visual values; the cascade chooses which rules win, while the box model explains an element’s size and spacing.
+By the end of this lecture, students should be able to:
 
-## Learning goals
-- Add CSS with inline, internal, or external rules and explain their trade-offs.
-- Select elements and reason about specificity and source order.
-- Choose color and size units, style text, and calculate element dimensions with the box model.
-## CSS
-**CSS** (Cascading Style Sheets) controls how HTML content is presented: layout, color, typography, spacing, and visual effects. HTML describes structure and meaning; CSS describes appearance.
-### Adding CSS to an HTML Page
-CSS can be added inline, inside a `<style>` element, or in an external stylesheet:
-#### Inline CSS
-An inline `style` attribute applies declarations to one element. Keep it for exceptional, element-specific cases; it is harder to reuse and maintain.
+- Explain how CSS controls the presentation of HTML.
+- Connect an external stylesheet to an HTML document.
+- Write basic CSS rules and select elements using element, class, and ID selectors.
+- Explain the cascade, inheritance, and specificity at an introductory level.
+- Set colors and dimensions using common CSS values and units.
+- Style text, backgrounds, borders, spacing, and tables.
+- Use the CSS box model to understand element dimensions.
+
+## Introduction to CSS
+
+**CSS (Cascading Style Sheets)** controls how HTML content is presented. HTML provides the structure and meaning of a page, while CSS controls its visual appearance. With CSS, a developer can choose colors and fonts, create spacing, arrange elements, add borders and shadows, and adapt a layout to different screen sizes.
+
+The separation between HTML and CSS is important. It allows the content to remain meaningful even when the visual design changes. It also makes it possible to reuse one stylesheet across several pages, keeping the design consistent and easier to maintain.
+
+## Adding CSS to an HTML Page
+
+There are three common ways to apply CSS: inline styles, an internal stylesheet, and an external stylesheet.
+
+### Inline CSS
+
+Inline CSS is written directly in an element's `style` attribute:
+
+```html
+<p style="color: blue; font-size: 1rem;">This paragraph is blue.</p>
 ```
-<p style="color: blue; font-size: 16px;">This is a styled paragraph.</p>
-```
-#### Internal CSS
-An internal `<style>` element holds CSS for one document. It can be useful for a small standalone page.
-```
+
+Inline CSS can be useful for a quick experiment, but it mixes content with presentation and is difficult to maintain when many elements need the same style. It should not be the normal approach for a larger project.
+
+### Internal CSS
+
+An internal stylesheet is written inside a `<style>` element, normally in the document's `<head>`:
+
+```html
 <head>
-    <style>
-        p {
-            color: blue;
-            font-size: 16px;
-        }
-    </style>
+  <style>
+    p {
+      color: blue;
+      font-size: 1rem;
+    }
+  </style>
 </head>
 ```
-#### External CSS
-An external stylesheet keeps styles separate and reusable. Link it from the document’s `<head>`:
-```
+
+This approach can be convenient for a short demonstration or a single-file example. However, if several pages share the same design, repeating the same CSS in each page creates unnecessary duplication.
+
+### External CSS
+
+For most projects, an external stylesheet is the recommended approach. CSS is stored in a separate `.css` file and connected to the HTML document through a `<link>` element:
+
+```html
 <head>
-    <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 ```
-### Structure of CSS Code
-Each CSS rule has a **selector** and a declaration block. A declaration pairs a property with a value and ends with a semicolon.
-```
-p {
-    color: blue;
-    font-size: 16px;
-}
-```
 
-This rule sets the text color and font size on every `<p>` element matched by the selector.
-### Basic selectors
-#### Element Selector
-An element selector matches every element with that tag name.
-```
-p {
-    color: blue;
-    font-size: 16px;
-}
-```
-#### Class Selector:
-Use a dot followed by the class name to match elements with that class. Classes can be reused across elements.
-```
-.black_text {
-    color:black;
-}
-```
-#### ID Selector:
-Use `#` followed by an ID to match an element. IDs should be unique within the document; prefer classes for reusable styling.
-```
-#header {
-    font-size: 24px;
-    color: darkblue;
-}
-```
-### CSS Specificity and the Cascade
-When several declarations set the same property on an element, the CSS cascade decides which value applies. It considers origin, importance, cascade layers, specificity, and source order.
-#### Specificity:
-- ID selectors (`#id`) outweigh class selectors (`.class`), which outweigh type selectors (`p`, `div`).
-- Inline styles normally outweigh author stylesheet selectors. `!important`, origins, and cascade layers affect the full ordering, so specificity is not the only cascade rule.
-#### Cascade:
-- If competing declarations have equal priority and specificity, the one later in source order wins.
-### Comments
-CSS comments are ignored by the browser and can explain a non-obvious choice. Write them between `/*` and `*/`.
-```
-/* This is a comment */
-p {
-    color: blue; /* Change the text color to blue */
-    font-size: 16px; /* Set the font size to 16 pixels */
-}
-```
-## Colors and Units
-### Colors
-CSS color properties accept named colors and color functions or notations such as RGB, hexadecimal, and HSL.
-#### Color Names:
-CSS includes named colors such as `white`, `black`, `red`, `blue`, and `green`.
-```
-p {
-color:black;
-}
-```
-#### RGB and RGBA
-The `rgb()` function sets red, green, and blue channel values. In the traditional 0–255 form, `0` is none and `255` is full intensity for that channel.
-```
-p {
-color:rgb(255,0,0); /* pure red*/
-}
-```
-The `rgba()` form adds an alpha channel from `0` (transparent) to `1` (opaque). Modern CSS also allows alpha in `rgb()`.
-```
-p {
-    color: rgba(0, 0, 255, 0.3); /* Lightly transparent blue */
-}
-```
-#### Hexadecimal Values
-Hex colors combine channel values in one code: `#RRGGBB`. Each two-digit pair ranges from `00` (none) to `FF` (full intensity).
-```
-p {
-color:#ff0000; /* pure red*/
-}
+For example, `styles.css` might contain:
 
-```
-#### HSL/HSLA Values
-The `hsl()` function uses **Hue, Saturation, and Lightness**:
-- **Hue**: Represents the color itself, specified as an angle between `0` and `360` on the color wheel.
-    - `0` or `360` is red.
-    - `120` is green.
-    - `240` is blue.
-
-
-![Hue](./attachments/hsl1.jpg)  
-
-
-- **Saturation**: Represents the intensity of the color, specified as a percentage.
-    - `0%` is grayscale.
-    - `100%` is fully saturated (vivid color).  
-    
-![sat](./attachments/sat.jpg)    
-
-- **Lightness**: Represents the brightness of the color, specified as a percentage.
-    - `0%` is black.
-    - `50%` is the normal color.
-    - `100%` is white.
-
-![lightness](./attachments/ligh.jpg)  
-```
-h1 {
-    color: hsl(0, 100%, 50%); /* Pure red */
-}
-```
-
-The `hsla()` form adds alpha from `0` (transparent) to `1` (opaque). Modern CSS also allows alpha in `hsl()`.
-```
-p {
-    color: hsla(240, 100%, 50%, 0.3); /* Lightly transparent blue */
-}
-```
-#### Tools to set Colors:
-There are many online tools that can help us when setting colors for our projects. These tools make it easy to select, customize, and convert colors into different formats like HEX, RGB, or HSL. Here are some popular ones you can use: 
-
-1. **Adobe Color:** [color.adobe.com](https://color.adobe.com/)
-	Adobe Color is a powerful tool that allows us to create beautiful color palettes, explore current color trends, and even test color accessibility.
-2. **Coolors:** [coolors.co](https://coolors.co/)
-	Coolors is a fast and easy-to-use tool for generating color palettes. With just a press of the spacebar, we can create new color combinations and lock the colors we like.
-3. **HTML Color Codes:** [htmlcolorcodes.com](https://htmlcolorcodes.com/)
-	HTML Color Codes is a beginner-friendly tool that offers a color picker, tutorials, and pre-made color palettes. It’s a great resource for learning about colors and how to use them effectively in our projects.
-4. **Color Hunt:** [colorhunt.co](https://colorhunt.co/)
-	Color Hunt is a fantastic tool for discovering modern and stylish color combinations. We can browse trending color palettes, save our favorites, and even submit our own creations.
-5. **ColorZilla:** [colorzilla.com](https://www.colorzilla.com/)
-	ColorZilla is a browser extension that allows us to pick colors directly from any webpage. It’s incredibly convenient for extracting colors from existing designs or websites.
-6. **Paletton:** [paletton.com](https://paletton.com/)
-	Paletton is a tool that helps us create color schemes based on color theory principles. It’s excellent for designing balanced and professional color palettes.
-### Units
-CSS units express lengths and other numeric values. Some are absolute; others are relative to a font, containing block, or viewport.
-#### Absolute units
-Absolute units have defined conversion relationships. On screens, a CSS pixel is a reference unit and does not always equal one physical display pixel; print units such as inches are more useful for physical sizing.
-
-1. **Pixels (`px`)**: A common reference unit for screen layout.
-```
-div {
-    width: 300px; /* Fixed width of 300 pixels */
-}
-```
-2. **Points (`pt`):** Points are traditionally used in print media and are less common in web design. One point is equal to 1/72 of an inch.
-```
-h1 {
-    font-size: 24pt;
-}
-```
-3. **Inches (`in`), Centimeters (`cm`), and Millimeters (`mm`)**: These units are based on physical measurements and are typically used for print styles or specific design requirements.
-```
-.print-page {
-    width: 8.5in;
-    height: 11in; 
-}
-```
-#### Relative Units
-Relative units scale with a font size, containing block, or viewport. They help layouts adapt to context.
-
-1. **Percentages (`%`)**: The reference depends on the property. For `width`, it is generally the containing block’s width.
-```
-div {
-    width: 50%; 
-}
-```
-2. **Ems (`em`)**: Relative to the element’s font size for many properties; for `font-size`, relative to the parent’s font size.
-```
-p {
-    font-size: 1.5em; 
-}
-```
-3. **Rems (`rem`)**: Relative to the root element’s font size, usually `<html>`.
-```
-h1 {
-    font-size: 2rem; 
-}
-```
-4. **Viewport units (`vw`, `vh`, `vmin`, `vmax`)**: Relative to viewport dimensions:
-	- `1vw` = 1% of the viewport width.
-	- `1vh` = 1% of the viewport height.
-	- `vmin` and `vmax` are based on the smaller or larger dimension of the viewport, respectively.
-```
-section {
-    width: 100vw; /* 100% of the viewport width */
-    height: 50vh; /* 50% of the viewport height */
-}
-```
-## Styling text
-CSS typography and text properties affect readability, hierarchy, and emphasis.
-### Text styling
-#### Text Color:
-Use `color` to set text color with a named color, hex value, or color function.
-```
-p {
-    color: #0000ff;
-}
-```
-#### Text Alignment
-`text-align` aligns inline content within a block: `left`, `right`, `center`, or `justify`.
-```
-h1 {
-    text-align: center;
-}
-```
-`vertical-align` aligns inline-level content or table-cell content. Common values include:
-
-- **`baseline`**: Aligns the element with the baseline of the parent (default).
-- **`top`**: Aligns the element to the top of the line.
-- **`middle`**: Aligns the element to the middle of the line.
-- **`bottom`**: Aligns the element to the bottom of the line.
-- **`sub`**: Aligns the element as subscript.
-- **`super`**: Aligns the element as superscript.
-- **`text-top`**: Aligns the element to the top of the parent’s font.
-- **`text-bottom`**: Aligns the element to the bottom of the parent’s font.
-```
-sup {
-    vertical-align: super; 
-}
-
-sub {
-    vertical-align: sub; 
-}
-```
-#### Text Decoration
-`text-decoration` adds or removes lines such as `underline`, `overline`, and `line-through`.
-```
-.strike {
-    text-decoration: line-through;
-}
-```
-Set the decoration’s color, style, and thickness with the related longhand properties or shorthand:
-```
-p {  
-	text-decoration: underline red double 5px;
-}
-```
-#### Text Transformation
-`text-transform` changes text presentation to `uppercase`, `lowercase`, or `capitalize`. It does not change the underlying text value.
-```
-p{
-text-transform: lowercase;
-}
-```
-#### Text Spacing
-Spacing properties adjust line, letter, word, and paragraph spacing. A unitless `line-height` (for example, `1.5`) scales with the element’s font size and is usually a flexible choice.
-```
-p {
-    line-height: 1.6;
-}
-```
-`letter-spacing` controls spacing between characters.
-```
-p {
-    letter-spacing: 2px;
-}
-```
-`word-spacing` controls spacing between words.
-```
-p {
-    word-spacing: 4px;
-}
-```
-`text-indent` indents the first formatted line of a block.
-```
-p {  
-	text-indent: 50px;
-}
-```
-#### Text Shadow
-`text-shadow` accepts horizontal and vertical offsets, an optional blur radius, and a color:
-
-1. **Horizontal offset**: Moves the shadow left (negative value) or right (positive value).
-2. **Vertical offset**: Moves the shadow up (negative value) or down (positive value).
-3. **Blur radius**: Controls the blurriness of the shadow (optional).
-4. **Color**: Defines the color of the shadow (optional).
-```
-h1 {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
-}
-```
-Separate shadow layers with commas.
-```
-h1 {
-  text-shadow: 1px 1px 2px red, -1px -1px 2px blue;
-}
-```
-### Font Styling
-#### Font size:
-Use `font-size` to set text size. Common choices include `rem` for root-relative sizing and `em` for local scaling.
-```
-p {
-    font-size: 16px;
-}
-```
-#### Font Weight
-`font-weight` controls typographic weight. Common values are `normal` (400), `bold` (700), or a supported numeric weight from 1 to 1000.
-```
-h2 {
-    font-weight: bold; 
-}
-
-strong {
-    font-weight: 700;
-}
-```
-#### Font Family:
-`font-family` lists preferred fonts followed by fallbacks. End with a generic family such as `serif`, `sans-serif`, or `monospace`.
-```
-/* Uses Arial, falls back to Helvetica, then sans-serif */
+```css
 body {
-    font-family: "Arial", "Helvetica", sans-serif; 
+  font-family: Arial, sans-serif;
+  color: #222;
+  background-color: #f7f7f7;
 }
-```
-#### Font Style
-`font-style` selects normal, italic, or oblique text. Use it to match the design; HTML elements such as `<em>` should carry meaning independently of appearance.
 
-1. **Normal** The `normal` value displays text in its default style (not italic or oblique)
+h1 {
+  color: #174a73;
+}
 ```
+
+When the stylesheet is linked correctly, the browser applies its rules to the matching elements. External CSS makes a project easier to organize, reuse, and update.
+
+## The Structure of a CSS Rule
+
+A CSS rule has a **selector** followed by a declaration block. Each declaration contains a property and a value:
+
+```css
 p {
-    font-style: normal; 
+  color: blue;
+  font-size: 18px;
 }
 ```
-2. **Italic** The `italic` value displays text in an italic style, which is often a slanted version of the font.
-```
-em {
-    font-style: italic;
+
+In this example, `p` is the selector. It targets paragraph elements. `color` and `font-size` are properties, while `blue` and `18px` are their values. Each declaration ends with a semicolon, and the declarations are placed inside curly braces.
+
+A browser ignores CSS comments. Comments begin with `/*` and end with `*/`:
+
+```css
+/* Shared text styles */
+p {
+  line-height: 1.6;
 }
 ```
-3. **Oblique** The `oblique` value also slants the text, but it’s a simulated version of italic. If the font doesn’t have a true italic version, the browser will slant the text artificially.
+
+## Basic CSS Selectors
+
+A **selector** describes which HTML elements a rule should affect. Three selectors are especially important when starting CSS.
+
+An **element selector** targets every element with a specified tag name:
+
+```css
+p {
+  color: #333;
+}
 ```
+
+A **class selector** begins with a period (`.`) and targets elements that contain the specified class name. Classes can be reused on multiple elements:
+
+```css
+.notice {
+  background-color: #fff3cd;
+  padding: 1rem;
+}
+```
+
+An **ID selector** begins with a hash (`#`) and targets the element with the matching ID. An ID should be unique within the document:
+
+```css
+#page-title {
+  color: #174a73;
+}
+```
+
+The corresponding HTML could be:
+
+```html
+<h1 id="page-title">Learning CSS</h1>
+<p class="notice">Remember to save your work.</p>
+<p class="notice">Practice each example in the browser.</p>
+```
+
+In everyday front-end development, classes are generally the most flexible choice for styling because they can be reused and combined. IDs are more often used for unique page targets or JavaScript hooks.
+
+## The Cascade, Specificity, and Inheritance
+
+The word **cascading** in CSS describes how the browser resolves situations where multiple rules apply to the same element. A property may be declared in several places, so the browser must determine which declaration wins.
+
+The cascade considers several factors, including the origin and importance of a declaration, cascade layers, selector specificity, and source order. At an introductory level, students should remember these principles:
+
+1. When declarations have comparable priority, a more specific selector generally wins.
+2. An ID selector is more specific than a class selector, and a class selector is more specific than an element selector.
+3. If competing declarations have the same specificity and priority, the later declaration in the relevant order generally wins.
+4. Inline styles usually outrank normal stylesheet rules, but important declarations and the full cascade have additional rules.
+
+For example:
+
+```html
+<p class="message" id="welcome">Welcome!</p>
+```
+
+```css
+p {
+  color: black;
+}
+
+.message {
+  color: blue;
+}
+
+#welcome {
+  color: darkgreen;
+}
+```
+
+The text becomes dark green because the ID selector is more specific than the class and element selectors.
+
+Some CSS properties are **inherited**. For example, `color` and `font-family` normally pass from a parent element to its descendants. Other properties, such as `margin`, `padding`, and `border`, do not normally inherit. Inheritance allows developers to set common text styles on a parent instead of repeating them on every child.
+
+Avoid solving every styling conflict by adding `!important`. It can make the cascade harder to understand and maintain. Prefer clear class names and simple selector rules.
+
+## Working with Colors
+
+Color is one of the most visible parts of a design. CSS supports several ways to define a color, and all of them can be used in properties such as `color`, `background-color`, and `border-color`.
+
+### Named Colors
+
+CSS supports predefined color names such as `black`, `white`, `tomato`, `blue`, and `darkgreen`:
+
+```css
+p {
+  color: darkgreen;
+}
+```
+
+Named colors are easy to read, but a design system often needs more precise values.
+
+### RGB and RGBA
+
+RGB represents a color through its red, green, and blue components. In the traditional numeric form, each component ranges from `0` to `255`:
+
+```css
+h1 {
+  color: rgb(255, 0, 0);
+}
+```
+
+RGBA adds an alpha component to control transparency. The alpha value ranges from `0` (fully transparent) to `1` (fully opaque):
+
+```css
+.notice {
+  background-color: rgba(0, 100, 200, 0.15);
+}
+```
+
+### Hexadecimal Colors
+
+Hexadecimal colors begin with `#` and usually contain six hexadecimal digits. The first pair represents red, the second pair green, and the third pair blue. Each pair ranges from `00` to `FF`:
+
+```css
+h1 {
+  color: #ff0000; /* Red */
+}
+```
+
+A three-digit shorthand is also available when each pair can be represented by a repeated digit, such as `#f00` for `#ff0000`.
+
+### HSL and HSLA
+
+HSL represents colors using **hue**, **saturation**, and **lightness**. Hue is an angle around a color wheel, saturation describes color intensity, and lightness describes how light or dark the color is.
+
+- Hue is commonly represented from `0` to `360` degrees.
+- Saturation ranges from `0%` (no color saturation) to `100%` (full saturation).
+- Lightness ranges from `0%` (black) to `100%` (white), with `50%` representing the middle lightness.
+
+```css
+h1 {
+  color: hsl(210, 80%, 35%);
+}
+
+.card {
+  background-color: hsla(210, 80%, 35%, 0.1);
+}
+```
+
+HSL can be convenient when creating a palette because a developer can adjust lightness while keeping the hue and saturation similar.
+
+![HSL hue](./attachments/hsl1.jpg)
+
+![HSL saturation](./attachments/sat.jpg)
+
+![HSL lightness](./attachments/ligh.jpg)
+
+Color tools such as Adobe Color, Coolors, Color Hunt, and browser developer tools can help create palettes and inspect color values. When choosing colors, check text contrast so that content remains readable for people with different visual needs.
+
+## CSS Units
+
+CSS values often need units. The correct unit depends on what is being sized and whether the design should remain fixed or adapt to its context.
+
+### Absolute Units
+
+Absolute units represent fixed physical or CSS lengths. The most common unit in screen design is the **CSS pixel (`px`)**:
+
+```css
+.card {
+  border-width: 1px;
+}
+```
+
+Other units include `cm`, `mm`, `in`, `pt`, and `pc`, which are more commonly encountered in print-related CSS. A CSS pixel is not necessarily one physical screen pixel; browsers map CSS pixels to device pixels according to the display and zoom settings.
+
+### Relative Units
+
+Relative units depend on another value, such as the font size of an element, the root font size, or the viewport dimensions.
+
+- `em` is relative to the element's font size for many properties. In `font-size`, it is relative to the inherited font size.
+- `rem` is relative to the root element's font size.
+- `%` is relative to a property-specific reference, often a containing element's size.
+- `vw` and `vh` are relative to the viewport width and height.
+- `vmin` and `vmax` are relative to the smaller or larger viewport dimension.
+
+```css
+.page {
+  width: 90%;
+  max-width: 70rem;
+  margin-inline: auto;
+}
+
+h1 {
+  font-size: 2rem;
+}
+```
+
+Relative units are useful for flexible layouts. However, they should be selected with an understanding of their reference value; not every percentage or viewport unit is measured against the same thing.
+
+## Styling Text
+
+Typography strongly influences readability and the personality of a website. CSS provides properties for text alignment, decoration, transformation, spacing, and font selection.
+
+### Text Properties
+
+The `color` property controls text color. `text-align` controls the horizontal alignment of inline content inside a block. Common values are `left`, `right`, `center`, and `justify`.
+
+```css
+.page-title {
+  color: #20364b;
+  text-align: center;
+}
+```
+
+The `text-decoration` property adds or removes lines such as underlines. The `text-decoration-color` and `text-decoration-style` properties can refine the result:
+
+```css
+a {
+  text-decoration: underline;
+  text-decoration-color: tomato;
+}
+```
+
+The `text-transform` property changes the visual capitalization without changing the underlying text:
+
+```css
+.section-title {
+  text-transform: uppercase;
+}
+```
+
+Spacing can improve long passages. `line-height` controls the distance between lines, `letter-spacing` adjusts the space between characters, `word-spacing` adjusts the space between words, and `text-indent` indents the first line of a block.
+
+```css
+.article-text {
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+.article-text.first-paragraph {
+  text-indent: 1.5em;
+}
+```
+
+The `text-shadow` property creates a shadow behind text:
+
+```css
+h1 {
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.25);
+}
+```
+
+### Font Properties
+
+The `font-size` property controls text size, while `font-weight` controls its thickness. `font-family` defines the preferred font and a list of fallback fonts. `font-style` is used for values such as `normal` and `italic`.
+
+```css
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
 blockquote {
-    font-style: oblique; 
+  font-style: italic;
 }
 ```
-### Styling lists
-`list-style-type` controls markers, while `list-style-image` can supply an image marker. Preserve a visible marker when it helps users understand that content is a list.
-#### Styling Ordered Lists (`<ol>`)
-We can change the numbering format using the `list-style-type` property. For example:
-```
-ol {
-  list-style-type: upper-roman; /* Changes numbers to uppercase Roman numerals */
-}
-```
-Other options include:
 
-- `decimal` (default numbers)
-- `lower-alpha` (lowercase letters)
-- `upper-alpha` (uppercase letters)
-- `lower-roman` (lowercase Roman numerals)
+Always provide a generic fallback such as `sans-serif` or `serif`. This ensures the browser can choose an available font if the preferred typeface cannot be loaded.
 
-#### Styling Unordered Lists (`<ul>`)
-We can customize bullet points or replace them with images:
-```
-ul {
-  list-style-type: square; 
-}
-ul {
-  list-style-type: none; /* Removes bullets */
-}
-ul {
-  list-style-image: url('star.png'); /* Replaces bullets with an image */
-}
-```
-## Containers and the box model
-### Display behavior
-The `display` property controls how an element participates in layout. Common values include `block`, `inline`, `inline-block`, `flex`, `grid`, and `none`.
-```
-span {
-  display: block;
-}
-div {
-  display: inline;
+## The CSS Box Model
+
+Every element displayed by the browser can be understood as a rectangular box. The CSS box model describes the layers that determine its size and spacing:
+
+1. **Content** — the text, image, or other content inside the element.
+2. **Padding** — the space between the content and the border.
+3. **Border** — the line surrounding the padding and content.
+4. **Margin** — the space outside the border that separates the element from other boxes.
+
+![Diagram of the CSS box model, showing margin, border, padding, and content](./attachments/css-box-model.svg)
+
+### Width, Height, and Display
+
+The `width` and `height` properties set the size of the content box by default. The `max-width` and `min-width` properties are useful for setting boundaries. The `display` property determines how an element participates in layout, with common values including `block`, `inline`, `inline-block`, `none`, `flex`, and `grid`.
+
+```css
+.container {
+  width: 90%;
+  max-width: 72rem;
+  margin-inline: auto;
 }
 ```
-`inline-block` boxes flow next to one another like inline content but accept width, height, and box spacing like block boxes.
 
-- **Inline behavior**: Elements sit next to each other horizontally, just like inline elements.
-- **Block behavior**: You can define specific dimensions (width and height) and apply spacing (padding and margins).
+A centered container with a maximum width is a common pattern: it uses available space on smaller screens but does not become excessively wide on a large display.
 
-`display: none` removes the element and its descendants from layout and the accessibility tree. Use other hiding methods when content should remain available to assistive technology.
-### Width and Height:
-`width` and `height` set an element’s size. Consider `min-width`, `max-width`, and intrinsic sizing for layouts that need to adapt.
-```
-div {
-  width: 300px;
-  height: 150px;
-}
-```
-### Background:
-#### Background Color
-`background-color` sets a solid background on an element.
-```
-.element {
-  background-color: #3498db; /* Applies a blue background color */
-}
-```
-#### Background Image:
-`background-image` loads an image for an element’s background. Use HTML `<img>` when the image conveys content that needs alternative text.
-```
-body {
-  background-image: url('images/background.jpg');
-}
-```
-Use related background properties to control repetition, position, size, and scrolling behavior:
+### Backgrounds
 
-1. **`background-repeat`**: This property specifies how the background image should be repeated to match the size of the element. It accepts the following values:
-	- **`repeat`**: The image repeats both horizontally and vertically (default behavior).    
-	- **`no-repeat`**: The image is displayed only once without repeating.
-	- **`repeat-x`**: The image repeats only horizontally.
-	- **`repeat-y`**: The image repeats only vertically.
-	- **`space`**: The image repeats as much as possible without clipping, and the extra space is evenly distributed around the images.
-	- **`round`**: The image repeats and scales to fit the element without leaving gaps.  
+The `background-color` property sets a background color. The `background-image` property can display an image or gradient. When using background images, the following properties are especially useful:
 
+- `background-repeat` controls whether the image repeats.
+- `background-position` controls where the image is placed.
+- `background-size` controls how it is scaled. `cover` fills the box and may crop the image; `contain` fits the full image and may leave empty space.
+- `background-attachment` controls how the background behaves as the page scrolls.
 
-2. `background-position`: This property  specifies the starting position of a background image within an element. It allows you to control where the image is placed. it accept the folowing values
-	- **Keyword Values**: `top`, `bottom`, `left`, `right`, `center`:
-		``background-position: center top;``
-	- **Percentage Values**: Adjusts the position based on percentages of the element’s size:
-        ``background-position: 50% 50%; ``
-	- **Length Values**: Uses specific units like pixels (`px`), ems (`em`), etc.:
-		``background-position: 20px 10px; /* Positions 20px from the left and 10px from the top */``
-	- **Mixed Values**: Combines keywords, percentages, or lengths:
-		``background-position: right 10% bottom 20px; /* Aligns to the right, 10% from the top, and 20px from the bottom */``  
-3. `background-size` controls image size within the element:
-	- **`auto`**: The image retains its original size
-	- **`cover`**: Scales the image to cover the entire element while maintaining its aspect ratio. Some parts of the image may be cropped.
-	- **`contain`**: Scales the image to fit entirely within the element while maintaining its aspect ratio. The entire image will be visible, but there may be empty space.
-	- **Specific Dimensions**: We can specify exact dimensions using units like pixels (`px`), percentages (`%`), etc.
-	- **Mixed Values**: We can combine values to set width and height independently  
-
-4. **`background-attachment`** controls how the image moves while scrolling:
-	- **`scroll`**: The background image scrolls along with the element
-	- **`fixed`**: The background image stays fixed relative to the viewport, even when the page is scrolled.
-	- **`local`**: The background image scrolls with the element’s content, but remains fixed within the element itself.
-
-```
-body {
-  background-image: url('images/cat.jpg'); 
+```css
+.hero {
+  min-height: 24rem;
+  background-image: url("images/hero.jpg");
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center;
   background-size: cover;
-  background-attachment: fixed;
 }
 ```
+
+Use a text-readable overlay or a sufficiently strong background color when placing text on top of an image.
+
 ### Margin and Padding
-#### Margin
-`margin` adds space outside the border and separates a box from its neighbors.
-```
-div {
-  margin: 20px; 
+
+Margin creates space outside an element's border. Padding creates space between the content and the border.
+
+```css
+.card {
+  margin: 1rem;
+  padding: 1.25rem;
 }
 ```
-Set each side separately:
-```
-div {
-  margin-top: 10px;
-  margin-right: 15px;
-  margin-bottom: 20px;
-  margin-left: 25px;
-}
-```
-Or use the four-value shorthand, ordered top, right, bottom, left:
-```
-div {
+
+The four sides can be set individually with `margin-top`, `margin-right`, `margin-bottom`, `margin-left`, and their padding equivalents. Shorthand syntax can set multiple sides in one declaration:
+
+```css
+.card {
   margin: 10px 15px 20px 25px; /* top, right, bottom, left */
+  padding: 1rem 1.5rem;        /* top/bottom, left/right */
 }
 ```
-#### Padding:
-`padding` adds space between the content and the border.
-```
-div {
-  padding: 20px;
+
+### Borders and Rounded Corners
+
+A border has a width, style, and color. Common styles include `solid`, `dashed`, and `dotted`:
+
+```css
+.card {
+  border: 2px solid #d7dce2;
+  border-radius: 12px;
 }
 ```
-Set each side separately:
-```
-div {
-  padding-top: 10px;
-  padding-right: 15px;
-  padding-bottom: 20px;
-  padding-left: 25px;
-}
-```
-The four-value shorthand also follows top, right, bottom, left order:
-```
-div {
-  padding: 10px 15px 20px 25px;
-}
-```
-### Borders
-The `border` shorthand sets width, style, and color:
-1. **Width**: The thickness of the border (e.g., `2px`).
-2. **Style**: The style of the border (e.g., `solid`, `dashed`, `dotted`).
-3. **Color**: The color of the border (e.g., `#000000` or `red`).
-```
-div {
-  border: 2px solid #3498db;
-}
-```
-Set sides individually with `border-top`, `border-right`, `border-bottom`, or `border-left`:
-```
-div {
-  border-top: 3px dashed red;
-  border-bottom: 1px solid black; 
-}
-```
-`border-radius` rounds the corners:
-```
-div {
-  border-radius: 10px; /* Rounds all corners by 10px */
-}
-```
-Four values set the top-left, top-right, bottom-right, and bottom-left radii:
-```
-border-radius: top-left top-right bottom-right bottom-left;
-```
-Example
-```
-div {
-  border-radius: 10px 20px 30px 40px; 
-}
-```
-### Box Sizing:
-`box-sizing` determines whether declared width and height include padding and border.
-- **`content-box`** (default): Width and height apply to content; padding and border increase the rendered size.
-```
-div {
-  box-sizing: content-box;
-  width: 200px;
-  padding: 20px;
-  border: 5px solid black;
-  /* Total width = 200px (content) + 40px (padding) + 10px (border) = 250px */
-}
-```
-- **`border-box`**: Width and height include content, padding, and border, making declared dimensions easier to reason about.
-```
-div {
+
+The `border-radius` property rounds the corners. Four values are interpreted in clockwise order beginning at the top-left corner.
+
+### Box Sizing
+
+With the default `box-sizing: content-box`, declared width and height describe only the content area. Padding and border are added outside those dimensions. With `box-sizing: border-box`, the declared width and height include the content, padding, and border.
+
+```css
+.card {
   box-sizing: border-box;
-  width: 200px;
+  width: 300px;
   padding: 20px;
-  border: 5px solid black;
-  /* Total width = 200px (includes padding and border) */
+  border: 5px solid #333;
 }
 ```
-### Box Shadow
-`box-shadow` adds one or more shadows. A shadow can specify inset, x/y offsets, blur, spread, and color:
-```
-box-shadow: [horizontal offset] [vertical offset] [blur radius] [spread radius] [color];
-```
-1. **Horizontal offset**: Moves the shadow to the left (negative value) or right (positive value).
-2. **Vertical offset**: Moves the shadow upward (negative value) or downward (positive value).
-3. **Blur radius**: Controls the blurriness of the shadow. A larger value creates a softer, more diffused shadow.
-4. **Spread radius**: Expands (positive value) or shrinks (negative value) the size of the shadow.
-5. **Color**: Defines the color of the shadow. You can use color names, hex codes, or `rgba()` for transparency.
-```
-div {
-    box-shadow: inset 0 0 10px red;
+
+With `border-box`, the card's outer width remains `300px`. This makes layout calculations easier. A common project-wide rule is:
+
+```css
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 ```
-Separate multiple shadows with commas.
-```
-div {
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3), -3px -3px 5px rgba(255, 255, 255, 0.3);
+
+### Shadows and Opacity
+
+The `box-shadow` property adds a shadow around an element. Its values commonly describe horizontal offset, vertical offset, blur radius, spread radius, and color:
+
+```css
+.card {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 ```
-### Opacity
-`opacity` accepts a value from `0` (transparent) to `1` (opaque). It affects the whole element, including its descendants:
-- **0** means the element is completely transparent (invisible).
-- **1** means the element is fully opaque (completely visible).
-```
-div {
-    opacity: 0.5; /* The element is 50% visible */
+
+The `opacity` property controls the transparency of an entire element and its descendants. Its value ranges from `0` (fully transparent) to `1` (fully opaque):
+
+```css
+.disabled-preview {
+  opacity: 0.5;
 }
 ```
-### Styling Tables:
-Apply borders to table cells and the table to create a grid:
-```
-table, th, td {
-    border: 1px solid black;
-   
-}
-```
-Adjacent borders can appear doubled. Set `border-collapse: collapse` on the table to combine them:
-```
-table, th, td {
-    border: 1px solid black;
-}
+
+When only the background needs transparency, prefer a color with an alpha channel rather than reducing the opacity of the entire element. Otherwise, its text and child elements also become transparent.
+
+## Basic Table Styling
+
+CSS can make data tables easier to read. Apply borders to the table and its cells, and use `border-collapse: collapse` to remove the gaps between adjacent borders:
+
+```css
 table {
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #cbd2d9;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+th {
+  background-color: #edf2f7;
 }
 ```
-## Task:
-### Task 1 :
-**Create an HTML file with the following structure:**
-- Add a main heading (`<h1>`).
-- Write three paragraphs (`<p>`).
-- Include a blockquote (`<blockquote>`).
-- Add a section (`<section>`) containing a subheading (`<h2>`) and two paragraphs.
 
-**Style the elements using an external CSS file:**
-1. **Main Heading (`<h1>`):**
-	- Center-align the text.
-	- Apply a text shadow: `2px 2px 3px darkgray`.
-	- Use a custom font family with fallbacks (e.g., `"Arial", sans-serif`).
-	- Set the color using a hex value (e.g., `#333`).
-2. **Paragraphs (`<p>`):**
-	- **First paragraph:** Set text color to blue using `rgb(0, 0, 255)`.
-	- **Second paragraph:** Set text color to `green`, underline it, and customize the underline color (e.g., `text-decoration: underline red`).
-	- **Third paragraph:** Set text color using `hsl(270, 100%, 50%)`, line height to `1.6`, and letter spacing to `1px`.
-3. **Blockquote (`<blockquote>`):**
-	- Style text in italics (`font-style: italic`).
-	- Add a `30px` text indent.
-	- Set a left border: `3px solid gray`.
-	- Apply `15px` padding.
-	- Use a semi-transparent background (e.g., `background-color: rgba(0, 0, 0, 0.2)`).
-4. **Section (`<section>`):**
-	- Apply a background color (e.g., `#f5f5f5`).
-	- **Subheading (`<h2>`):** Convert text to uppercase (`text-transform: uppercase`).
-	- **Last paragraph:** Indent the first line by `20px` (`text-indent: 20px`).
-#### Solution:
-You can find our solution here: https://alitigui.github.io/Front_end_solutions/Lecture4/solution1/index.html
-### Task 2
-**Create an HTML file with the following elements:**
-- A header div
-- Three card divs inside a container div
-- A footer div  
+## Key Takeaways
 
-**Style the elements using an external CSS file:**
-1. **The header**:
-    - Display as block
-    - Height of 15vh
-    - Width of 100%
-    - A background color of your choice
-    - Centered text
-    - Padding of 20px
-2. **The container**:
-    - Display as block
-    - Width of 90%
-    - Margin: 0 auto (to center it)
-    - Contains three cards displayed as inline-block
-3. **Cards**:
-    - Display as inline-block
-    - Width of 300px
-    - Height of auto
-    - Margin of 1em
-    - Padding of 20px
-    - Border: 2px solid with a color of your choice
-    - Border-radius of 10px
-    - Box-shadow with your preferred values
-    - Set `box-sizing` to `border-box`
-    - Add some text content inside each card
-    - Vertical-align: top (to align cards properly)
-4. **The footer**:
-    - Display as block
-    - Height of 10vh
-    - Width of 100%
-    - Background color different from the header
-    - Text centered both horizontally and vertically
-	- Keep the footer in normal flow so it does not cover content. Use a fixed footer only when the design requires it and reserve space for the covered area.
-#### Solution:
-You can find our solution here: https://alitigui.github.io/Front_end_solutions/Lecture4/solution2/index.html
+- CSS rules contain selectors and declarations.
+- External stylesheets are generally the easiest to maintain.
+- The cascade, specificity, and inheritance determine which styles apply.
+- Colors can be written using names, RGB(A), hexadecimal, and HSL(A) values.
+- Relative units help create flexible designs.
+- Text styling should support readability and a clear hierarchy.
+- Every element follows the box model: content, padding, border, and margin.
+- `box-sizing: border-box` makes dimensions easier to reason about.
+
+## Practical Exercises
+
+### Task 1 Style a Simple Article
+
+Create an HTML page containing a main heading, three paragraphs, a blockquote, and a section with a subheading and two paragraphs. Connect an external stylesheet.
+
+Center the main heading, use a hexadecimal text color, and add a subtle text shadow. Give the paragraphs different color formats: RGB, a named color, and HSL. Adjust line height and letter spacing for readability. Style the blockquote with italic text, padding, a left border, and a lightly transparent background. Give the section a background color and make its subheading uppercase.
+
+**Reference solution:** [Article styling example](https://alitigui.github.io/Front_end_solutions/Lecture4/solution1/index.html)
+
+### Task 2 Build a Card Layout
+
+Create a page with a header, a centered container holding three cards, and a footer. Give each card a fixed maximum width, padding, margin, border, rounded corners, and a subtle shadow. Use `box-sizing: border-box` so the cards' dimensions are predictable. Use `inline-block` for this exercise; in later lectures, you will learn more flexible layout systems.
+
+The footer should remain at the bottom of the page content. Do not use `position: fixed` unless the design specifically requires the footer to remain visible while the page scrolls; a fixed footer can cover content on shorter screens.
+
+**Reference solution:** [Card layout example](https://alitigui.github.io/Front_end_solutions/Lecture4/solution2/index.html)

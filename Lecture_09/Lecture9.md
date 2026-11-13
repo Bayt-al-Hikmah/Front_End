@@ -1,247 +1,333 @@
-# Lecture 09 — Conditions and Loops
+## Learning Objectives
 
-> **Core idea:** Operators produce Boolean values; conditions choose a path, and loops repeat work while a condition or sequence supplies values.
+By the end of this lecture, students should be able to:
 
-## Learning goals
-- Compare values with strict operators and combine conditions with logical operators.
-- Choose between `if...else` and `switch` for branching.
-- Select a loop that matches the stopping rule or collection being processed.
-## Comparison and logical operators
-Comparison operators produce a Boolean result. Logical operators combine conditions or select values.
-### Comparison operators
-Use comparison operators to test equality or ordering:
-#### Common operators
-- **`==`**: Compares after type coercion. Prefer strict equality unless coercion is intentional.
-```
-let a = 4;
-let b = 6;
-console.log(a == b); // false
-let a = 4;
-let b = "4";
-console.log(a == b); // true
-```
-- **`!=`**: Coercing inequality; prefer `!==` in ordinary comparisons.
-```
-let a = 4;
-let b = 6;
-console.log(a != b); // true
-let a = 4;
-let b = "4";
-console.log(a != b); // false
-```
-- **`===`**: Strict equality; values must have compatible types and compare equal.
-```
-let a = 4;
-let b = "4";
-console.log(a === b); // false
-```
-- **`!==`**: Strict inequality; true when strict equality is false.
-```
-let a = 4;
-let b = "4";
-console.log(a !== b); // true
-```
-- **`>`**: Checks if greater **than**
-```
-let a = 4;
-let b = 6;
-console.log(a > b); // false
-```
-- **`<`**: Checks if smaller **than**
-```
-let a = 4;
-let b = 6;
-console.log(a < b); // true
-```
-- **`>=`**: Checks if greater than or equal to
-```
-let a = 4;
-let b = 6;
-console.log(a >= b); // false
-```
-- **`<=`**: Checks if less than or equal to
-```
-let a = 4;
-let b = 6;
-console.log(a <= b); // true
-```
-### Logical operators
-Logical operators are often used with Boolean conditions. In JavaScript, `&&` and `||` return one of their operands; they do not always return a Boolean.
-#### Common operators
+- Compare values using equality and relational operators.
+- Combine conditions with logical operators.
+- Explain truthy and falsy values in conditional expressions.
+- Choose an appropriate conditional structure.
+- Repeat instructions using `while`, `do...while`, and `for` loops.
+- Iterate through arrays and object properties.
 
-- **`&&` (AND)**: Returns the first falsy operand, or the second operand if both are truthy. In a Boolean condition, the result is true only when both sides are truthy.
-```
-let isSunny = true;  
-let isWarm = true;  
-console.log(isSunny && isWarm); // true
-```
-- **`||` (OR)**: Returns the first truthy operand, or the second operand if neither is truthy. In a Boolean condition, it is true when at least one side is truthy.
-```
-let hasCoffee = false;  
-let hasTea = true;  
-console.log(hasCoffee || hasTea); // true
-```
-- **`!` (NOT)**: Converts its operand to Boolean and inverts it.
-```
-let isDark = false;  
-console.log(!isDark); // true
-```
-#### Truth Table for Logical Operators:
+## Introduction to Control Flow
 
-|**A**|**B**|**A && B**|**A \| B**|**!A**|
-|---|---|---|---|---|
-|true|true|true|true|false|
-|true|false|false|true|false|
-|false|true|false|true|true|
-|false|false|false|false|true|
-## Conditional statements
-Conditions choose which block of code runs.
-### `if...else`
-Use `if`, optional `else if` branches, and optional `else` to handle Boolean conditions:
-####  Single Condition
-Runs the block when the condition is truthy:
-```
-if (condition) {  
-  // Code to run if condition is true  
-}  
-```
-####  Condition with Alternative
+So far, most examples have executed from top to bottom. Real applications need to make decisions and repeat operations. A program may display a different message depending on the user's input, show a discount when an order meets a condition, or process every product in a list.
 
-Choose one of two paths:
+**Control flow** describes the order in which statements execute. JavaScript provides comparison operators, logical operators, conditional statements, and loops to control that order.
+
+## Comparison Operators
+
+Comparison operators evaluate the relationship between two values and return a boolean result (`true` or `false`). They are commonly used in conditions.
+
+| Operator | Meaning | Example |
+| --- | --- | --- |
+| `===` | Strictly equal | `5 === 5` is `true` |
+| `!==` | Strictly not equal | `5 !== "5"` is `true` |
+| `==` | Equal after type coercion | `5 == "5"` is `true` |
+| `!=` | Not equal after type coercion | `5 != "5"` is `false` |
+| `>` | Greater than | `8 > 5` is `true` |
+| `<` | Less than | `3 < 5` is `true` |
+| `>=` | Greater than or equal to | `5 >= 5` is `true` |
+| `<=` | Less than or equal to | `4 <= 5` is `true` |
+
+### Strict and Loose Equality
+
+The `==` and `!=` operators may convert values to a common type before comparing them. This behavior is known as **type coercion**:
+
+```javascript
+console.log(5 == "5");  // true
+console.log(5 === "5"); // false
 ```
-if (condition) {  
-  // Code to run if true  
-} else {  
-  // Code to run if false  
-}  
+
+The strict equality operator (`===`) checks both type and value without performing the same kind of coercion. In most application code, use `===` and `!==` because they make comparisons more predictable. Loose equality has some specific rules and can be encountered in older code, so it is still useful to recognize.
+
+### Relational Comparisons
+
+The operators `>`, `<`, `>=`, and `<=` compare values. When both operands are strings, JavaScript compares them lexicographically rather than as numbers. Convert text input to a number before performing numeric comparisons:
+
+```javascript
+const enteredAge = Number("18");
+console.log(enteredAge >= 18); // true
 ```
-#### Multiple Conditions
-Check alternatives in order; the first truthy condition wins:
+
+## Logical Operators
+
+Logical operators combine or invert conditions. They are useful when a decision depends on more than one piece of information.
+
+### AND (`&&`)
+
+The AND operator requires both conditions to be truthy for the overall expression to be truthy:
+
+```javascript
+const hasAccount = true;
+const hasPassword = true;
+
+console.log(hasAccount && hasPassword); // true
 ```
-if (condition1) {  
-  // Code for condition1  
-} else if (condition2) {  
-  // Code for condition2  
-} else {  
-  // Default code if all conditions fail  
+
+### OR (`||`)
+
+The OR operator is truthy when at least one operand is truthy:
+
+```javascript
+const hasEmail = false;
+const hasPhone = true;
+
+console.log(hasEmail || hasPhone); // true
+```
+
+### NOT (`!`)
+
+The NOT operator reverses the truthiness of a value:
+
+```javascript
+const isBlocked = false;
+console.log(!isBlocked); // true
+```
+
+### Truth Table
+
+| A | B | A `&&` B | A `||` B | `!A` |
+| --- | --- | --- | --- | --- |
+| `true` | `true` | `true` | `true` | `false` |
+| `true` | `false` | `false` | `true` | `false` |
+| `false` | `true` | `false` | `true` | `true` |
+| `false` | `false` | `false` | `false` | `true` |
+
+JavaScript's `&&` and `||` operators do not always return the literal boolean values `true` or `false`; they return one of their operands. In an `if` condition, JavaScript evaluates the resulting value using truthiness. This behavior is also used for short-circuit expressions.
+
+## Conditional Statements
+
+A conditional statement allows a program to choose which block of code should run. The condition is evaluated, and the program follows the branch that matches the result.
+
+### The `if` Statement
+
+Use `if` when a block should execute only when a condition is true:
+
+```javascript
+const temperature = 28;
+
+if (temperature > 25) {
+  console.log("It is a warm day.");
 }
 ```
-### Switch Case Statements
-`switch` compares one expression with case values using strict equality. Add `break` to stop before the next case; without it, execution falls through. Use `default` for unmatched values.
-```
-switch (expression) {  
-  case value1:  
-    // Code for value1  
-    break;  
-  case value2:  
-    // Code for value2  
-    break;  
-  default:  
-    // Code if no case matches  
+
+### The `if...else` Statement
+
+Use `else` when the program needs an alternative path:
+
+```javascript
+const isLoggedIn = false;
+
+if (isLoggedIn) {
+  console.log("Welcome back!");
+} else {
+  console.log("Please sign in.");
 }
 ```
-#### Example 
-```
-let day = "Monday";  
-switch (day) {  
-  case "Monday":  
-    console.log("Weekday 1");  
-    break;  
-  case "Tuesday":  
-    console.log("Weekday 2");  
-    break;  
-  default:  
-    console.log("Not Monday/Tuesday");  
+
+### The `else if` Chain
+
+When several conditions must be checked in order, use `else if`:
+
+```javascript
+const score = 82;
+
+if (score >= 90) {
+  console.log("Excellent");
+} else if (score >= 75) {
+  console.log("Very good");
+} else if (score >= 60) {
+  console.log("Passed");
+} else {
+  console.log("Needs more practice");
 }
-// It will display "Weekday 1"
 ```
+
+The first matching branch executes. Therefore, the order of conditions matters. In this example, a score of `82` enters the second branch and later conditions are skipped.
+
+### The `switch` Statement
+
+A `switch` statement is useful when one expression is compared against several known values. Each matching `case` normally ends with `break` to prevent execution from continuing into the next case.
+
+```javascript
+const role = "student";
+
+switch (role) {
+  case "admin":
+    console.log("Full access");
+    break;
+  case "teacher":
+    console.log("Teacher dashboard");
+    break;
+  case "student":
+    console.log("Student dashboard");
+    break;
+  default:
+    console.log("Unknown role");
+}
+```
+
+The `default` branch runs when no case matches. A switch comparison uses strict equality semantics for its case values.
+
 ## Loops
-Loops repeat code. Choose one based on how repetition ends: a condition, a counter, or an iterable.
-### While Loop
-`while` checks its condition before each iteration and stops when it becomes falsy. Make sure the loop can reach that stopping condition.
-#### Example
-Imagine pouring water into a cup until it’s full. Here’s how this translates to a `while` loop:
-```
-let isNotFull = true;  
 
-while (isNotFull) {  
-  console.log("Adding water...");  
-  // Eventually, set isNotFull = false when the cup is full  
+A **loop** repeats a block of code. Loops reduce repetition and are essential when processing collections or repeating an operation until a condition changes.
+
+Every loop needs a clear stopping condition. An incorrect condition can create an infinite loop, so make sure the values controlling the loop are updated as expected.
+
+### The `while` Loop
+
+A `while` loop checks its condition before each iteration. If the condition is false at the beginning, the body does not run:
+
+```javascript
+let count = 1;
+
+while (count <= 5) {
+  console.log(count);
+  count++;
 }
 ```
-**Condition**: `isNotFull` keeps the loop running.  
-**Action**: The loop keeps "adding water" until the condition fails.
-### Do While Loop
-`do...while` checks its condition after the body, so it always runs at least once. A `while` loop may run zero times.
-#### Example
-The previous example of pouring water into a cup can be rewritten using a `do...while` loop as follows
-```
-let isNotFull = false;
 
-do {  
-  console.log("Adding water..."); // This runs ONCE, even though the condition is false  
-} while (isNotFull);  
+The variable `count` is initialized before the loop and increased after each iteration. When it becomes `6`, the condition is false and the loop ends.
+
+A real-life example is repeating an action until a container is full. The loop continues while there is still space, and a condition eventually becomes false when the container is full.
+
+### The `do...while` Loop
+
+A `do...while` loop checks its condition after executing the body. Therefore, it always runs at least once:
+
+```javascript
+let attempts = 0;
+
+do {
+  console.log("Checking connection...");
+  attempts++;
+} while (attempts < 3);
 ```
-### For Loop
-`for` puts initialization, condition, and update in one header. It is useful when a counter or index controls repetition.
-#### Repeat Code N Times
-This loop runs five times, with `i` taking values 0 through 4:
-```
+
+This form is useful when an operation must happen once before the program decides whether it should repeat.
+
+### The `for` Loop
+
+A `for` loop combines initialization, condition checking, and an update expression in one structure:
+
+```javascript
 for (let i = 0; i < 5; i++) {
-  console.log("This runs 5 times");
+  console.log(`Iteration ${i}`);
 }
 ```
-#### Using Number Ranges
-Use a counter and end condition to walk through a range:
-```
-for (let num = 10; num <= 15; num++) {
-  console.log(num);
-}
-```
-#### Array Iteration (Traditional)
-Use an indexed loop when the index is needed:
-```
-const colors = ['red', 'green', 'blue'];
+
+The three parts are separated by semicolons:
+
+1. `let i = 0` initializes the counter.
+2. `i < 5` is checked before each iteration.
+3. `i++` updates the counter after each iteration.
+
+A `for` loop is convenient when the number of iterations is known or when an index is needed.
+
+### Iterating Through an Array
+
+An indexed `for` loop gives access to both the array index and its value:
+
+```javascript
+const colors = ["red", "green", "blue"];
+
 for (let i = 0; i < colors.length; i++) {
-  console.log(colors[i]);
+  console.log(i, colors[i]);
 }
 ```
-#### Array Iteration (for...of)
-Use `for...of` to visit an iterable’s values:
-```
-const colors = ['red', 'green', 'blue'];
+
+The `for...of` loop provides a simpler way to read each value from an iterable such as an array or string:
+
+```javascript
 for (const color of colors) {
-  console.log(color); 
+  console.log(color);
 }
 ```
-#### Object Iteration (for...in)
-`for...in` visits enumerable string-keyed properties, including inherited ones. Check ownership when you need only the object’s own properties:
-```
-const person = {name: 'Alex', age: 30};
+
+Use an indexed loop when the index is needed. Use `for...of` when the value itself is what matters.
+
+### Iterating Through an Object
+
+The `for...in` loop iterates over enumerable property keys of an object:
+
+```javascript
+const person = {
+  name: "Amira",
+  age: 20
+};
+
 for (const key in person) {
   if (Object.hasOwn(person, key)) {
     console.log(`${key}: ${person[key]}`);
   }
 }
 ```
-For a concise loop over own entries, use `Object.entries(person)` with `for...of`.
-## Task
-### Task 1
-Create a script that simulates a decision-making process based on weather conditions. The script should:
-- Declare variables `isRaining` and `isWarm` (both Boolean values).
-- Use a combination of **logical operators** to decide whether you need to bring an umbrella and wear a jacket:
-    - If it is raining and not warm, print "Bring an umbrella and wear a jacket."
-    - If it is raining but warm, print "Bring an umbrella but no jacket needed."
-    - If it is not raining but warm, print "No umbrella needed, but wear light clothes."
-    - If it is neither raining nor warm, print "No umbrella and no jacket needed."
-### Task 2
-Write a script that prints numbers from 1 to 100, but with a twist:
-- For numbers divisible by 3, print "Fizz".
-- For numbers divisible by 5, print "Buzz".
-- For numbers divisible by both 3 and 5, print "FizzBuzz".
-- For all other numbers, print the number itself.
-### Task 3
-Write a script that uses a **`while` loop** to find the first prime number greater than n. The script should:
-- Start from the number n and check each number to see if it is prime.
-- To check if a number is prime, use another **`while` loop** inside the main loop to check divisibility of the number by any number less than it.
-- Once a prime number is found, print it and exit the loop.
+
+The `Object.hasOwn()` check ensures that the loop handles properties owned by the object itself rather than inherited properties. Another common approach is `Object.entries()` with `for...of`:
+
+```javascript
+for (const [key, value] of Object.entries(person)) {
+  console.log(`${key}: ${value}`);
+}
+```
+
+### Controlling a Loop with `break` and `continue`
+
+The `break` statement exits the nearest loop immediately. The `continue` statement skips the remainder of the current iteration and moves to the next one.
+
+```javascript
+for (let number = 1; number <= 10; number++) {
+  if (number === 6) {
+    break;
+  }
+  console.log(number); // Prints 1 through 5.
+}
+```
+
+```javascript
+for (let number = 1; number <= 5; number++) {
+  if (number % 2 === 0) {
+    continue;
+  }
+  console.log(number); // Prints 1, 3, 5.
+}
+```
+
+Use these statements when they make the loop's intent clearer. A loop with a simple condition is often easier to understand than a loop with many jumps.
+
+## Key Takeaways
+
+- Comparison operators produce boolean results.
+- Prefer strict equality (`===` and `!==`) in most application code.
+- Logical operators combine or invert conditions.
+- Conditional statements choose between different execution paths.
+- `while` checks before running, while `do...while` checks after running.
+- `for` is useful when the number of iterations or index is known.
+- `for...of` iterates over values; `for...in` iterates over enumerable property keys.
+
+## Practice Exercises
+
+### Task 1 — Weather Decision
+
+Create two boolean variables, `isRaining` and `isWarm`. Use conditional and logical operators to display the correct message for each combination:
+
+- If it is raining and not warm, print `Bring an umbrella and wear a jacket.`
+- If it is raining but warm, print `Bring an umbrella but no jacket needed.`
+- If it is not raining but warm, print `No umbrella needed, but wear light clothes.`
+- If it is neither raining nor warm, print `No umbrella and no jacket needed.`
+
+Test all four possible combinations of the variables.
+
+### Task 2 — FizzBuzz
+
+Write a program that prints the numbers from 1 to 100. For numbers divisible by 3, print `Fizz`. For numbers divisible by 5, print `Buzz`. For numbers divisible by both 3 and 5, print `FizzBuzz`. For all other numbers, print the number itself.
+
+**Hint:** Check divisibility by both 3 and 5 before checking each condition separately.
+
+### Task 3 — Find the Next Prime Number
+
+Write a program that finds the first prime number greater than a given value `n`. Start checking at `n + 1`, test whether each candidate has a divisor other than 1 and itself, and stop when a prime is found.
+
+Use a loop to test successive candidates and a nested loop to check divisibility. Consider testing divisors only up to the square root of the candidate to avoid unnecessary work. Handle small or negative starting values correctly.

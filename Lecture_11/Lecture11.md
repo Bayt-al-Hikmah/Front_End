@@ -1,116 +1,174 @@
-# Lecture 11 — Objects, Classes, and Error Handling
+## Learning Objectives
 
-> **Core idea:** Objects keep related state and behavior together; error handling makes failure paths explicit and recoverable.
+By the end of this lecture, students should be able to:
 
-## Learning goals
-- Create objects with properties and methods, using prototypes and classes where appropriate.
-- Explain encapsulation, inheritance, polymorphism, and getters/setters in JavaScript.
-- Diagnose runtime errors and handle expected failures with `try...catch` and custom errors.
-## Object-oriented programming
-Object-oriented programming organizes code around objects that combine state (properties) and behavior (methods). JavaScript uses prototypes for inheritance; `class` syntax provides a familiar way to define constructors and methods.
+- Explain the purpose of object-oriented programming.
+- Create objects and define properties and methods.
+- Describe constructor functions and JavaScript prototypes.
+- Create classes and instances.
+- Use inheritance, encapsulation, static members, and polymorphism.
+- Define getters and setters for controlled property access.
+- Recognize common JavaScript errors and handle exceptions with `try...catch`.
+- Create and throw custom errors.
 
-**Core Principles of OOP:**
-- **Encapsulation**: Groups state with the operations that manage it and limits direct access where useful.
-- **Abstraction**: Exposes the operations a caller needs while hiding implementation details.
-- **Inheritance**: Lets an object or class reuse and specialize behavior through a prototype chain.
-- **Polymorphism**: Lets different objects respond to the same operation in their own way.
-### Objects
-Objects in JavaScript are collections of key-value pairs where the keys are strings (or Symbols) and the values can be any data type, including functions. Objects are the foundation of OOP in JavaScript.
+## Introduction to Object-Oriented Programming
 
-**Object Literal Example:**
+**Object-oriented programming (OOP)** is a way of organizing software around objects that combine data and behavior. An object can describe something in an application, such as a user, product, bank account, or order. Its properties represent information about it, while its methods represent actions it can perform.
 
-```
+OOP can help organize larger programs into reusable components. Instead of keeping all data and operations in unrelated variables and functions, related information can be grouped into objects with clear responsibilities.
+
+Four concepts are commonly associated with OOP:
+
+- **Encapsulation** groups data and the operations that work with it, while controlling access to internal state.
+- **Abstraction** exposes the useful behavior of a component while hiding implementation details that callers do not need to know.
+- **Inheritance** allows one class to build on another class's behavior.
+- **Polymorphism** allows different objects to be used through a shared interface while providing their own implementations.
+
+JavaScript uses a prototype-based object model. Its `class` syntax provides a familiar way to create objects and inheritance hierarchies, but it is built on the language's prototype system.
+
+## Objects, Properties, and Methods
+
+An object is a collection of properties. A property associates a key with a value, and that value can be data or a function. A function stored on an object is commonly called a **method**.
+
+```javascript
 const person = {
-  name: "Alice",
-  age: 30,
+  name: "Amira",
+  age: 20,
   greet() {
-    console.log(`Hi, I'm ${this.name}`);
+    console.log(`Hello, my name is ${this.name}.`);
   }
 };
+
+person.greet();
 ```
 
-`person` has `name` and `age` properties and a `greet()` method. Access properties with dot notation (`person.name`) or bracket notation (`person["name"]`). Objects can be nested, and properties can be added, updated, or deleted.
-### Properties and methods
-Properties hold an object’s state; methods are functions that define or perform its behavior. A `car` might store `make`, `model`, and `year`, with methods such as `startEngine()`.
-### Constructor Functions
-Constructor functions initialize objects when called with `new`. In that call, `this` refers to the new object; assign its instance properties there.
+In this example, `name` and `age` are properties, while `greet()` is a method. The `this` keyword refers to the object used as the method's receiver in this call, so `this.name` accesses the person's name.
 
+A property can be accessed or updated through dot notation or bracket notation:
+
+```javascript
+console.log(person.name);
+person.age = 21;
+person["city"] = "Algiers";
 ```
+
+## Constructor Functions
+
+Before JavaScript classes were introduced, constructor functions were a common way to create multiple objects with similar structures. A constructor function is called with the `new` keyword. During that call, JavaScript creates a new object and makes it available through `this` inside the constructor.
+
+```javascript
 function Person(name, age) {
   this.name = name;
   this.age = age;
 }
 
-Person.prototype.greet = function() {
-  console.log(`Hello, I'm ${this.name}`);
-};
+const amira = new Person("Amira", 20);
+const yacine = new Person("Yacine", 22);
 
-const john = new Person("John", 25);
-john.greet();
+console.log(amira.name);
+console.log(yacine.age);
 ```
-### Prototypes 
-Each constructor function has a `.prototype` object. Instances created with `new` link to it through their prototype chain, so methods added there are shared by existing and future instances.
-```
+
+Constructor functions conventionally begin with an uppercase letter. Calling one without `new` can produce unexpected behavior, so the `new` keyword is essential when using this pattern.
+
+## Prototypes
+
+JavaScript objects can inherit properties and methods from another object through the **prototype chain**. A constructor function has a `prototype` property. When an instance is created with `new`, its internal prototype is linked to that constructor's prototype object.
+
+This allows methods to be shared by every instance rather than creating a separate copy of the method inside each object:
+
+```javascript
 function Car(brand, model, year) {
   this.brand = brand;
   this.model = model;
   this.year = year;
 }
 
-Car.prototype.getInfo = function() {
+Car.prototype.getInfo = function () {
   return `${this.brand} ${this.model} (${this.year})`;
 };
 
-const car1 = new Car("Toyota", "Corolla", 2020);
-const car2 = new Car("Honda", "Civic", 2022);
+const firstCar = new Car("Toyota", "Corolla", 2020);
+const secondCar = new Car("Honda", "Civic", 2022);
 
-console.log(car1.getInfo()); // Toyota Corolla (2020)
-console.log(car2.getInfo());
+console.log(firstCar.getInfo());
+console.log(secondCar.getInfo());
 ```
-### Classes
-`class` syntax groups a constructor and methods. Class methods are placed on the class’s prototype; classes still use JavaScript’s prototype-based model.
-```
+
+Both instances can call `getInfo()` because the method is found through the prototype chain. This is one of the mechanisms behind inheritance in JavaScript.
+
+## Classes
+
+Modern JavaScript provides the `class` syntax as a clearer way to define a constructor and its prototype methods. A class describes how instances should be created and what behavior they should share.
+
+```javascript
 class Animal {
   constructor(name) {
     this.name = name;
   }
 
   speak() {
-    console.log(`${this.name} makes a sound`);
+    console.log(`${this.name} makes a sound.`);
   }
 }
 
 const dog = new Animal("Buddy");
 dog.speak();
 ```
-### Inheritance
-Inheritance allows a class to inherit properties and methods from another class. In JavaScript, this is done using the `extends` keyword and `super()` function.
 
-```
-class Dog extends Animal {
+The `constructor()` method runs when an instance is created with `new`. It is commonly used to initialize the object's properties. Other methods are placed on the class prototype and are shared by instances.
+
+## Inheritance
+
+Inheritance allows a class to extend another class. The child class receives accessible behavior from the parent and can add new behavior or override inherited methods.
+
+```javascript
+class Animal {
   constructor(name) {
-    super(name);
+    this.name = name;
   }
 
   speak() {
-    console.log(`${this.name} barks`);
+    console.log(`${this.name} makes a sound.`);
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    console.log(`${this.name} barks.`);
   }
 }
 
 const myDog = new Dog("Rex");
-myDog.speak(); // Rex barks
+myDog.speak();
 ```
 
-`Dog` inherits `Animal` behavior and overrides `speak()`. A derived constructor calls `super(name)` before using `this` to initialize parent state. Use inheritance when the relationship is meaningful; composition is often simpler for shared capabilities.
-### Encapsulation
+The `extends` keyword establishes the inheritance relationship. If the child class defines its own constructor, it must call `super()` before using `this`:
 
-Encapsulation is the practice of hiding the internal state and requiring all interaction to be performed through an object’s methods. In JavaScript, you can use closures or private fields (with `#`) to encapsulate data.
-
+```javascript
+class GuideDog extends Dog {
+  constructor(name, owner) {
+    super(name);
+    this.owner = owner;
+  }
+}
 ```
+
+Inheritance is useful when there is a genuine shared relationship, but deep inheritance hierarchies can become difficult to maintain. Composition—building objects from smaller components—can sometimes be a simpler alternative.
+
+## Encapsulation and Private Fields
+
+**Encapsulation** means controlling how an object's internal state is accessed and changed. JavaScript supports private class fields using the `#` prefix. A private field can be accessed only from within the class body.
+
+```javascript
 class BankAccount {
   #balance = 0;
 
   deposit(amount) {
+    if (amount <= 0) {
+      throw new Error("Deposit must be greater than zero.");
+    }
+
     this.#balance += amount;
   }
 
@@ -124,12 +182,13 @@ account.deposit(100);
 console.log(account.getBalance()); // 100
 ```
 
-The `#` prefix creates a private class field that code outside the class cannot access. It supports encapsulation; it is not a way to store secrets securely.
-### Static Methods and Properties
+The private field prevents outside code from changing the balance directly. The class exposes a method that validates the requested operation before updating its internal state. Encapsulation does not automatically make a system secure, but it helps preserve the rules that the class is responsible for enforcing.
 
-Static methods belong to the class itself rather than to any instance. They are useful for utility functions or class-wide behaviors.
+## Static Properties and Methods
 
-```
+A static method belongs to the class itself rather than to an instance. It is useful for behavior that relates to the class as a whole or for utility operations that do not need instance state.
+
+```javascript
 class MathHelper {
   static add(a, b) {
     return a + b;
@@ -139,142 +198,193 @@ class MathHelper {
 console.log(MathHelper.add(5, 3)); // 8
 ```
 
-Call a static method or access a static property on the class itself, not on an instance. Static members belong to the class.
-### Polymorphism
-Polymorphism lets different objects support the same operation. One way to implement it is method overriding in a subclass:
+Calling `add()` on an instance would not work because the method is attached to the class, not to its prototype. Static properties follow the same general idea and are accessed through the class name.
 
-```
+## Polymorphism
+
+**Polymorphism** allows objects of different classes to be used through a common interface. One common JavaScript example is method overriding: a child class provides its own implementation of a method inherited from a parent class.
+
+```javascript
 class Shape {
   draw() {
-    console.log("Drawing a shape");
+    console.log("Drawing a shape.");
   }
 }
 
 class Circle extends Shape {
   draw() {
-    console.log("Drawing a circle");
+    console.log("Drawing a circle.");
   }
 }
 
-const s1 = new Shape();
-const s2 = new Circle();
-s1.draw(); // Drawing a shape
-s2.draw(); // Drawing a circle
+class Rectangle extends Shape {
+  draw() {
+    console.log("Drawing a rectangle.");
+  }
+}
+
+const shapes = [new Circle(), new Rectangle()];
+
+for (const shape of shapes) {
+  shape.draw();
+}
 ```
 
-The method called depends on the object. Different shapes can be used through the same `draw()` interface.
-### Getters and Setters
-Getters and setters run when a property is read or assigned. They can format or validate values while preserving property-like syntax.
-#### Setters:
-Define a setter with `set` to validate or transform an assigned value:
-```
+The loop does not need to know the specific class of every item. Each object responds to the same `draw()` method in its own way. This is useful when several types share a common behavior but need different implementations.
+
+## Getters and Setters
+
+Getters and setters provide controlled access to object properties. A **getter** runs when a property is read. A **setter** runs when a value is assigned to a property. They are useful when a value needs validation, formatting, or calculated behavior.
+
+### Setters
+
+```javascript
 const user = {
-  firstName: '',
+  firstName: "",
+
   set name(value) {
-    if (value.length < 3) {
-      console.log('Name is too short.');
-    } else {
-      this.firstName = value;
+    if (value.trim().length < 3) {
+      throw new Error("Name must contain at least three characters.");
     }
+
+    this.firstName = value.trim();
   }
 };
 
-user.name = 'Al';    // Output: Name is too short.
-user.name = 'Alice'; // Valid assignment
+user.name = "Amira";
+console.log(user.firstName);
 ```
-#### Getters
-Define a getter with `get` to return a derived or formatted value when the property is read:
-```
+
+### Getters
+
+```javascript
 const user = {
-  firstName: 'Alice',
-  get name() {
+  firstName: "Amira",
+
+  get displayName() {
     return this.firstName.toUpperCase();
   }
 };
 
-console.log(user.name); // Output: ALICE
+console.log(user.displayName); // AMIRA
 ```
-## Error handling
-Errors can be found before execution, occur while code runs, or appear as incorrect behavior without throwing an exception. Validate inputs and handle failures where the program can respond meaningfully.
-### Types of Errors
-- **Syntax errors**: Invalid grammar, such as an unmatched brace, prevents the code from parsing.
-- **Runtime errors**: Thrown while code executes, for example when a property is read from `null`.
-- **Logic errors**: The code runs but produces the wrong result.
-- **Arithmetic mistakes**: Incorrect formulas or operator precedence can produce wrong values. Numeric division by zero in JavaScript produces `Infinity` or `NaN`, not an exception.
-- **Resource failures**: Excessive memory use or runaway work can exhaust available resources.
-### JavaScript Errors
 
-| Error Type        | Description                   | Example                              |
-| ----------------- | ----------------------------- | ------------------------------------ |
-| `SyntaxError`     | Invalid code structure        | `function() {` (missing name)        |
-| `ReferenceError`  | Accessing undefined variables | `console.log(notDefined)`            |
-| `TypeError`       | Wrong data type usage         | `null.toString()`                    |
-| `RangeError`      | Numeric value out of range    | `new Array(-1)`                      |
-| `Error` instances | Built-in or application-defined thrown errors | `throw new Error("Invalid input")` |
+A getter is accessed like a property rather than called like a method. Avoid getters with expensive or surprising side effects; reading a property should generally be predictable.
 
-### Using The Console
-The browser console reports syntax and runtime errors, usually with a message and source location. Logic errors require checking the program’s inputs, state, and output.
-### Handling Runtime Errors with `try-catch`
-Use `try...catch` for code that may throw or reject when awaited. JavaScript does not support typed catch clauses; inspect `error` with `instanceof` when different errors need different responses. `finally` runs whether the try block succeeds or fails.
-```
-const a = 4;
+## Understanding Errors
+
+An **error** occurs when a program cannot perform an operation as intended. Errors may be caused by invalid syntax, incorrect assumptions, unexpected values, or problems that occur while the program is running.
+
+It is useful to distinguish three broad categories:
+
+- **Syntax errors** occur when the code does not follow JavaScript's grammar. The browser cannot execute the affected script until the syntax problem is corrected.
+- **Runtime errors** occur while code is executing, for example when a program tries to read a property from `null`.
+- **Logic errors** occur when the code runs but produces an incorrect result because the algorithm or conditions are wrong.
+
+Some failures are caused by invalid input or external systems, such as an unavailable server. Good programs anticipate expected failures and respond in a controlled way.
+
+### Common JavaScript Error Types
+
+| Error type | Meaning | Example |
+| --- | --- | --- |
+| `SyntaxError` | Code cannot be parsed | Missing or misplaced syntax |
+| `ReferenceError` | A variable or reference cannot be resolved | `console.log(unknownName)` |
+| `TypeError` | An operation is invalid for the value's type | `null.toString()` |
+| `RangeError` | A value is outside an allowed range | `new Array(-1)` |
+| `Error` | A general error object | `throw new Error("Something failed")` |
+
+The browser console usually shows the error type, message, and location. Use those details to find the line where the problem occurred and inspect the values involved.
+
+## Handling Exceptions with `try...catch`
+
+JavaScript provides `try...catch` to handle exceptions that occur while a particular section of code executes. Statements that may throw an error are placed in the `try` block. If an exception is thrown, execution moves to the `catch` block.
+
+An optional `finally` block runs whether the `try` block succeeds or an exception is caught. It is useful for cleanup operations.
+
+```javascript
 try {
-  a = 5;
+  const value = JSON.parse("{ invalid json }");
+  console.log(value);
 } catch (error) {
-  console.log(error); // This will log the error object
+  console.error("The data could not be parsed:", error.message);
 } finally {
-  console.log("done!");
+  console.log("Parsing attempt finished.");
 }
 ```
-### Throwing errors
-Create an `Error` with a useful message and throw it when an operation cannot continue. Create the error at the point of failure so its stack trace is useful:
-```
-function divideByTwo(number) {
-  if (number % 2 !== 0) {
-    throw new Error("Only even numbers allowed.");
+
+`try...catch` handles exceptions thrown during execution of the `try` block. It does not repair syntax errors that prevent the script from being parsed in the first place. It also does not catch an asynchronous rejection unless the Promise is awaited inside the `try` block or is handled with `.catch()`.
+
+For example:
+
+```javascript
+async function loadData() {
+  try {
+    const response = await fetch("https://example.com/api/data");
+
+    if (!response.ok) {
+      throw new Error(`Request failed: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Unable to load data:", error.message);
+    return null;
   }
+}
+```
+
+## Creating and Throwing Custom Errors
+
+Use `throw` to signal that a function cannot complete an operation according to its rules. A custom error message should explain what went wrong in a way that helps the caller respond.
+
+```javascript
+function divideByTwo(number) {
+  if (!Number.isFinite(number)) {
+    throw new TypeError("The input must be a finite number.");
+  }
+
+  if (number % 2 !== 0) {
+    throw new Error("Only even numbers are accepted.");
+  }
+
   return number / 2;
 }
 
 try {
-  console.log(divideByTwo(5)); 
+  console.log(divideByTwo(5));
 } catch (error) {
-  console.log(error.message);
+  console.error(error.message);
 }
-
 ```
-## Tasks
-## Task 1
 
-Define a `BankAccount` class with:
-#### Properties
-- `#accountNumber` (private, string) – A unique account identifier.
-- `#ownerName` (private, string) – The account holder's name.
-- `#balance` (private, number) – The current balance (default: `0`).
-- `#transactions` (private, array) – Stores transaction history.
-#### Methods
-1. **`constructor(accountNumber, ownerName, initialBalance = 0)`**
-    - Initializes the account with given details.
-    - Throws an error if `initialBalance` is negative.
-2. **`deposit(amount)`**
-    - Adds `amount` to the balance.
-    - Throws an error if `amount` is negative.
-    - Logs the transaction in `#transactions`.
-3. **`withdraw(amount)`**
-    - Deducts `amount` from the balance.
-    - Throws an error if:
-        - `amount` is negative.
-        - Insufficient funds (`balance < amount`).
-    - Logs the transaction in `#transactions`.
-4. **`getBalance()`**
-    - Returns the current balance.
-5. **`getStatement()`**
-    - Prints all transactions in a formatted way.
-6. **`static transfer(sourceAccount, targetAccount, amount)`**
-    - A **static method** that transfers `amount` from `sourceAccount` to `targetAccount`.
-    - Throws an error if the transfer fails.
-### Task 2
-- Use `try-catch` blocks to handle:
-    - Negative deposits/withdrawals.
-    - Insufficient funds.
-    - Invalid transfers.
+In larger applications, developers may create custom error classes to distinguish different failure types. For beginner projects, the built-in `Error` constructor is usually sufficient.
+
+## Key Takeaways
+
+- Objects group properties and methods into one structure.
+- Constructor functions and prototypes are part of JavaScript's prototype-based model.
+- Classes provide a clear syntax for creating instances and inheritance relationships.
+- Encapsulation protects internal state by controlling how it is changed.
+- Static members belong to the class; instance methods belong to individual objects through the prototype.
+- Getters and setters provide controlled property access.
+- Syntax, runtime, and logic errors have different causes.
+- Use `try...catch` for exceptions and validate inputs before performing important operations.
+
+## Practical Exercises
+
+### Task 1 — Bank Account Class
+
+Create a `BankAccount` class that stores the following private fields:
+
+- `#accountNumber` — a string identifying the account.
+- `#ownerName` — the account holder's name.
+- `#balance` — the current balance, initially `0`.
+- `#transactions` — an array recording account activity.
+
+Implement a constructor that accepts an account number, owner name, and optional initial balance. Reject a negative initial balance. Add `deposit(amount)` and `withdraw(amount)` methods that validate the amount and record successful transactions. The withdrawal method must reject a request when the account does not have enough funds. Provide `getBalance()` and `getStatement()` methods. Finally, add a static `transfer(sourceAccount, targetAccount, amount)` method that transfers money only when the source account has sufficient funds.
+
+Use meaningful error messages and avoid changing either account when a transfer cannot be completed.
+
+### Task 2 — Error Handling Tests
+
+Write test calls that attempt a negative deposit, a negative withdrawal, a withdrawal greater than the current balance, and an invalid transfer. Wrap the calls in `try...catch` blocks and display the error messages. Also test successful deposits, withdrawals, and transfers.

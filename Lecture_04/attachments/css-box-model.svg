@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">CSS box model</title>
+  <desc id="desc">Nested layers showing margin, border, padding, and content.</desc>
+  <rect x="35" y="30" width="830" height="500" rx="10" fill="#f6d7a7" stroke="#9b6b2e" stroke-width="3"/>
+  <text x="70" y="78" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#5e3c12">Margin</text>
+  <rect x="140" y="105" width="620" height="370" rx="8" fill="#e8b9b9" stroke="#9b4242" stroke-width="3"/>
+  <text x="175" y="150" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#682828">Border</text>
+  <rect x="235" y="180" width="430" height="245" rx="8" fill="#c7e3c1" stroke="#4b8745" stroke-width="3"/>
+  <text x="270" y="220" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="#285c24">Padding</text>
+  <rect x="330" y="255" width="240" height="115" rx="6" fill="#c8d8f2" stroke="#426da9" stroke-width="3"/>
+  <text x="450" y="306" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="bold" fill="#204573">Content</text>
+  <text x="450" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#204573">text or image</text>
+  <text x="450" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#5e3c12">The layers are shown from the outside inward.</text>
+</svg>

@@ -1,752 +1,418 @@
-# Lecture 02 — HTML Structure and Content
+## Learning Objectives
 
-> **Core idea:** HTML gives a document structure and meaning; browsers use that structure to present content and provide interaction.
+By the end of this lecture, students should be able to:
 
-## Learning goals
-- Build a valid HTML document with a clear `head` and `body`.
-- Choose elements and attributes that describe content and links.
-- Structure tabular data with accessible table elements.
+- Explain the role of HTML in front-end development.
+- Create a valid HTML5 document.
+- Distinguish document metadata from visible page content.
+- Use headings, paragraphs, lists, links, and text elements appropriately.
+- Group content with `div`, `span`, and semantic elements.
+- Build accessible data tables using table headers and captions.
+
 ## Introduction to HTML
-**HTML** (HyperText Markup Language) describes a page’s structure and meaning. Elements mark content such as headings, paragraphs, images, links, lists, and controls; browsers interpret that markup to build the page.
 
-An element is usually written with a start tag, content, and an end tag. HTML also has **void elements**, which cannot contain content and have no end tag:
-1. **Elements with content**: These require both an opening and a closing tag. Examples include paragraphs (`<p>...</p>`), headings (`<h1>...</h1>`), and lists (`<ul>...</ul>`).
-2. **Void elements**: These cannot contain child content and have no end tag. Examples include images (`<img>`), line breaks (`<br>`), and inputs (`<input>`). A trailing slash is optional in HTML; it does not make an element self-closing.
+**HTML (HyperText Markup Language)** is the standard markup language used to describe the structure and meaning of content on the Web. It tells the browser what each part of a page represents: a heading, a paragraph, a list, a link, an image, a form, or another kind of content.
 
-**Attributes** add information or configure an element, such as `href` on a link or `alt` on an image. HTML files usually use the `.html` extension and are interpreted by a browser.
+HTML is a **markup language**, not a programming language. It describes content and document structure rather than providing general-purpose programming logic. CSS is responsible for presentation, while JavaScript is responsible for interactive behavior.
 
-## Structure of an HTML document
-Start with `<!DOCTYPE html>` to use standards mode. The root `<html>` element contains two main sections: `<head>` for document metadata and resource links, and `<body>` for page content.
-1. **`<head>` Section**:  
-    The `<head>` contains metadata and resource references. Most of its contents are not rendered as page content, though the title appears in the browser tab and metadata may be used by browsers or other services.
-2. **`<body>` Section**:  
-    The `<body>` contains page content users see or interact with: text, images, links, forms, and other elements.
-#### Example:
-```
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>My Webpage</title>
-    <meta name="description" content="This is a sample webpage.">
-  </head>
-  <body>
-    <h1>Welcome to My Webpage</h1>
-    <p>This is a paragraph of text.</p>
-  </body>
-</html>
-```
-## Head elements
-The `<head>` contains the document title, metadata, and links to resources.
-### `<title>`
-Sets the document title shown in the browser tab and used by bookmarks and assistive contexts.
-```
-<title>My Title</title>
-```
-### meta:
-Provides **metadata** such as character encoding, author, description, and viewport settings.
-#### Character encoding:
-Specifies the character encoding for the document. UTF-8 is the most commonly used encoding.
-```
-<meta charset="UTF-8">
-```
-#### Viewport settings:
-Sets the layout viewport so the page can scale to the device width.
-```
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-```
-#### Page Description:
-Provides a short page summary. Search engines may use it in results, but decide how to display those results themselves.
-```
-<meta name="description" content="This is a sample webpage about HTML meta tags.">
-```
-#### Keywords:  
-Specifies keywords associated with the page. Major search engines generally do not use this field for ranking.
-```
-<meta name="keywords" content="HTML, meta tags, web development, SEO">
-```
-#### Author Information:
-Specifies the author of the webpage.
-```
-<meta name="author" content="Ali tigui">
-```
-#### Open Graph Metadata:
-Provides title, description, and image metadata that some services use when the page is shared.
-```
-<meta property="og:title" content="Sample Webpage">
-<meta property="og:description" content="This is a sample webpage about meta tags.">
-<meta property="og:image" content="https://www.example.com/image.jpg">
-```
-#### Twitter Card Metadata:
-Provides card metadata for services that support these tags. Open Graph tags are also commonly supported.
-```
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Sample Webpage">
-<meta name="twitter:description" content="This is a sample webpage about meta tags.">
-<meta name="twitter:image" content="https://www.example.com/image.jpg">
-```
-### Link:
-`<link>` declares a relationship between the document and an external resource, such as a stylesheet, icon, or alternate feed.
-#### Linking Stylesheets (CSS):
-The most common use of the `<link>` tag is to connect an external CSS file to style the webpage.
-```
-<link rel="stylesheet" href="styles.css">
-```
-#### Linking Favicons:
-A favicon is a small icon displayed in the browser tab or bookmark bar.
-```
-<link rel="icon" href="favicon.ico" type="image/x-icon">
-```
-#### Linking Alternate Versions of the Page:
-Provide alternate versions of the page, such as a PDF or a different language.
-```
-<link rel="alternate" href="document.pdf" type="application/pdf">
-```
-#### Linking Fonts:
-Link a stylesheet that provides fonts. Consider performance, privacy, and licensing when loading third-party fonts.
-```
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-```
-#### Linking RSS Feeds:
-RSS (Really Simple Syndication) feeds distribute website updates in a standardized format. Linking a feed lets users and applications subscribe to those updates.
+HTML documents are written using **elements**. Most elements have an opening tag, content, and a closing tag. For example:
 
-```
-<link rel="alternate" type="application/rss+xml" href="feed.xml">
-```
-#### Linking Preload Resources:
-Request an important resource early when the page needs it soon. Preload only resources known to be critical; unnecessary preloads compete for bandwidth.
-```
-<link rel="preload" href="font.woff2" as="font" type="font/woff2" crossorigin>
-```
-#### Link tag attributes:
-- **`rel`**: Specifies the relationship between the current document and the linked resource. Common values include:
-    - `stylesheet` for CSS files
-    - `icon` for favicons
-    - `preload` for preloading resources
-    - `alternate` for alternate versions or RSS feeds
-- **`href`**: Specifies the URL of the external resource.
-- **`type`**: Defines the MIME type of the linked resource (e.g., `text/css`, `image/x-icon`).
-- **`media`**: Specifies the media type or device the resource is intended for (e.g., `screen`, `print`).
-- **`as`**: Used with `rel="preload"` to specify the type of resource being preloaded (e.g., `font`, `script`, `image`).
-- **`crossorigin`**: Indicates whether the resource should be fetched with a CORS request (used for fonts or other cross-origin resources).
-### style:
-`<style>` embeds CSS in the document. For larger projects, an external stylesheet is easier to reuse and maintain.
-```
-    <style>
-      /* CSS rules go here */
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-      }
-      h1 {
-        color: #333;
-      }
-      p {
-        font-size: 16px;
-        line-height: 1.6;
-      }
-    </style>
-```
-### script:
-`<script>` embeds or loads JavaScript. A classic script in the head may run before the document is parsed; use `defer` when it should wait until parsing finishes.
-#### Inline JavaScript:
-Write JavaScript directly inside a `<script>` element for a small example or page-specific code.
-```
-   <script>
-      // JavaScript code goes here
-      alert("Hello, World!");
-    </script>
-```
-#### External JavaScript:
-Load an external JavaScript file with `src`. Add `defer` when a classic script depends on parsed document elements:
-```
-<script src="script.js" defer></script>
-```
-### `<base>`
-Sets the base URL used to resolve relative URLs and/or the default browsing context for links and forms. It affects every relative URL in the document, so use it sparingly. A document can have only one `<base>` element.
-Its main attributes are:
-1. **`href`**: Specifies the base URL for all relative URLs in the document.
-2. **`target`**: Defines the default target for all links and forms in the document.  
-
-```
-<base href="https://www.example.com/" target="_blank">
-```
-### `<noscript>`
-Provides fallback content when scripting is disabled. Keep essential information and navigation available without JavaScript when practical.
-#### Providing alternate content
-Use `<noscript>` to explain what is unavailable or provide a fallback when scripting is disabled:
-```
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Noscript Example</title>
-    <script>
-      document.write("<p>This content is loaded with JavaScript.</p>");
-    </script>
-  </head>
-  <body>
-    <noscript>
-      <p>This content is displayed because JavaScript is disabled.</p>
-    </noscript>
-  </body>
-</html>
-```
-#### Redirecting Users:
-Avoid using `<noscript>` as a redirect mechanism; a page that works without JavaScript is usually more accessible and predictable. A legacy redirect can be written as follows:
-```
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Noscript Example</title>
-    <script>
-      // JavaScript code
-    </script>
-    <noscript>
-      <meta http-equiv="refresh" content="0; url=https://www.example.com/no-js-version">
-    </noscript>
-  </head>
-  <body>
-    <p>Welcome to the JavaScript-enabled version of the website.</p>
-  </body>
-</html>
-
-```
-## Body elements
-The `<body>` contains the page content users see or interact with.
-### Paragraphs:
-Use `<p>` for a paragraph of text. Browsers display paragraphs as blocks by default; CSS controls their presentation.
-```
+```html
 <p>This is a paragraph.</p>
 ```
-### Headings
-HTML provides six heading levels, `<h1>` through `<h6>`, for a document’s hierarchy. Choose a level based on structure, not visual size; CSS controls appearance. A page may contain multiple `<h1>` elements in some contexts, but a clear heading outline is the practical goal.
-1. **`<h1>`**: The main heading for a page or section.
-2. **`<h2>`**: Used for major section headings.
-3. **`<h3>`**: Used for subheadings under `<h2>` sections.
-4. **`<h4>`**: Used for further subsections.
-5. **`<h5>`**: Used for minor headings.
-6. **`<h6>`**: The lowest level of heading, used for small or less important headings.
+
+Here, `<p>` is the opening tag, `</p>` is the closing tag, and the text between them is the content. Some elements are **void elements**, which do not wrap content and therefore do not have closing tags. Examples include `<img>`, `<br>`, `<hr>`, and `<input>`.
+
+Elements can also have **attributes**, which provide additional information or configuration. An attribute is written inside the opening tag:
+
+```html
+<a href="https://example.com">Visit Example</a>
 ```
-<h1>Main Title</h1>
-<h2>Section Heading</h2>
-<h3>Subheading</h3>
-<h4>Minor Subheading</h4>
-<h5>Small Heading</h5>
-<h6>Least Important Heading</h6>
+
+In this example, `href` tells the browser where the link should lead. Attribute values are usually placed inside quotation marks.
+
+## The Basic Structure of an HTML Document
+
+A browser can display a small HTML fragment, but a complete page should use a clear document structure. The `<!DOCTYPE html>` declaration tells the browser to interpret the document using modern HTML standards. The `<html>` element is the root of the document and contains two main areas: `<head>` and `<body>`.
+
+- The **`<head>`** contains metadata and references to resources such as stylesheets. Most of its contents are not displayed as page content.
+- The **`<body>`** contains the content that users read and interact with.
+
+A good starting template is:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A short description of this webpage.">
+  <title>My First Web Page</title>
+</head>
+<body>
+  <h1>Welcome to My Website</h1>
+  <p>This is my first HTML page.</p>
+</body>
+</html>
 ```
-### Breaking Line in HTML
-Use the void element `<br>` for a line break within the same block of text, such as a postal address or a poem. Do not use it to create visual spacing; use CSS or a new paragraph.
+
+The `lang` attribute identifies the main language of the document. The character-set declaration ensures that the browser interprets characters correctly. The viewport metadata helps the page scale appropriately on mobile devices. The `<title>` element supplies the page title shown in the browser tab and is also useful to assistive technologies and search engines.
+
+## Understanding the `<head>` Element
+
+The `<head>` section provides information about the document and connects it to resources that the browser needs. It is not a place for the main visible content of the page.
+
+### The Page Title and Metadata
+
+The `<title>` element defines the page title:
+
+```html
+<title>Student Portfolio | Home</title>
 ```
-<p>This is the first line.<br>This is the second line.</p>
+
+The `<meta>` element provides metadata. The most useful metadata for a beginner to recognize includes:
+
+```html
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Projects and information about a student web developer.">
+<meta name="author" content="Student Name">
 ```
-### Horizontal Line in HTML
-`<hr>` marks a thematic break between sections of content. Browsers commonly render it as a horizontal line; CSS controls its appearance. It is a void element.
+
+A description may be used by search engines when presenting a page in search results, although search engines decide how to display their snippets. The old `keywords` metadata is generally not a meaningful ranking tool for major search engines, so it should not be treated as a required optimization technique.
+
+### Social Sharing Metadata
+
+When a page is shared on a social platform, metadata can help determine the title, description, and image shown in the preview. Open Graph metadata is commonly used for this purpose:
+
+```html
+<meta property="og:title" content="Student Portfolio">
+<meta property="og:description" content="Explore my projects and skills.">
+<meta property="og:image" content="https://example.com/preview.jpg">
 ```
-<p>This is the first section of content.</p>
-<hr>
-<p>This is the second section of content.</p>
+
+Some platforms also recognize Twitter/X card metadata. These tags are useful when a website needs controlled sharing previews, but they are not required for a simple first page.
+
+### Linking External Resources with `<link>`
+
+The `<link>` element connects the document to related external resources. A front-end developer most often uses it to attach a CSS file or define a favicon.
+
+```html
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="images/favicon.png" type="image/png">
 ```
-### Styling Text in HTML:
-HTML includes elements that convey meaning as well as elements with presentational or specialized uses:
-#### ``<em>``Tag:
-Used to emphasize text. Browsers typically render it in _italics_, it Indicates that the text has stress emphasis.
+
+The `rel` attribute explains the relationship between the page and the resource. Other uses include alternate language versions, RSS feeds, and preloading critical resources. These advanced uses should be introduced when the project needs them rather than added to every page by default.
+
+### Internal and External Scripts
+
+JavaScript can be placed directly inside a `<script>` element, but larger projects are easier to maintain when the code is stored in an external `.js` file.
+
+```html
+<script>
+  console.log("Hello from the page");
+</script>
 ```
-<p>This is <em>important</em> text.</p>
+
+For an external script, use:
+
+```html
+<script src="scripts/main.js" defer></script>
 ```
-**Output**: This is _important_ text.
-#### `<i>` Tag:
-Marks text set apart from surrounding prose without added emphasis, such as a technical term or foreign phrase.
+
+The `defer` attribute tells the browser to download the script while parsing the HTML and execute it after the document has been parsed. This is a useful default for many classic external scripts because the JavaScript can safely work with elements declared in the page.
+
+### The `<style>`, `<base>`, and `<noscript>` Elements
+
+The `<style>` element allows CSS to be written inside the document's head:
+
+```html
+<style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+</style>
 ```
-<p>The term <i>et cetera</i> is often abbreviated as <i>etc.</i></p>
+
+For small demonstrations this is convenient, but external stylesheets are usually easier to organize and reuse as a project grows.
+
+The `<base>` element can define a base URL or default link target for relative URLs in a document. Because it changes how relative links are resolved across the page, it should be used carefully. A beginner project rarely needs it.
+
+The `<noscript>` element provides fallback content when scripting is unavailable or disabled. It can display a message explaining that a feature requires JavaScript:
+
+```html
+<noscript>
+  <p>This application requires JavaScript to provide its full functionality.</p>
+</noscript>
 ```
-**Output**: The term _et cetera_ is often abbreviated as _etc._
-#### `<u>` Tag
-Marks text with a non-textual annotation. Browsers often underline it; do not use it as a substitute for emphasis or to imitate links.
+
+## Working with Content in the `<body>`
+
+The body contains the content that forms the visible page. HTML provides elements for headings, paragraphs, lists, links, quotations, and other common content types. Choosing elements based on their meaning makes a document easier to read, maintain, and navigate.
+
+### Headings and Paragraphs
+
+HTML provides six heading levels, from `<h1>` to `<h6>`. They communicate the hierarchy of the content: `<h1>` is the main heading, while lower levels introduce subsections.
+
+```html
+<h1>Introduction to Web Development</h1>
+<p>Web development combines several technologies to create websites and applications.</p>
+
+<h2>Front-End Development</h2>
+<p>Front-end developers build the interface users interact with.</p>
+
+<h3>Core Technologies</h3>
+<p>HTML, CSS, and JavaScript are the foundation of front-end development.</p>
 ```
-<p>This is <u>underlined</u> text.</p>
+
+Headings should represent the document's structure, not simply provide a larger font size. Avoid choosing a heading level only because its default appearance looks suitable; CSS can change how any heading looks.
+
+The `<p>` element represents a paragraph. Browsers normally place space between paragraphs, separating distinct ideas into readable blocks.
+
+### Line Breaks and Thematic Breaks
+
+The `<br>` element creates a line break inside content where a line break is meaningful, such as an address or a poem. It should not be used repeatedly to create page spacing; CSS is the correct tool for controlling layout and spacing.
+
+The `<hr>` element represents a thematic change between sections of content. Browsers commonly display it as a horizontal line, but its meaning is more important than its appearance.
+
+### Emphasis and Text Meaning
+
+HTML provides elements that communicate the meaning of text:
+
+- `<strong>` indicates strong importance.
+- `<em>` indicates stress emphasis.
+- `<b>` draws attention without adding the same importance as `<strong>`.
+- `<i>` marks text that is set apart from normal prose, such as a technical term or a phrase in another language.
+- `<u>` marks a non-textual annotation, although underlining should be used carefully because users often interpret underlined text as a link.
+- `<sup>` and `<sub>` represent superscript and subscript text.
+
+```html
+<p><strong>Important:</strong> Save your work before closing the editor.</p>
+<p>You should <em>always</em> test your page in a browser.</p>
+<p>Water is written as H<sub>2</sub>O.</p>
+<p>Einstein's equation is E = mc<sup>2</sup>.</p>
 ```
-**Output**: This is <u>underlined</u> text.
-#### `<b>` Tag
-Draws attention to text without adding importance, such as keywords or product names.
-```
-<p>This is <b>bold</b> text.</p>
-```
-**Output**: This is **bold** text.
-#### `<strong>` Tag:
-Marks text with strong importance, seriousness, or urgency. Browsers commonly render it in bold.
-```
-<p>This is <strong>very important</strong> text.</p>
-```
-**Output**: This is **very important** text.
-#### `<sup>` Tag
-Marks superscript text, such as an exponent or ordinal suffix.
-```
-<p>E = mc<sup>2</sup></p>
-```
-**Output**: E = mc².
-#### `<sub>` Tag
-Marks subscript text, such as the `2` in a chemical formula.
-```
-<p>H<sub>2</sub>O is the chemical formula for water.</p>
-```
-**Output**: H₂O is the chemical formula for water.
-#### Special Characters:
-Special characters (e.g., symbols, accents, or reserved characters) can be added to HTML using [**character entities**](https://symbl.cc/en/html-entities/). These are codes that represent characters not available on a standard keyboard or have special meanings in HTML.  
-**Example :**
-```
-<p>Copyright &copy; 2023 My Company. All rights reserved.</p>
-<p>Price: &euro;50.00</p>
-<p>5 &lt; 10 is true.</p>
-```
-**Output**:  
-Copyright © 2023 My Company. All rights reserved.  
-Price: €50.00  
-5 < 10 is true.
-### Lists in HTML:
-Use lists to group related items: unordered when order is unimportant, ordered when sequence matters, and description lists for terms with associated descriptions.
-#### Unordered Lists (`<ul>`):
-Use an unordered list when item order does not matter. Each item belongs in an `<li>` (list item) element.
-```
+
+For characters that have a special meaning in HTML, use character references. For example, `&lt;` displays `<`, `&gt;` displays `>`, and `&amp;` displays `&`. The `&copy;` reference displays the copyright symbol.
+
+### Lists
+
+Lists organize related items and make information easier to scan. HTML supports three common list structures:
+
+An **unordered list** uses `<ul>` when the order of the items is not important. Each item is placed inside an `<li>` element:
+
+```html
+<h2>Technologies</h2>
 <ul>
-  <li>Apple</li>
-  <li>Banana</li>
-  <li>Orange</li>
+  <li>HTML</li>
+  <li>CSS</li>
+  <li>JavaScript</li>
 </ul>
 ```
-**Output**:
-- Apple
-- Banana
-- Orange
- #### Ordered Lists (`<ol>`)
-Used to create a list of items where the order matters (e.g., steps in a recipe). Each item is wrapped in a `<li>` tag.
-```
+
+An **ordered list** uses `<ol>` when the sequence matters, such as instructions or steps:
+
+```html
 <ol>
-  <li>Preheat the oven.</li>
-  <li>Mix the ingredients.</li>
-  <li>Bake for 30 minutes.</li>
+  <li>Create the HTML file.</li>
+  <li>Add the page structure.</li>
+  <li>Open the file in a browser.</li>
 </ol>
 ```
-**Output**:
-1. Preheat the oven.
-2. Mix the ingredients.
-3. Bake for 30 minutes.
-#### Definition Lists (`<dl>`)
-Used to create a list of terms and their definitions (like a dictionary).  
 
-**Syntax**:
+A **description list** uses `<dl>` to associate terms with descriptions. Each term is written with `<dt>` and its description with `<dd>`:
 
-- `<dl>`: Wraps the entire list.
-- `<dt>`: Defines the term.
-- `<dd>`: Defines the description or definition of the term.
-```
+```html
 <dl>
   <dt>HTML</dt>
-  <dd>HyperText Markup Language, used for creating web pages.</dd>
+  <dd>Defines the structure and meaning of webpage content.</dd>
   <dt>CSS</dt>
-  <dd>Cascading Style Sheets, used for styling web pages.</dd>
+  <dd>Controls the visual presentation of webpage content.</dd>
 </dl>
 ```
-**Output**:  
-**HTML**  
-HyperText Markup Language, used for creating web pages.  
-**CSS**  
-Cascading Style Sheets, used for styling web pages.
-#### Nested Lists
-Nest a list inside a list item to represent sub-items or a hierarchy.
-```
-<ul>
-  <li>Fruits
-    <ul>
-      <li>Apple</li>
-      <li>Banana</li>
-    </ul>
-  </li>
-  <li>Vegetables
-    <ul>
-      <li>Carrot</li>
-      <li>Broccoli</li>
-    </ul>
-  </li>
-</ul>
-```
-**Output**:
-- Fruits
-    - Apple
-    - Banana
-- Vegetables
-    - Carrot
-    - Broccoli
-### Class and ID Attributes in HTML
-Use `class` and `id` to identify elements for styling, scripting, and navigation. A class can be shared; an `id` should be unique in the document.
-#### `class` Attribute
-Groups elements that share a purpose or style. An element can have multiple space-separated classes.
-```
-<p class="highlight">This is a highlighted paragraph.</p>
-<p class="highlight">This is another highlighted paragraph.</p>
-```
-#### `id` Attribute:
-Identifies one element in the document. Keep each `id` unique.
-```
-<p id="intro">This is the introduction paragraph.</p>
-<p>This is a regular paragraph.</p>
-```
-### Links in HTML:
-The `<a>` element creates a hyperlink to another page, a page section, or another resource.
-#### Basic Link Syntax:
-- **Tag**: `<a>`
-- **Attribute**: `href` (hypertext reference) specifies the destination of the link.
-- **Content**: The text or element inside the `<a>` tag becomes clickable.
-```
-<a href="https://www.example.com">Visit Example.com</a>
-```
-**Output**:  
-[Visit Example.com](https://www.example.com/)  
 
-#### Types of Links
-**Absolute Links**  
-Point to a full URL (including the protocol, e.g., `https://`). Used for linking to external websites.
+Lists can also be nested. A nested list should be placed inside the `<li>` item to which it belongs.
+
+### Classes and IDs
+
+HTML attributes let us identify elements so that CSS and JavaScript can work with them. The `class` attribute is used to group one or more elements under a shared name. Multiple elements can use the same class, and one element can have multiple class names.
+
+```html
+<p class="notice important">Read the instructions carefully.</p>
+<p class="notice">Your changes have been saved.</p>
 ```
-<a href="https://www.google.com">Go to Google</a>
+
+The `id` attribute identifies one particular element in a document. An ID should be unique within the page.
+
+```html
+<section id="contact">
+  <h2>Contact</h2>
+</section>
 ```
-**Relative Links**  
-Point to a file or resource within the same website.
+
+Classes are commonly used for styling groups of elements. IDs are useful for unique targets, such as a section that a link scrolls to.
+
+### Links and Navigation
+
+The `<a>` element creates a hyperlink. Its `href` attribute defines the destination:
+
+```html
+<a href="https://developer.mozilla.org/">Read the MDN documentation</a>
 ```
+
+A link can point to another website, another file, a location within the current page, an email address, or a phone number.
+
+```html
+<!-- Link to another page -->
 <a href="about.html">About Us</a>
-```
-This links to `about.html`, resolved relative to the current page’s URL.
-**Internal Links (Anchor Links)**  
-Point to a specific section within the same page using the `id` attribute.
+
+<!-- Link to a section on the current page -->
+<a href="#projects">View Projects</a>
+
+<!-- Email link -->
+<a href="mailto:hello@example.com">Send an email</a>
+
+<!-- Phone link -->
+<a href="tel:+213123456789">Call us</a>
 ```
 
-<a href="#section2">Jump to Section 2</a>
-<h2 id="section2">Section 2</h2>
-<p>This is the content of Section 2.</p>
-```
-It is used to navigate through our webpage.
-**Email Links**  
-Open the user's default email client with a pre-filled email address.
-```
-<a href="mailto:example@example.com">Send Email</a>
-```
-**Phone Links**   
-Open the user's default phone app with a pre-filled phone number.
-```
-<a href="tel:+1234567890">Call Us</a>
-```
-#### **Link Attributes**
-**`target` Attribute**   
-Specifies where to open the linked resource.
-- `_blank`: Opens the link in a new browsing context, usually a tab. For compatibility with older browsers, consider `rel="noopener"` when linking to an untrusted page.
-- `_self`: Opens the link in the same tab (default behavior).
-```
-<a href="https://www.example.com" target="_blank">Open in New Tab</a>
-```
-**`title` Attribute**
-Provides advisory information, often shown as a tooltip. Do not rely on it as the link’s accessible name.
-```
-<a href="https://www.example.com" title="Visit Example.com">Example</a>
-```
-### `<div>` and `<span>` tags:
+For a link that opens a new tab, use `target="_blank"`. It is good practice to include `rel="noopener"` as well:
 
-#### `<div>` Tag
-`<div>` is a generic block container. Use it when no more meaningful semantic element fits, such as when a wrapper is needed for styling or scripting.
+```html
+<a href="https://example.com" target="_blank" rel="noopener">
+  Open Example in a new tab
+</a>
 ```
-<div>
-  <h2>This is a heading inside a div</h2>
-  <p>This is a paragraph inside a div.</p>
+
+Use meaningful link text. A label such as “Read the course outline” is more informative than “Click here,” especially for users navigating with assistive technologies.
+
+### Generic Containers: `<div>` and `<span>`
+
+The `<div>` element is a generic block container. It groups related elements when no more meaningful semantic element is appropriate. Developers commonly use it to create layout containers or apply a shared class.
+
+The `<span>` element is a generic inline container. It is useful for targeting a small piece of text without creating a separate block.
+
+```html
+<div class="card">
+  <h2>HTML</h2>
+  <p>HTML provides the <span class="highlight">structure</span> of a page.</p>
 </div>
 ```
-#### `<span>` Tag
-`<span>` is a generic inline container, useful for styling or scripting a phrase within surrounding text.
-```
-<p>This is a <span style="color: red;">highlighted</span> word.</p>
-```
-### Default inline and block layout
-#### Block Elements
-Many elements, such as `<div>`, headings, and paragraphs, display as blocks by default: they start on a new line and normally fill the available inline space. CSS can change an element’s `display` behavior.
-#### Inline Elements
-Elements such as `<span>`, `<a>`, `<strong>`, and `<em>` display inline by default and flow with surrounding text. Treat “block” and “inline” as default CSS layout behavior, not fixed categories that determine meaning.
-## Tables:
-### Creating table
-Use tables for tabular data, not page layout. `<tr>` creates a row; `<td>` creates a data cell and `<th>` a header cell. Add row and column headers so cell relationships are clear to assistive technology. The legacy `border` attribute appears in these introductory examples; production styling belongs in CSS.
-```
+
+These elements do not communicate a specific meaning by themselves. When an element such as `<header>`, `<nav>`, `<main>`, or `<section>` more accurately describes the content, prefer that semantic element.
+
+### Block and Inline Display Behavior
+
+By default, many HTML elements behave as **block-level** or **inline** elements. Block elements normally begin on a new line and occupy the available width of their containing block. Paragraphs, headings, and `<div>` elements are common examples.
+
+Inline elements normally flow within the surrounding text and occupy only the space their content needs. `<a>`, `<strong>`, `<em>`, and `<span>` are common examples.
+
+These are default display behaviors, not permanent limitations. CSS can change an element's display mode using properties such as `display: block`, `display: inline`, `display: inline-block`, `display: flex`, and `display: grid`. We will explore these properties in the CSS lectures.
+
+## Creating Tables
+
+HTML tables represent **tabular data**: information organized into rows and columns. They should not be used to create the overall layout of a webpage. Modern page layouts should use CSS Grid or Flexbox, which are covered in later lectures.
+
+A basic table uses:
+
+- `<table>` as the table container.
+- `<tr>` to create a row.
+- `<th>` for a header cell.
+- `<td>` for a data cell.
+
+```html
 <table>
-<caption>Example Table</caption>
+  <caption>Student Results</caption>
+  <thead>
     <tr>
-        <th>Header 1</th>
-        <th>Header 2</th>
-        <th>Header 3</th>
+      <th scope="col">Student</th>
+      <th scope="col">Subject</th>
+      <th scope="col">Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Amira</th>
+      <td>Mathematics</td>
+      <td>18</td>
     </tr>
     <tr>
-        <td>Row 1, Cell 1</td>
-        <td>Row 1, Cell 2</td>
-        <td>Row 1, Cell 3</td>
+      <th scope="row">Yacine</th>
+      <td>Science</td>
+      <td>16</td>
     </tr>
-    <tr>
-        <td>Row 2, Cell 1</td>
-        <td>Row 2, Cell 2</td>
-        <td>Row 2, Cell 3</td>
-    </tr>
+  </tbody>
 </table>
 ```
-**Output:**
 
+The `<caption>` gives the table a title. The `<thead>`, `<tbody>`, and `<tfoot>` elements group the table's header, main content, and footer. The `scope` attribute on header cells helps browsers and assistive technologies associate headers with their corresponding data cells.
+
+### Merging Cells with `colspan` and `rowspan`
+
+The `colspan` attribute makes one cell span multiple columns. It is useful for a heading that groups related columns or a timetable break that covers several day columns.
+
+```html
 <table>
-    <tr>
-        <th>Header 1</th>
-        <th>Header 2</th>
-        <th>Header 3</th>
-    </tr>
-    <tr>
-        <td>Row 1, Cell 1</td>
-        <td>Row 1, Cell 2</td>
-        <td>Row 1, Cell 3</td>
-    </tr>
-    <tr>
-        <td>Row 2, Cell 1</td>
-        <td>Row 2, Cell 2</td>
-        <td>Row 2, Cell 3</td>
-    </tr>
-</table>  
-
-### Adding a caption
-Use `<caption>` to give the table a concise title or description. Place it as the first child of `<table>` so it is associated with the table.
+  <tr>
+    <th colspan="2">Student Name</th>
+    <th>Grade</th>
+  </tr>
+  <tr>
+    <td>Amira</td>
+    <td>Benali</td>
+    <td>18</td>
+  </tr>
+</table>
 ```
+
+The `rowspan` attribute makes a cell span multiple rows. For example, a subject that continues through two time periods can occupy both rows:
+
+```html
 <table>
-    <caption>Employee Details</caption> <!-- Caption added here -->
-    <tr>
-        <th>Name</th>
-        <th>Department</th>
-        <th>Salary</th>
-    </tr>
-    <tr>
-        <td>John Doe</td>
-        <td>Marketing</td>
-        <td>$60,000</td>
-    </tr>
-    <tr>
-        <td>Jane Smith</td>
-        <td>Engineering</td>
-        <td>$80,000</td>
-    </tr>
+  <tr>
+    <th>Time</th>
+    <th>Monday</th>
+  </tr>
+  <tr>
+    <td>08:00–09:00</td>
+    <td rowspan="2">Mathematics</td>
+  </tr>
+  <tr>
+    <td>09:00–10:00</td>
+  </tr>
 </table>
 ```
-**Output:**  
-<table>
-    <caption>Employee Details</caption>
-    <tr>
-        <th>Name</th>
-        <th>Department</th>
-        <th>Salary</th>
-    </tr>
-    <tr>
-        <td>John Doe</td>
-        <td>Marketing</td>
-        <td>$60,000</td>
-    </tr>
-    <tr>
-        <td>Jane Smith</td>
-        <td>Engineering</td>
-        <td>$80,000</td>
-    </tr>
-</table>  
 
-### colspan and rowspan Attributes
-#### `colspan` Attribute:
-`colspan` makes a cell span multiple columns.
-```
-<table border="1">
-    <tr>
-        <th colspan="2">Name</th> 
-        <th>Age</th>
-    </tr>
-    <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>25</td>
-    </tr>
-    <tr>
-        <td>Jane</td>
-        <td>Smith</td>
-        <td>30</td>
-    </tr>
-</table>
-```
-**Output:**  
+When cells span multiple rows or columns, plan the table carefully so that each row has the intended number of occupied columns. Incorrect spans can make a table difficult to understand and navigate.
 
-<table border="1">
-    <tr>
-        <th colspan="2">Name</th> <!-- Merges two columns -->
-        <th>Age</th>
-    </tr>
-    <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>25</td>
-    </tr>
-    <tr>
-        <td>Jane</td>
-        <td>Smith</td>
-        <td>30</td>
-    </tr>
-</table>  
+Avoid using the old `border` attribute to style tables. Presentation should be handled with CSS, which we will study in the next lectures.
 
-#### `rowspan` Attribute:
-`rowspan` makes a cell span multiple rows.
-```
-<table border="1">
-    <tr>
-        <th rowspan="2">ID</th> <!-- Merges two rows -->
-        <th>Name</th>
-        <th>Age</th>
-    </tr>
-    <tr>
-        <td>John Doe</td>
-        <td>25</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Jane Smith</td>
-        <td>30</td>
-    </tr>
-</table>
-```
-**Output:**  
+## Key Takeaways
 
-<table border="1">
-    <tr>
-        <th rowspan="2">ID</th>
-        <th>Name</th>
-        <th>Age</th>
-    </tr>
-    <tr>
-        <td>John Doe</td>
-        <td>25</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Jane Smith</td>
-        <td>30</td>
-    </tr>
-</table>  
+- HTML describes the structure and meaning of webpage content.
+- A complete document includes `<!DOCTYPE html>`, `<html>`, `<head>`, and `<body>`.
+- Metadata belongs in the head; visible page content belongs in the body.
+- Use headings to create a meaningful content hierarchy.
+- Use lists for related items and links for navigation.
+- Prefer semantic elements when they describe the content more accurately than generic containers.
+- Use HTML tables for data, not page layout.
 
-#### Combining `rowspan` and `colspan`
-Combine both attributes when a table’s data relationships require a cell to cover multiple rows and columns.
-```
-<table border>
-    <tr>
-        <th rowspan="2">ID</th>
-        <th colspan="2">Name</th>
-        <th rowspan="2">Age</th>
-    </tr>
-    <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>John</td>
-        <td>Doe</td>
-        <td>25</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Jane</td>
-        <td>Smith</td>
-        <td>30</td>
-    </tr>
-</table>
-```
-**Output:**  
+## Practical Exercises
 
-<table border>
-    <tr>
-        <th rowspan="2">ID</th>
-        <th colspan="2">Name</th>
-        <th rowspan="2">Age</th>
-    </tr>
-    <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>John</td>
-        <td>Doe</td>
-        <td>25</td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Jane</td>
-        <td>Smith</td>
-        <td>30</td>
-    </tr>
-</table>  
+### Task 1 — Personal Portfolio Page
 
-## Tasks:
-## Task 1: Personal Portfolio Website
+Create a one-page personal portfolio using HTML only. The goal is to practice document structure and the elements introduced in this lecture.
 
-#### Objective
-Create a **personal portfolio webpage** using HTML to showcase your skills, projects, and contact information.
-#### Requirements:
-1. Basic Structure (`<head>` & `<body>`)
-	- Use `<!DOCTYPE html>` and proper HTML5 structure.
-	- Add a meaningful `<title>` (e.g., "John Doe - Portfolio").
-	- Include meta tags for **description**, **viewport**, and **UTF-8 encoding**.
-2. Navigation Bar (Menu)
-	- Create a navigation bar (`<nav>`) with links to:
-	    - **Home** (links to the top of the page).
-	    - **About Me** (links to a section).
-	    - **Projects** (links to a section).
-	    - **Contact** (links to a section).
-3. Sections (Using `<div>` or `<section>`)
-	- **Hero Section (Home)**:
-	    - A heading (`<h1>`) with your name.
-	    - A short introduction (`<p>`).
-	    - An image (use `<img>` with `alt` text).
-	- **About Me Section**:
-	    - A heading (`<h2>`).
-	    - A paragraph (`<p>`) describing yourself.
-	    - An **unordered list** (`<ul>`) of skills.
-	- **Projects Section**:
-	    - A heading (`<h2>`).
-	    - A **table** (`<table>`) listing:
-    - **Project Name**, **Description**, and **Year** as column headers (`<th scope="col">`).
-	    - At least 3 projects (rows).
-	- **Contact Section**:
-	    - A heading (`<h2>`).
-	    - A **link** (`<a>`) to your email (`mailto:`).
-	    - A **phone link** (`tel:`).
-	    - A **social media link** (e.g., LinkedIn, GitHub).
-4. Footer
-	- A `<footer>` with:
-	    - Copyright symbol (`&copy;`) and current year.
-	    - A **horizontal line** (`<hr>`) above it.
-5. Bonus (Optional)
-	- Add a **favicon** (use `<link rel="icon">`).
-	- Use `<strong>`, `<em>`, or `<span>` for text styling.
-#### Solution
-You can find our solution here: https://alitigui.github.io/Front_end_solutions/Lecture2/solution1/portfolio.html
-### Task 2: 
-#### Objective:
-Design a **weekly school timetable** using advanced HTML table features (`colspan`, `rowspan`, `<caption>`).
-#### Requirements:
-1. Basic Table Structure
-	- Add borders with CSS. (`border="1"` is shown in the examples as a legacy attribute.)
-	- Add a `<caption>` (e.g., "Class 10A Weekly Timetable").
-2. Table Headers (`<thead>`)
-	- First row: Days of the week (`<th>` for Monday to Friday).
-	- Second row: Time slots (`<th>` for "8:00 AM", "9:00 AM", etc.).
-3. Table Body (`<tbody>`)
-	- Use **`rowspan`** for subjects that span multiple hours (e.g., Math from 8 AM to 10 AM).
-	- Use **`colspan`** for merged cells (e.g., "Lunch Break" across all days).
-	- Include at least **5 subjects** (Math, Science, History, etc.).
-4. Special Rows
-	- **Lunch Break**: A row with `colspan="5"`.
-	- **Free Period**: A cell with `rowspan="2"`.
-5. Footer (`<tfoot>`)
-	- Add a footer with a note (e.g., "Timetable subject to change").
-6. Bonus (Optional)
-	- Add a **"Notes" column** with `<ul>` for reminders.
-	- Use `<abbr>` for abbreviations (e.g., `<abbr title="Physical Education">PE</abbr>`).
-#### Solution
-You can find our solution here: https://alitigui.github.io/Front_end_solutions/Lecture2/solution2/timetable.html
+Your page should include a navigation menu with links to **Home**, **About**, **Projects**, and **Contact**. Add a hero section with your name, a short introduction, and an image with meaningful alternative text. Create an About section with a paragraph and a list of skills. In the Projects section, use a table to list at least three projects, including each project's name, description, and year. In the Contact section, add an email link, phone link, and a social profile link. Finish with a footer containing a copyright notice.
+
+Use a proper document structure, a descriptive page title, UTF-8 character encoding, and the responsive viewport metadata. Add a favicon as an optional improvement.
+
+**Reference solution:** [Personal portfolio example](https://alitigui.github.io/Front_end_solutions/Lecture2/solution1/portfolio.html)
+
+### Task 2 — Weekly Timetable
+
+Create a weekly school timetable using an HTML table. Include a caption, weekday headings, time slots, at least five subjects, and a note in the footer. Use `rowspan` for a class that lasts multiple periods and `colspan` for a break that spans several days. Add a notes column as an optional extension.
+
+**Reference solution:** [Weekly timetable example](https://alitigui.github.io/Front_end_solutions/Lecture2/solution2/timetable.html)
+
+**Class discussion:** What makes a table different from a set of `div` elements? In which situation would using a table improve the meaning and accessibility of the content?

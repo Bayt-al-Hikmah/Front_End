@@ -1,541 +1,614 @@
-# Lecture 12 — The DOM, Browser APIs, and Real-Time Data
+## Learning Objectives
 
-> **Core idea:** Browser APIs connect JavaScript to the page, browser state, and live communication; event-driven code responds to changes over time.
+By the end of this lecture, students should be able to:
 
-## Learning goals
-- Select DOM nodes, change content and attributes, and respond to user events.
-- Use browser APIs and client-side storage for appropriate kinds of state.
-- Describe how a WebSocket connection supports two-way real-time messaging.
-## DOM manipulation
-The **Document Object Model (DOM)** represents a document as connected nodes and objects. JavaScript can select those nodes, read or update content and attributes, respond to events, and create or remove elements.
-![dom](./attachments/dom.webp)  
+- Explain how the browser represents a webpage through the Document Object Model.
+- Select, update, create, and remove HTML elements with JavaScript.
+- Respond to user actions with event listeners.
+- Recognize common Browser Object Model features.
+- Convert between JavaScript data and JSON.
+- Store simple information using cookies, local storage, and session storage.
+- Encode URL components and create downloadable files with Blob objects.
+- Explain how WebSockets support real-time communication.
 
-### Adding JavaScript to a page
-For small examples, place code in a `<script>` element:
-```
-<script>
-  // JavaScript code goes here
-  alert("This is an internal script!");
-  console.log("Executed directly in HTML");
-</script>
-```
-For reusable code, load an external file. Use `defer` when a classic script should run after HTML parsing:
-```
+## Introduction to the Document Object Model
+
+When a browser loads an HTML document, it parses the markup and creates an object representation of the page called the **Document Object Model (DOM)**. The DOM organizes the document as a tree of nodes. Elements, text, and attributes are represented in this structure, and JavaScript can use the DOM API to inspect and modify it.
+
+For example, an HTML page may contain a heading, paragraph, and button. The browser creates corresponding objects in the DOM tree. JavaScript can select the heading, change its text, listen for a button click, or add a new element to the page.
+
+The DOM is not the same thing as the original HTML source. It is the browser's current structured representation of the document, and JavaScript changes can update that representation while the page is open.
+
+![DOM tree](./attachments/dom.webp)
+
+## Connecting JavaScript to the Page
+
+JavaScript can be written inside the HTML document or loaded from an external file. For maintainability, external files are generally preferred:
+
+```html
 <script src="scripts/main.js" defer></script>
 ```
-### Selecting elements
-Choose a selector that matches the number of elements you need:
-#### By tag name
-`getElementsByTagName()` returns a live `HTMLCollection`; it updates as matching elements are added or removed.
+
+The `defer` attribute ensures that the browser parses the document before executing the classic external script. A module script is deferred by default:
+
+```html
+<script type="module" src="scripts/main.js"></script>
 ```
-// Select all <div> elements
-const divElements = document.getElementsByTagName('div');
+
+When a script is loaded without `defer` near the top of the document, it may execute before the elements it needs have been parsed. Choosing an appropriate script-loading strategy helps avoid selecting elements before they exist.
+
+## Selecting DOM Elements
+
+Before JavaScript can change an element, it needs to select that element from the DOM. The DOM provides several selection methods.
+
+### Selecting by ID
+
+`document.getElementById()` returns the element with the specified ID, or `null` if no matching element exists:
+
+```javascript
+const pageTitle = document.getElementById("page-title");
 ```
-#### By class name
-`getElementsByClassName()` also returns a live `HTMLCollection`.
+
+Because an ID should be unique within a page, this method is useful when targeting one known element.
+
+### Selecting by Tag Name or Class Name
+
+`getElementsByTagName()` returns a live `HTMLCollection` containing elements with the specified tag name. `getElementsByClassName()` returns a live collection of elements containing the specified class:
+
+```javascript
+const paragraphs = document.getElementsByTagName("p");
+const menuItems = document.getElementsByClassName("menu-item");
 ```
-// Select all elements with 'menu-item' class
-const menuItems = document.getElementsByClassName('menu-item');
-```
-#### By ID
-`getElementById()` returns the matching element or `null`. Keep IDs unique in the document.
-```
-// Select element with ID "header"
-const headerElement = document.getElementById('header');
-```
-#### CSS Selectors
-CSS selector methods offer more flexible matching:
-1. **First match**
-```
-// Select first <button> with class "primary"
-const btn = document.querySelector('button.primary');
-```
-2. **All matches**
-```
-// Select all <input> elements with type "text"
+
+A live collection updates as the document changes. This behavior can be useful, but it can also be surprising when elements are added or removed while a collection is being processed.
+
+### Selecting with CSS Selectors
+
+`querySelector()` accepts a CSS selector and returns the first matching element, or `null`. `querySelectorAll()` returns a static `NodeList` containing all matching elements:
+
+```javascript
+const firstButton = document.querySelector("button.primary");
 const textInputs = document.querySelectorAll('input[type="text"]');
 ```
-### Manipulating DOM Elements
-After selecting a node, you can update its content, style, attributes, and classes.
-#### Changing Element Content
-1. `innerHTML` parses and replaces an element’s markup. Use it only with trusted or safely sanitized HTML; use `textContent` for plain text.
-```
-const element = document.querySelector('#target');
-element.innerHTML = '<strong>New</strong> content';
-```
-2. `textContent` sets plain text without parsing it as HTML.
-```
-const element = document.querySelector('#target');
-element.textContent = 'Plain text content';
-```
-3. `value` reads or sets a form control’s value. It is usually a string.
-```
-const element = document.querySelector('#target');
-element.value = 'New input value';
-```
-#### Changing Element Style
-For one-off changes, `style` sets inline CSS properties:
-```
-const element = document.querySelector('#target');
-element.style.backgroundColor = 'blue';
-element.style.fontSize = '1.2rem';
-```
-`cssText` replaces the element’s entire inline style declaration. For reusable states, prefer adding a CSS class with `classList`.
-```
-const element = document.querySelector('#target');
-element.style.cssText = `
-  color: white;
-  padding: 1rem;
-  display: flex;
-`;
-```
-#### Managing Attributes
-Read or update attributes and reflected properties:
-1. Properties such as `link.href` may return a resolved URL; `getAttribute()` returns the attribute’s written value.
-```
-const link = document.querySelector('a');
-const href = link.href; 
-const title = link.getAttribute('title');
-```
-2. `attributes` exposes the element’s attribute collection.
-```
-const attributes = document.getElementById('myElement').attributes;
-```
-3. Set or update attributes
-```
-const img = document.querySelector('img');
 
-img.setAttribute('alt', 'Description of image');
-img.src = 'new-image.jpg';
-```
-4. Form control state is available through properties such as `value` and `checked`:
-```
-const input = document.querySelector('input[type="text"]');
-const checkbox = document.querySelector('input[type="checkbox"]');
+CSS selectors make these methods flexible because they can target elements by tag, class, ID, attribute, and relationships.
 
-// Current value (always returns string)
-const value = input.value;
+Always check whether an element was found before trying to modify it:
 
-// For checkboxes/radio buttons
-const isChecked = checkbox.checked;
-```
-5. Use `classList` to inspect and update classes:
-```
-const div = document.getElementById('container');
+```javascript
+const title = document.querySelector("#page-title");
 
-// Get all classes
-const classList = div.classList;
-
-// Check for class
-const hasClass = div.classList.contains('active');
-
-// Add class
-div.classList.add('highlight');
-
-// Remove class
-div.classList.remove('old-style');
-
-// Replace all classes
-div.className = 'new-class another-class';
-```
-#### Removing Elements
-We can remove an element from the DOM by using the `.remove()` method.
-```
-const element = document.querySelector('#target');
-element.remove();
-```
-### Event handling
-An event listener runs a callback when an event occurs, such as a click, input change, or key press. `addEventListener()` takes the event type and the callback:
-```
-const button = document.querySelector('#myButton');
-
-button.addEventListener('click', function() {
-  // Code to execute when button is clicked
-  console.log('Button was clicked!');
-});
-```
-#### Common Event Types
-
-|Event|Description|
-|---|---|
-|`click`|Mouse click|
-|`input`|Form field changes|
-|`keydown`|Keyboard key press|
-|`scroll`|Page/element scrolling|
-|`mouseover`|Mouse pointer enters element|
-
-
-### Creating and inserting elements
-Use `document.createElement()` to create a node, then set its content and attributes:
-```
-// Create a new div
-const newDiv = document.createElement('div');
-
-// Create a paragraph
-const newParagraph = document.createElement('p');
-```
-#### Setting up the elements
-```
-// Add text content
-newParagraph.textContent = 'This is our new paragraph';
-
-// Add a class
-newDiv.className = 'container';
-
-// Style it
-newDiv.style.backgroundColor = '#f0f0f0';
-```
-#### Inserting elements
-Insertion methods place a node relative to a parent or another node:
-
-| Method                       | What It Does                                  | Example                               |
-| ---------------------------- | --------------------------------------------- | ------------------------------------- |
-| `append()`                   | Adds to the end                               | `parent.append(newDiv)`               |
-| `prepend()`                  | Adds to the start                             | `parent.prepend(newDiv)`              |
-| `before()`                   | Puts before another                           | `element.before(newDiv)`              |
-| `after()`                    | Puts after another                            | `element.after(newDiv)`               |
-| `insertBefore()` | Inserts a node before a specified child node. | `parent.insertBefore(newDiv, referenceNode)` |
-| `replaceChild()` | Replaces one child node with another. | `parent.replaceChild(newDiv, oldDiv)` |
-
-
-```
-const container = document.querySelector('#container');
-const newDiv = document.createElement('div');
-const newParagraph = document.createElement('p');
-newParagraph.textContent = 'This is a new paragraph';
-newDiv.className = 'container';
-newDiv.append(newParagraph);
-newDiv.style.backgroundColor = '#f0f0f0';
-container.append(newDiv);
-const oldItem = document.querySelector('.old');
-const replacement = document.createElement('p');
-replacement.textContent = 'Updated item';
-oldItem.replaceWith(replacement);
-```
-`insertAdjacentHTML()` can insert a markup string, but only use trusted or sanitized HTML. For untrusted text, create an element and set `textContent`.
-#### Cloning an element
-`cloneNode(true)` copies the node and its descendants. It does not copy listeners registered with `addEventListener`; update duplicate IDs before insertion.
-```
-const original = document.querySelector('.template');
-const copy = original.cloneNode(true); 
-
-copy.id = 'new-copy';
-document.body.append(copy);
-```
-## Browser APIs and client-side storage
-### Browser APIs
-**Browser Object Model (BOM)** is an informal name for browser APIs outside the document tree. The DOM models the page; objects on `window` expose browser features such as:
-- `window`: Represents the browser window or frame.
-- `document`: Represents the HTML document loaded in the browser.
-- `navigator`: Exposes browser capabilities and environment information, subject to privacy limits.
-- `location`: Reads the current URL and can navigate to another URL.
-- `history`: Interacts with the current tab’s session history.
-### Accessing browser APIs
-In browser scripts, `window` is the global object. Use it explicitly when it makes the source of an API clearer.
-#### Accessing the Window Object
-```
-console.log(window.innerWidth); // Width of the window 
-console.log(window.innerHeight); // Height of the window
-```
-#### Using the Location Object
-```
-console.log(window.location.href); // Access the current URL   
-window.location.href = "https://www.example.com"; // Change the current URL 
-```
-## Client-side data storage
-Browsers can store data on the user’s device. Choose storage by lifetime and access needs; client-side data is accessible to scripts running on the origin, so do not store secrets in Web Storage.
-### JSON
-**JSON (JavaScript Object Notation)** is a text format commonly used to exchange structured data between clients and servers.
-#### JSON Structure
-A JSON object is a collection of key-value pairs, similar to JavaScript objects. However, in JSON:
-- Keys must be strings enclosed in double quotes.
-- Values can be strings, numbers, arrays, booleans, or other objects.
-```
-{
-  "name": "John Doe",
-  "age": 30,
-  "isStudent": false,
-  "address": {
-    "street": "123 Main St",
-    "city": "Anytown"
-  },
-  "courses": ["Math", "Science", "History"]
+if (title) {
+  title.textContent = "Updated title";
 }
 ```
-#### Converting Between JSON and JavaScript Objects
-Use `JSON.parse()` to turn JSON text into JavaScript values and `JSON.stringify()` to serialize supported values. Parsing can throw for invalid JSON; validate untrusted data after parsing.
-**Parsing JSON (String to Object)**  
-Parse JSON text into a JavaScript value:
+
+## Changing DOM Content and Appearance
+
+After selecting an element, JavaScript can modify its text, HTML content, form value, attributes, or classes.
+
+### Updating Text and HTML
+
+The `textContent` property reads or replaces the text content of an element:
+
+```javascript
+const message = document.querySelector("#message");
+message.textContent = "Your changes have been saved.";
 ```
-const jsonString = '{"name": "John", "age": 30}'; 
-const jsonObject = JSON.parse(jsonString); 
-console.log(jsonObject.name); // Output: John
+
+The `innerHTML` property reads or replaces the HTML markup inside an element:
+
+```javascript
+const result = document.querySelector("#result");
+result.innerHTML = "<strong>Success!</strong> Your profile was updated.";
 ```
-**Converting to JSON (Object to String)**  
-Serialize a JavaScript value to JSON text:
+
+Be careful with `innerHTML`. Inserting untrusted user input through `innerHTML` can create a cross-site scripting (XSS) vulnerability because the browser may interpret the input as markup or executable content. When displaying user-provided text, prefer `textContent`.
+
+### Updating Form Values
+
+Form controls expose a `value` property that can be read or changed:
+
+```javascript
+const searchInput = document.querySelector("#search");
+searchInput.value = "JavaScript";
 ```
-const user = { name: "John", age: 30 }; 
-const jsonString = JSON.stringify(user); 
-console.log(jsonString); // Output: '{"name":"John","age":30}'
+
+Checkboxes and radio buttons expose a `checked` property:
+
+```javascript
+const newsletter = document.querySelector("#newsletter");
+console.log(newsletter.checked);
 ```
+
+### Updating Styles
+
+JavaScript can update inline styles through the `style` property:
+
+```javascript
+const card = document.querySelector(".card");
+card.style.backgroundColor = "#eef5fa";
+card.style.fontSize = "1.1rem";
+```
+
+For larger style changes, it is usually better to add or remove CSS classes. This keeps presentation rules in the stylesheet and behavior in JavaScript:
+
+```javascript
+const card = document.querySelector(".card");
+card.classList.add("highlight");
+card.classList.remove("muted");
+card.classList.toggle("active");
+
+console.log(card.classList.contains("active"));
+```
+
+The `classList` API is generally preferable to repeatedly replacing an element's complete `className` string.
+
+### Managing Attributes
+
+The DOM provides methods for reading and changing attributes:
+
+```javascript
+const image = document.querySelector("img");
+
+image.setAttribute("alt", "A mountain landscape");
+image.setAttribute("loading", "lazy");
+
+console.log(image.getAttribute("alt"));
+image.removeAttribute("loading");
+```
+
+Some commonly used attributes are also reflected as element properties, such as `image.src` and `link.href`. For form fields, use properties such as `value`, `checked`, and `disabled` when you need the current control state.
+
+## Event Handling
+
+A webpage becomes interactive when JavaScript responds to events. An **event** is an action or occurrence that the browser reports, such as a click, key press, input change, form submission, or page load.
+
+Use `addEventListener()` to register a function that should run when a particular event occurs:
+
+```html
+<button id="hello-button" type="button">Say hello</button>
+```
+
+```javascript
+const button = document.querySelector("#hello-button");
+
+button.addEventListener("click", () => {
+  console.log("The button was clicked.");
+});
+```
+
+The first argument identifies the event type. The second argument is the callback function that handles the event.
+
+### Common Event Types
+
+| Event | Typical purpose |
+| --- | --- |
+| `click` | A user activates an element with a pointer or equivalent action. |
+| `input` | The value of an input control changes. |
+| `change` | A control's value is committed or changed, depending on the control. |
+| `submit` | A form is submitted. |
+| `keydown` | A keyboard key is pressed. |
+| `focus` | An element receives focus. |
+| `blur` | An element loses focus. |
+| `scroll` | A scrollable area is scrolled. |
+
+For a form, listen to the `submit` event and call `preventDefault()` when JavaScript should handle the submission instead of allowing the browser's default navigation:
+
+```javascript
+const form = document.querySelector("#contact-form");
+
+form.addEventListener("submit", event => {
+  event.preventDefault();
+  console.log("The form is ready to be processed.");
+});
+```
+
+Do not prevent default form submission without replacing the behavior with a working submission process. If data must be sent to a server, the application should validate it and submit it to the appropriate endpoint.
+
+### The Event Object
+
+The browser passes an event object to the listener. It contains information about the event, including the element that triggered it:
+
+```javascript
+button.addEventListener("click", event => {
+  console.log("Event type:", event.type);
+  console.log("Clicked element:", event.currentTarget);
+});
+```
+
+`event.target` is the element where the event originated, while `event.currentTarget` is the element to which the listener is attached. They can be different when an event bubbles from a nested element.
+
+### Event Delegation
+
+Events often bubble from a child element toward its ancestors. This allows a parent to handle events from multiple children using one listener. This pattern is called **event delegation**:
+
+```html
+<ul id="task-list">
+  <li><button type="button" data-task="1">Complete task 1</button></li>
+  <li><button type="button" data-task="2">Complete task 2</button></li>
+</ul>
+```
+
+```javascript
+const taskList = document.querySelector("#task-list");
+
+taskList.addEventListener("click", event => {
+  const button = event.target.closest("button[data-task]");
+
+  if (!button || !taskList.contains(button)) {
+    return;
+  }
+
+  console.log("Selected task:", button.dataset.task);
+});
+```
+
+Event delegation is useful when list items are added dynamically because the parent listener can handle events from new children without registering a separate listener for each one.
+
+## Creating, Inserting, Cloning, and Removing Elements
+
+The DOM API can create new elements dynamically. Start with `document.createElement()`, set the element's content or attributes, and then insert it into the document.
+
+```javascript
+const newParagraph = document.createElement("p");
+newParagraph.textContent = "This paragraph was created with JavaScript.";
+newParagraph.classList.add("notice");
+
+const container = document.querySelector("#container");
+container.append(newParagraph);
+```
+
+Common insertion methods include:
+
+| Method | Behavior |
+| --- | --- |
+| `append()` | Adds nodes or text at the end of an element. |
+| `prepend()` | Adds nodes or text at the beginning. |
+| `before()` | Inserts content before an element. |
+| `after()` | Inserts content after an element. |
+| `replaceWith()` | Replaces an element with other content. |
+
+The older `insertBefore()` and `replaceChild()` methods are also available when working directly with parent-child node relationships.
+
+To duplicate an existing element, use `cloneNode()`. Passing `true` creates a deep clone that includes descendants:
+
+```javascript
+const original = document.querySelector(".template");
+const copy = original.cloneNode(true);
+copy.removeAttribute("id"); // Avoid duplicating an ID.
+copy.classList.add("copy");
+document.body.append(copy);
+```
+
+An ID should remain unique in the document, so remove or change the ID when cloning an element that contains one. To remove an element, call `remove()`:
+
+```javascript
+const oldItem = document.querySelector(".old-item");
+oldItem?.remove();
+```
+
+The optional chaining operator (`?.`) prevents an error if `oldItem` is `null` or `undefined`.
+
+## The Browser Object Model
+
+The **Browser Object Model (BOM)** is a general term for browser-provided objects that allow JavaScript to interact with the browsing environment. Unlike the DOM, which represents the page document, these APIs expose browser features such as the window, current URL, navigation history, and browser capabilities.
+
+The `window` object is the global object in a browser page. Many browser APIs are available through it.
+
+### The Window Object
+
+The `window` object provides information about the browser window and access to browser features:
+
+```javascript
+console.log(window.innerWidth);
+console.log(window.innerHeight);
+console.log(window.location.href);
+```
+
+### The Location Object
+
+The `location` object describes the current URL and can be used to navigate to another address:
+
+```javascript
+console.log(window.location.href);
+console.log(window.location.hostname);
+
+// Navigate to another page:
+// window.location.href = "https://example.com";
+```
+
+Other browser-related objects include `navigator`, which provides information about the browser environment, and `history`, which allows controlled interaction with the session history. Browser APIs expose capabilities, but they do not always reveal reliable information about a user's identity or physical location.
+
+## JSON: Exchanging and Storing Data
+
+**JSON (JavaScript Object Notation)** is a text format commonly used to exchange structured data between a browser and a server. JSON resembles JavaScript object syntax, but it follows stricter rules:
+
+- Object keys must be double-quoted strings.
+- String values must use double quotes.
+- Values can be strings, numbers, booleans, `null`, arrays, or objects.
+- JSON cannot directly represent JavaScript functions or `undefined` values.
+
+```json
+{
+  "name": "Amira",
+  "age": 20,
+  "isStudent": true,
+  "courses": ["HTML", "CSS", "JavaScript"]
+}
+```
+
+### Converting Between JSON and JavaScript
+
+`JSON.stringify()` converts a JavaScript value into a JSON string. `JSON.parse()` converts a valid JSON string into a JavaScript value:
+
+```javascript
+const user = {
+  name: "Amira",
+  age: 20
+};
+
+const jsonText = JSON.stringify(user);
+console.log(jsonText);
+
+const restoredUser = JSON.parse(jsonText);
+console.log(restoredUser.name);
+```
+
+Parsing can fail when the input is not valid JSON, so it is often appropriate to wrap `JSON.parse()` in a `try...catch` block when reading external or user-provided data.
+
+## Client-Side Storage
+
+Browsers provide storage mechanisms that allow a website to keep data on a user's device. These mechanisms are useful for preferences, temporary application state, and small amounts of non-sensitive data. They are not a replacement for a server-side database, and users can clear or modify client-side data.
+
 ### Cookies
-Cookies are small values that the browser can attach to matching HTTP requests. They are useful for server-managed sessions and preferences, but settings such as `Secure`, `HttpOnly`, and `SameSite` matter for security. JavaScript cannot read or set the `HttpOnly` flag; configure it in the server’s `Set-Cookie` response.
-```
-// Set a readable preference cookie for one day
-document.cookie = "theme=dark; Max-Age=86400; Path=/; SameSite=Lax; Secure";
 
-// Access cookies from the document
+Cookies are small pieces of data associated with a website. Depending on their attributes, browsers may send them with matching HTTP requests. Cookies are commonly used for session identifiers and preferences.
+
+A simple JavaScript example is:
+
+```javascript
+document.cookie = "theme=dark; max-age=86400; path=/; SameSite=Lax";
 console.log(document.cookie);
+```
 
-// Delete it by setting its max age to zero
-document.cookie = "theme=; Max-Age=0; Path=/; SameSite=Lax; Secure";
-```
-### LocalStorage
-`localStorage` stores string key-value pairs for an origin and persists across browser restarts until removed. It is synchronous, may be unavailable or quota-limited, and should not hold sensitive data.
-#### Storing Data in LocalStorage
-```
-// Store data in LocalStorage 
-localStorage.setItem('username', 'JohnDoe');
-```
-#### Retrieving Data from LocalStorage
-```
-// Retrieve data from LocalStorage 
-const username = localStorage.getItem('username'); 
-console.log(username); // Output: JohnDoe
-```
-#### Removing Data from LocalStorage
-```
-// Remove data from LocalStorage 
-localStorage.removeItem('username');
-```
-#### Clearing All Data from LocalStorage
-```
-// Clear all data from LocalStorage 
-localStorage.clear();
-```
-### SessionStorage
-`sessionStorage` also stores strings by origin, but is scoped to a page session in a tab and is cleared when that session ends. A new tab generally has a separate storage area.
-#### Storing Data in SessionStorage
-```
-// Store data in SessionStorage 
-sessionStorage.setItem('sessionID', 'abc123');
-```
-#### Retrieving Data from SessionStorage
-```
-// Retrieve data from SessionStorage 
-const sessionID = sessionStorage.getItem('sessionID'); 
-console.log(sessionID); // Output: abc123
-```
-#### Removing Data from SessionStorage
+A cookie can be removed by setting its expiration or `max-age` in the past, using the same relevant path and domain scope. JavaScript cannot read cookies marked `HttpOnly`; that restriction helps protect sensitive cookies from client-side scripts. Cookies used for authentication should be configured carefully by the server, often with `Secure`, `HttpOnly`, and an appropriate `SameSite` value. Do not store passwords or other secrets in ordinary JavaScript-readable cookies.
 
-```
-// Remove data from SessionStorage 
-sessionStorage.removeItem('sessionID');
-```
-#### Clearing All Data from SessionStorage
-```
-// Clear all data from SessionStorage 
-sessionStorage.clear();
-```
-### URL encoding and Blobs
-URL encoding escapes data for a URL component; a **Blob** represents raw data for file and binary APIs. They solve different problems.
-#### URL Encoding
-Percent encoding represents bytes that cannot appear literally in a URL component using `%` followed by hexadecimal digits.
-For example:
-- A space character becomes `%20`
-- An ampersand `&` becomes `%26`  
+### Local Storage
 
-Use `encodeURIComponent()` for a component such as a query parameter value, not for an entire URL:
-#### Encoding a URL component
+`localStorage` stores string key-value pairs for a given origin. The data normally remains available after the browser is closed and reopened, until it is removed by the application or user.
+
+```javascript
+localStorage.setItem("username", "Amira");
+
+const username = localStorage.getItem("username");
+console.log(username);
+
+localStorage.removeItem("username");
 ```
-const name = "John Doe & Co."; 
-const encodedName = encodeURIComponent(name); 
-console.log(encodedName); // Output: John%20Doe%20%26%20Co.
+
+To store an object, convert it to JSON first:
+
+```javascript
+const settings = {
+  theme: "dark",
+  language: "en"
+};
+
+localStorage.setItem("settings", JSON.stringify(settings));
+
+const savedText = localStorage.getItem("settings");
+const savedSettings = savedText ? JSON.parse(savedText) : null;
 ```
-#### Decoding a URL component
-Use `decodeURIComponent()` to decode a component. It throws if the input contains malformed percent-encoding.
+
+Because stored values can be edited or corrupted, parsing should be protected with error handling in real applications. Do not store sensitive authentication secrets in local storage. Any JavaScript running on the page can read it, so an XSS vulnerability could expose the data.
+
+### Session Storage
+
+`sessionStorage` has a similar API to `localStorage`, but its data is scoped to a page session for a particular tab. It is normally cleared when that tab or browsing context ends.
+
+```javascript
+sessionStorage.setItem("currentStep", "2");
+
+const currentStep = sessionStorage.getItem("currentStep");
+console.log(currentStep);
+
+sessionStorage.removeItem("currentStep");
 ```
-const encodedName = "John%20Doe%20%26%20Co."; 
-const decodedName = decodeURIComponent(encodedName); 
-console.log(decodedName); // Output: John Doe & Co.
+
+Both local storage and session storage provide `clear()` to remove all entries for the current origin and storage area. Use this method carefully because it removes more than one key.
+
+## URL Encoding and Query Parameters
+
+URLs have a structure, and some characters have special meanings within that structure. **Percent encoding** represents characters that cannot safely appear literally in a URL component. For example, a space can be encoded as `%20`, and an ampersand can be encoded as `%26`.
+
+Use `encodeURIComponent()` when encoding an individual value that will be placed inside a URL component, such as a query parameter:
+
+```javascript
+const searchTerm = "web development & design";
+const encodedTerm = encodeURIComponent(searchTerm);
+
+console.log(encodedTerm);
 ```
-#### Using Blobs
-A **Blob** represents immutable raw data, such as text or binary file contents. Browser APIs can read it or create an object URL for it.
-#### Creating a Blob from Data
-Create a Blob from data parts and an optional MIME type:
+
+To decode a component, use `decodeURIComponent()`:
+
+```javascript
+const decodedTerm = decodeURIComponent(encodedTerm);
+console.log(decodedTerm);
 ```
-const textData = "Hello, this is some text content!"; 
-const blob = new Blob([textData], { type: 'text/plain' });
-console.log(blob.type, blob.size); // text/plain and the size in bytes
+
+For constructing query strings, `URLSearchParams` is often easier and less error-prone than manually concatenating encoded values:
+
+```javascript
+const params = new URLSearchParams({
+  search: "web development & design",
+  page: "2"
+});
+
+const queryString = params.toString();
+console.log(queryString);
 ```
-#### Downloading Text Files with Blobs
-Create an object URL, use it as a download link, then release it after the browser has had time to start the download:
-```
-const textData = "This is the content of my text file."; 
-const blob = new Blob([textData], { type: 'text/plain' }); 
-const url = URL.createObjectURL(blob);
-const link = document.createElement('a'); 
-link.href = url; 
-link.download = 'file.txt';
-document.body.append(link);
+
+Do not encode an entire URL with `encodeURIComponent()` when only one query value needs encoding. Encode the individual component instead.
+
+## Blobs and File Downloads
+
+A **Blob** represents immutable raw data, such as text or binary content. Blobs are useful when a browser application needs to create a file for the user to download or process file data selected by the user.
+
+### Creating and Downloading a Blob
+
+```javascript
+const textData = "Hello, this file was created in the browser.";
+const blob = new Blob([textData], { type: "text/plain" });
+const objectUrl = URL.createObjectURL(blob);
+
+const link = document.createElement("a");
+link.href = objectUrl;
+link.download = "message.txt";
 link.click();
-link.remove();
-setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+URL.revokeObjectURL(objectUrl);
 ```
-#### Reading Blobs with FileReader
-`FileReader` reads a Blob asynchronously. For text, `blob.text()` is a promise-based alternative.
+
+`URL.createObjectURL()` creates a temporary URL that points to the Blob. After the download is initiated and the URL is no longer needed, call `URL.revokeObjectURL()` to release the resource. For larger applications, schedule cleanup after the browser has had time to start using the URL.
+
+### Reading a User-Selected File
+
+An `<input type="file">` control lets the user select a file. Modern browsers provide `File` objects that can be read with methods such as `text()`:
+
+```html
+<input type="file" id="file-input" accept="text/plain">
 ```
-const blob = new Blob(['Hello, world!'], { type: 'text/plain' }); 
-const reader = new FileReader();  
-reader.onload = function(event) {  
-console.log(event.target.result); // Output: Hello, world! 
-};  
+
+```javascript
+const fileInput = document.querySelector("#file-input");
+
+fileInput.addEventListener("change", async () => {
+  const file = fileInput.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  try {
+    const content = await file.text();
+    console.log(content);
+  } catch (error) {
+    console.error("Could not read the file:", error);
+  }
+});
+```
+
+The `FileReader` API is also available and is still useful in some workflows. It reads Blob or File contents asynchronously through events:
+
+```javascript
+const blob = new Blob(["Hello from a Blob."], { type: "text/plain" });
+const reader = new FileReader();
+
+reader.addEventListener("load", () => {
+  console.log(reader.result);
+});
+
+reader.addEventListener("error", () => {
+  console.error("File could not be read.");
+});
+
 reader.readAsText(blob);
 ```
-#### URL encoding and Blob compared
-| Feature         | URL Encoding                    | Blob                    |
-| --------------- | ------------------------------- | ----------------------- |
-| **Data type** | Text encoded as a URL component | Immutable text or binary data |
-| **Use case** | Query parameter or path value | File and binary APIs, downloads |
-| **Size** | Keep URLs within server and browser limits; limits vary | Can represent larger data, subject to memory and browser limits |
-| **Cleanup** | No object URL to release | Revoke object URLs after use |
-| **Read back** | `decodeURIComponent()` | `blob.text()` or `FileReader` |
 
+URL encoding and Blobs solve different problems. URL encoding prepares a component for use in a URL. A Blob represents data that can be processed or downloaded as a file.
 
-## WebSockets and real-time data
-### Introduction
-HTTP request–response works well when the client asks for data. For ongoing two-way messaging, a **WebSocket** opens a persistent full-duplex connection after an HTTP-based handshake. Either side can send messages while it remains open.
+## WebSockets and Real-Time Communication
+
+Most traditional HTTP interactions follow a request-response pattern: the browser sends a request and the server returns a response. This works well for loading pages and retrieving data, but some applications need information to move continuously in both directions.
+
+A **WebSocket** provides a persistent, full-duplex connection between a browser and a WebSocket server. Once the connection is established, either side can send messages without opening a new HTTP request for every message. This is useful for live chat, collaborative editing, game state, notifications, and dashboards.
+
+A WebSocket is not a server by itself. The application must connect to a real server endpoint that supports the WebSocket protocol. The example below uses a placeholder URL and will work only after it is replaced with an actual WebSocket server address.
+
+### Opening a Connection
+
+Use `wss://` for an encrypted WebSocket connection and `ws://` for an unencrypted one. Public websites should normally use the secure form:
+
+```javascript
+const socket = new WebSocket("wss://your-server.example.com/socket");
 ```
-const socket = new WebSocket('wss://your-websocket-server.example/socket');
 
-socket.addEventListener('open', () => {
-  console.log('WebSocket connection opened');
-  socket.send('Hello Server!');
-});
-
-socket.addEventListener('message', (event) => {
-  console.log('Message from server:', event.data);
-});
-
-socket.addEventListener('close', () => {
-  console.log('WebSocket connection closed');
-});
-```
-### How WebSockets Work
-1. The client (browser) initiates a WebSocket connection using the `WebSocket` object.
-2. The connection is established with a WebSocket server.
-3. Messages can then be sent and received in real time.
-4. Either side can close the connection when it’s no longer needed.
-### Creating a WebSocket Connection
-Create a `WebSocket` with the server URL. Replace the placeholder with an endpoint that runs a WebSocket server:
-```
-const socket = new WebSocket('wss://example.com/socket');
-```
-- Use `wss://` for a TLS-protected connection, usually from an HTTPS page.
-- Use `ws://` only for an unencrypted connection, such as local development.
 ### Listening for WebSocket Events
-Listen for these lifecycle and message events:
 
-|Event|Description|
-|---|---|
-|`open`|Triggered when the connection opens|
-|`message`|Triggered when a message is received|
-|`error`|Triggered when an error occurs|
-|`close`|Triggered when the connection closes|
+The WebSocket object emits events as the connection changes state:
 
+| Event | Meaning |
+| --- | --- |
+| `open` | The connection has been established. |
+| `message` | A message has been received. |
+| `error` | An error occurred. |
+| `close` | The connection has closed. |
 
-```
-socket.addEventListener('open', () => {
-  console.log('Connected to server');
+```javascript
+socket.addEventListener("open", () => {
+  console.log("Connected to the server.");
+  socket.send("Hello server!");
 });
 
-socket.addEventListener('message', (event) => {
-  console.log('Received:', event.data);
+socket.addEventListener("message", event => {
+  console.log("Message received:", event.data);
 });
 
-socket.addEventListener('error', (event) => {
-  console.error('WebSocket connection error:', event);
+socket.addEventListener("error", error => {
+  console.error("WebSocket error:", error);
 });
 
-socket.addEventListener('close', () => {
-  console.log('Connection closed');
-});
-```
-### WebSocket methods and state
-
-|**Component**|**Description**|
-|---|---|
-|`new WebSocket(url)`|Creates a new WebSocket instance|
-|`send(data)`|Sends a string or binary data such as a `Blob` or `ArrayBuffer`; call it only after the connection opens|
-|`close()`|Terminates the connection|
-
-
-#### Example
-```
-const chatSocket = new WebSocket('wss://your-websocket-server.example/chat');
-const sendButton = document.getElementById('sendBtn');
-sendButton.disabled = true;
-
-chatSocket.addEventListener('open', () => {
-  sendButton.disabled = false;
-});
-
-chatSocket.addEventListener('close', () => {
-  sendButton.disabled = true;
-});
-
-chatSocket.addEventListener('message', (event) => {
-  const messageBox = document.getElementById('chat');
-  const msg = document.createElement('p');
-  msg.textContent = event.data;
-  messageBox.appendChild(msg);
-});
-
-document.getElementById('sendBtn').addEventListener('click', () => {
-  const input = document.getElementById('messageInput');
-  const message = input.value.trim();
-  if (chatSocket.readyState !== WebSocket.OPEN || !message) return;
-  chatSocket.send(message);
-  input.value = '';
+socket.addEventListener("close", () => {
+  console.log("Connection closed.");
 });
 ```
-Close a connection when it is no longer needed. Production applications also need reconnection, authentication, message validation, and a plan for slow consumers.
+
+### Sending and Closing Messages
+
+The `send()` method sends data when the connection is open. The `close()` method starts closing the connection:
+
+```javascript
+if (socket.readyState === WebSocket.OPEN) {
+  socket.send("A new message");
+}
+
+socket.close();
 ```
-chatSocket.close()
-```
-## Task
-### Objective
-Create a responsive Todo List application that:
-- Uses **DOM manipulation** to add, edit, and delete tasks
-- Saves tasks to **localStorage** for persistence
-- Allows exporting/importing tasks as **JSON files**
-- Implements **modern CSS** (Grid, Flexbox, Animations)
-- Follows **OOP principles** and uses **async operations**
-### Requirements
-#### Core Functionality
-- Add new tasks with titles, descriptions, and due dates
-- Mark tasks as complete/incomplete
-- Edit existing tasks
-- Delete tasks
-- Filter tasks (All/Active/Completed)
-#### Data Persistence
-- Automatically save tasks to **localStorage**
-- Load tasks from localStorage on page refresh
-- **Export tasks** as a JSON file (using Blobs)
-- **Import tasks** from a JSON file (using FileReader)
-#### UI/UX Features
-- **Responsive layout** (works on mobile/desktop) using:
-    - CSS Grid for main structure
-    - Flexbox for task items
-- **Animations**:
-    - Smooth transitions when adding/removing tasks
-    - Hover effects on buttons
-- **Visual feedback**:
-    - Gradient backgrounds
-    - Transform effects (e.g., scale on hover)
-#### Advanced JavaScript
-- Use **OOP** (Classes) to manage tasks
-- Implement **async/await** for file operations
-- **Error handling** for file imports
-### Solution:
-You can find our solution here: https://alitigui.github.io/Front_end_solutions/Lecture12/Solution/index.html
+
+Before sending a message, check that the connection is open. A production application should also consider reconnection behavior, message validation, authentication, authorization, and server-side rate limits. WebSocket messages must not be trusted simply because they arrived over an established connection.
+
+## Key Takeaways
+
+- The DOM is the browser's structured representation of an HTML document.
+- JavaScript can select, update, create, clone, and remove DOM elements.
+- Use `textContent` for ordinary user-provided text; be careful when inserting content with `innerHTML`.
+- Event listeners connect user actions to application behavior.
+- The BOM exposes browser features such as the window and current location.
+- JSON converts structured JavaScript data to and from text.
+- Cookies, local storage, and session storage have different purposes and security characteristics.
+- URL encoding is for URL components; Blobs are useful for file data.
+- WebSockets provide an ongoing two-way connection to a WebSocket server.
+
+## Final Project — A Persistent Task Manager
+
+Build a responsive task-management application that brings together the HTML, CSS, and JavaScript skills covered in this course. The goal is to create a small but complete front-end application with a clear interface and reliable behavior.
+
+### Core Functionality
+
+Users should be able to add tasks with a title, description, and optional due date. They should be able to mark tasks as complete or incomplete, edit task details, delete tasks, and filter the list to show all, active, or completed tasks.
+
+### Data Persistence
+
+Save the task list in `localStorage` and restore it when the page is reopened. Store the data as JSON. Provide an export option that creates a JSON file with a Blob, and an import option that reads a selected JSON file. Validate imported data and handle invalid JSON or missing fields gracefully.
+
+### Interface and User Experience
+
+Use CSS Grid for the overall layout and Flexbox for task cards and controls. The interface should work on both narrow and wide screens. Add clear focus states, labels for form fields, helpful validation messages, and restrained transitions. Do not rely on color alone to communicate whether a task is complete.
+
+### JavaScript Design
+
+Use a class or another clear structure to represent tasks and manage task operations. Separate functions for reading, saving, rendering, adding, editing, and deleting tasks. Use `async`/`await` when reading imported files with asynchronous APIs, and include error handling for invalid file content.
+
+**Reference solution:** [Task manager example](https://alitigui.github.io/Front_end_solutions/Lecture12/Solution/index.html)
